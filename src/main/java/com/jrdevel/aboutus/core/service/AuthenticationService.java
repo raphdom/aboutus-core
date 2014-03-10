@@ -24,7 +24,7 @@ import com.jrdevel.aboutus.core.util.ResultObject;
 @Service
 public class AuthenticationService {
 
-
+	@Autowired
 	private UserDAO userDAO;
 	private RegisterDAO registerDAO;
 	private CustomerDAO customerDAO;
@@ -169,15 +169,6 @@ public class AuthenticationService {
 		user.setRegisterDate(register.getRegisterDate());
 		userDAO.makePersistent(user);
 		return user;
-	}
-
-	/**
-	 * Spring use - DI
-	 * @param userDAO
-	 */
-	@Autowired
-	public void setUserDAO(UserDAO userDAO) {
-		this.userDAO = userDAO;
 	}
 
 	/**
