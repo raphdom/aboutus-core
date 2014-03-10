@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jrdevel.aboutus.core.common.AbstractGenericService;
 import com.jrdevel.aboutus.core.dao.GroupDAO;
 import com.jrdevel.aboutus.core.model.Group;
-import com.jrdevel.aboutus.core.model.User;
 import com.jrdevel.aboutus.core.util.ListParams;
 import com.jrdevel.aboutus.core.util.ListResult;
 import com.jrdevel.aboutus.core.util.ResultObject;
@@ -18,7 +18,7 @@ import com.jrdevel.aboutus.core.util.ResultObject;
  *
  */
 @Service
-public class GroupService extends GenericService<Group>{
+public class GroupService extends AbstractGenericService<Group>{
 	
 	private GroupDAO groupDAO;
 	

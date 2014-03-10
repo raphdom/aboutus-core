@@ -1,10 +1,11 @@
-package com.jrdevel.aboutus.core.dao;
+package com.jrdevel.aboutus.core.authentication;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
+import com.jrdevel.aboutus.core.common.AbstractGenericDAO;
 import com.jrdevel.aboutus.core.model.Register;
 import com.jrdevel.aboutus.core.model.User;
 

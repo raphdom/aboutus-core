@@ -8,6 +8,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
+import com.jrdevel.aboutus.core.common.AbstractGenericDAO;
 import com.jrdevel.aboutus.core.constant.DAOConstants;
 import com.jrdevel.aboutus.core.model.lists.translate.CivilStatusTranslate;
 import com.jrdevel.aboutus.core.model.lists.translate.CountryTranslate;

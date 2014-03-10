@@ -7,6 +7,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 
+import com.jrdevel.aboutus.core.common.AbstractGenericDAO;
 import com.jrdevel.aboutus.core.model.User;
 import com.jrdevel.aboutus.core.util.ListResult;
 import com.jrdevel.aboutus.core.view.UserView;

@@ -1,4 +1,4 @@
-package com.jrdevel.aboutus.core.dao;
+package com.jrdevel.aboutus.core.common;
 
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jrdevel.aboutus.core.common.AbstractGenericService;
 import com.jrdevel.aboutus.core.dao.FileDAO;
 import com.jrdevel.aboutus.core.dao.FileDataDAO;
 import com.jrdevel.aboutus.core.dao.FolderDAO;
@@ -32,7 +33,7 @@ import com.jrdevel.aboutus.core.view.FileView;
  *
  */
 @Service
-public class CloudService extends GenericService<File>{
+public class CloudService extends AbstractGenericService<File>{
 	
 	private FileDAO fileDAO;
 	private FileDataDAO fileDataDAO;

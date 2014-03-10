@@ -1,4 +1,4 @@
-package com.jrdevel.aboutus.core.service;
+package com.jrdevel.aboutus.core.authentication;
 
 import java.util.Date;
 
@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jrdevel.aboutus.core.dao.CustomerDAO;
-import com.jrdevel.aboutus.core.dao.RegisterDAO;
 import com.jrdevel.aboutus.core.dao.UserDAO;
 import com.jrdevel.aboutus.core.model.Church;
 import com.jrdevel.aboutus.core.model.Customer;
@@ -15,6 +13,8 @@ import com.jrdevel.aboutus.core.model.Person;
 import com.jrdevel.aboutus.core.model.Plan;
 import com.jrdevel.aboutus.core.model.Register;
 import com.jrdevel.aboutus.core.model.User;
+import com.jrdevel.aboutus.core.service.ChurchService;
+import com.jrdevel.aboutus.core.service.PersonService;
 import com.jrdevel.aboutus.core.util.ResultObject;
 
 /**
@@ -22,26 +22,19 @@ import com.jrdevel.aboutus.core.util.ResultObject;
  *
  */
 @Service
-public class AuthenticationService {
+public class AuthenticationServiceImpl implements AuthenticationService{
 
 	@Autowired
 	private UserDAO userDAO;
+	@Autowired
 	private RegisterDAO registerDAO;
+	@Autowired
 	private CustomerDAO customerDAO;
 
 	private ChurchService churchService;
+	
 	private PersonService personService;
 
-
-	@Autowired
-	public void setChurchService(ChurchService churchService) {
-		this.churchService = churchService;
-	}
-
-	@Autowired
-	public void setPersonService(PersonService personService) {
-		this.personService = personService;
-	}
 
 	@Transactional
 	public ResultObject login(User user){
@@ -71,7 +64,11 @@ public class AuthenticationService {
 				userDB.setLastvisitDate(new Date());
 				userDAO.makePersistent(userDB);
 			}
-			saveUserSession(userDB);
+			User userSession = new User();
+			userSession.setId(user.getId());
+			userSession.setEmail(user.getEmail());
+			userSession.setCustomer(user.getCustomer());
+			result.setData(userSession);
 		}else{
 			result.setSuccess(false);
 			result.addErrorMessage("Nome do utilizador ou palavra-chave incorreta.");
@@ -81,12 +78,6 @@ public class AuthenticationService {
 		return result;
 	}
 	
-	private void saveUserSession(User user){
-		//userSession.setId(user.getId());
-		//userSession.setEmail(user.getEmail());
-		//userSession.setCustomer(user.getCustomer());
-	}
-
 	private Register getRegister(User user){
 		return registerDAO.getRegisterByUser(user);
 	}
@@ -169,20 +160,6 @@ public class AuthenticationService {
 		user.setRegisterDate(register.getRegisterDate());
 		userDAO.makePersistent(user);
 		return user;
-	}
-
-	/**
-	 * Spring use - DI
-	 * @param registerDAO
-	 */
-	@Autowired
-	public void setRegisterDAO(RegisterDAO registerDAO) {
-		this.registerDAO = registerDAO;
-	}
-
-	@Autowired
-	public void setCustomerDAO(CustomerDAO customerDAO) {
-		this.customerDAO = customerDAO;
 	}
 
 }

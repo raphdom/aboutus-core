@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jrdevel.aboutus.core.common.AbstractGenericService;
 import com.jrdevel.aboutus.core.dao.UserDAO;
 import com.jrdevel.aboutus.core.model.Group;
 import com.jrdevel.aboutus.core.model.Permission;
@@ -23,7 +24,7 @@ import com.jrdevel.aboutus.core.view.UserView;
  *
  */
 @Service
-public class UserService extends GenericService<User>{
+public class UserService extends AbstractGenericService<User>{
 	
 	private UserDAO userDAO;
 	

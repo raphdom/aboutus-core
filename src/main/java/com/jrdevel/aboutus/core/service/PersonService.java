@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jrdevel.aboutus.core.common.AbstractGenericService;
 import com.jrdevel.aboutus.core.dao.PersonDAO;
 import com.jrdevel.aboutus.core.model.Person;
 import com.jrdevel.aboutus.core.util.ListParams;
@@ -17,7 +18,7 @@ import com.jrdevel.aboutus.core.util.ResultObject;
  *
  */
 @Service
-public class PersonService extends GenericService<Person>{
+public class PersonService extends AbstractGenericService<Person>{
 	
 	private PersonDAO personDAO;
 	

@@ -2,6 +2,7 @@ package com.jrdevel.aboutus.core.dao;
 
 import java.util.List;
 
+import com.jrdevel.aboutus.core.common.GenericDAO;
 import com.jrdevel.aboutus.core.model.Folder;
 import com.jrdevel.aboutus.core.model.User;
 
