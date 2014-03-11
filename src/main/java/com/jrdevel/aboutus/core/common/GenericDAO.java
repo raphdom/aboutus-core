@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.hibernate.criterion.Criterion;
 
-import com.jrdevel.aboutus.core.util.ListParams;
-import com.jrdevel.aboutus.core.util.ListResult;
+import com.jrdevel.aboutus.core.common.to.ListParams;
+import com.jrdevel.aboutus.core.common.to.ListResult;
 
 /**
  * @author Raphael Domingues

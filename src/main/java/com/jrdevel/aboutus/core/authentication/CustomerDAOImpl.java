@@ -4,7 +4,7 @@ import org.hibernate.Criteria;
 import org.springframework.stereotype.Repository;
 
 import com.jrdevel.aboutus.core.common.AbstractGenericDAO;
-import com.jrdevel.aboutus.core.model.Customer;
+import com.jrdevel.aboutus.core.common.model.Customer;
 
 /**
  * @author Raphael Domingues

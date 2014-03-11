@@ -6,124 +6,124 @@
 
 	<table-filter match-schema=".*" match-name=".*" />
 	<table name="tbl_user"
-		class="com.jrdevel.aboutus.core.model.User">
+		class="com.jrdevel.aboutus.core.common.model.User">
 	</table>
 	<table name="tbl_permission"
-		class="com.jrdevel.aboutus.core.model.Permission">
+		class="com.jrdevel.aboutus.core.common.model.Permission">
 	</table>
 	<table name="tbl_personContacts"
-		class="com.jrdevel.aboutus.core.model.PersonContacts">
+		class="com.jrdevel.aboutus.core.common.model.PersonContacts">
 	</table>
 	<table name="tbl_group"
-		class="com.jrdevel.aboutus.core.model.Group">
+		class="com.jrdevel.aboutus.core.common.model.Group">
 	</table>
 	<table name="tbl_person"
-		class="com.jrdevel.aboutus.core.model.Person">
+		class="com.jrdevel.aboutus.core.common.model.Person">
 	</table>
 	<table name="tbl_memberFunctions"
-		class="com.jrdevel.aboutus.core.model.MemberFunction">
+		class="com.jrdevel.aboutus.core.common.model.MemberFunction">
 	</table>
 	<table name="tbl_audit"
-		class="com.jrdevel.aboutus.core.model.Audit">
+		class="com.jrdevel.aboutus.core.common.model.Audit">
 	</table>
 	<table name="tbl_address"
-		class="com.jrdevel.aboutus.core.model.Address">
+		class="com.jrdevel.aboutus.core.common.model.Address">
 	</table>
 	<table name="trans_memberType"
-		class="com.jrdevel.aboutus.core.model.lists.translate.MemberTypeTranslate">
+		class="com.jrdevel.aboutus.core.common.model.lists.translate.MemberTypeTranslate">
 	</table>
 	<table name="lst_memberType"
-		class="com.jrdevel.aboutus.core.model.lists.MemberType">
+		class="com.jrdevel.aboutus.core.common.model.lists.MemberType">
 	</table>
 	<table name="trans_country"
-		class="com.jrdevel.aboutus.core.model.lists.translate.CountryTranslate">
+		class="com.jrdevel.aboutus.core.common.model.lists.translate.CountryTranslate">
 	</table>
 	<table name="lst_civilStatus"
-		class="com.jrdevel.aboutus.core.model.lists.CivilStatus">
+		class="com.jrdevel.aboutus.core.common.model.lists.CivilStatus">
 	</table>
 	<table name="lst_country"
-		class="com.jrdevel.aboutus.core.model.lists.Country">
+		class="com.jrdevel.aboutus.core.common.model.lists.Country">
 	</table>
 	<table name="trans_civilStatus"
-		class="com.jrdevel.aboutus.core.model.lists.translate.CivilStatusTranslate">
+		class="com.jrdevel.aboutus.core.common.model.lists.translate.CivilStatusTranslate">
 	</table>
 	<table name="lst_contactType"
-		class="com.jrdevel.aboutus.core.model.lists.ContactType">
+		class="com.jrdevel.aboutus.core.common.model.lists.ContactType">
 	</table>
 	<table name="trans_contactType"
-		class="com.jrdevel.aboutus.core.model.lists.translate.ContactTypeTranslate">
+		class="com.jrdevel.aboutus.core.common.model.lists.translate.ContactTypeTranslate">
 	</table>
 	<table name="tbl_events"
-		class="com.jrdevel.aboutus.core.model.Event">
+		class="com.jrdevel.aboutus.core.common.model.Event">
 	</table>
 	<table name="tbl_events_recurrences"
-		class="com.jrdevel.aboutus.core.model.EventRecurrence">
+		class="com.jrdevel.aboutus.core.common.model.EventRecurrence">
 	</table>
 	<table name="tbl_file_data"
-		class="com.jrdevel.aboutus.core.model.FileData">
+		class="com.jrdevel.aboutus.core.common.model.FileData">
 	</table>
 	<table name="tbl_album"
-		class="com.jrdevel.aboutus.core.model.Album">
+		class="com.jrdevel.aboutus.core.common.model.Album">
 	</table>
 	<table name="tbl_article"
-		class="com.jrdevel.aboutus.core.model.Article">
+		class="com.jrdevel.aboutus.core.common.model.Article">
 	</table>
 	<table name="tbl_file"
-		class="com.jrdevel.aboutus.core.model.File">
+		class="com.jrdevel.aboutus.core.common.model.File">
 	</table>
 	<table name="tbl_categories"
-		class="com.jrdevel.aboutus.core.model.Category">
+		class="com.jrdevel.aboutus.core.common.model.Category">
 	</table>
 	<table name="tbl_folder"
-		class="com.jrdevel.aboutus.core.model.Folder">
+		class="com.jrdevel.aboutus.core.common.model.Folder">
 	</table>
 	<table name="tbl_session"
-		class="com.jrdevel.aboutus.core.model.Session">
+		class="com.jrdevel.aboutus.core.common.model.Session">
 	</table>
 	<table name="lst_frequency"
-		class="com.jrdevel.aboutus.core.model.lists.Frequency">
+		class="com.jrdevel.aboutus.core.common.model.lists.Frequency">
 	</table>
 	<table name="trans_frequency"
-		class="com.jrdevel.aboutus.core.model.lists.translate.FrequencyTranslate">
+		class="com.jrdevel.aboutus.core.common.model.lists.translate.FrequencyTranslate">
 	</table>
 	<table name="tbl_musics"
-		class="com.jrdevel.aboutus.core.model.Music">
+		class="com.jrdevel.aboutus.core.common.model.Music">
 	</table>
-	<table name="tbl_tabs" class="com.jrdevel.aboutus.core.model.Tab"></table>
+	<table name="tbl_tabs" class="com.jrdevel.aboutus.core.common.model.Tab"></table>
 	<table name="tbl_playlists"
-		class="com.jrdevel.aboutus.core.model.Playlist">
+		class="com.jrdevel.aboutus.core.common.model.Playlist">
 	</table>
 	<table name="tbl_instruments"
-		class="com.jrdevel.aboutus.core.model.Instrument">
+		class="com.jrdevel.aboutus.core.common.model.Instrument">
 	</table>
 	<table name="tbl_folder_roles"
-		class="com.jrdevel.aboutus.core.model.FolderRole">
+		class="com.jrdevel.aboutus.core.common.model.FolderRole">
 	</table>
 	<table name="tbl_item_album"
-		class="com.jrdevel.aboutus.core.model.ItemAlbum">
+		class="com.jrdevel.aboutus.core.common.model.ItemAlbum">
 	</table>
 	<table name="tbl_videos"
-		class="com.jrdevel.aboutus.core.model.Video">
+		class="com.jrdevel.aboutus.core.common.model.Video">
 	</table>
 	<table name="tbl_churchs"
-		class="com.jrdevel.aboutus.core.model.Church">
+		class="com.jrdevel.aboutus.core.common.model.Church">
 	</table>
 	<table name="tbl_banners"
-		class="com.jrdevel.aboutus.core.model.Banner">
+		class="com.jrdevel.aboutus.core.common.model.Banner">
 	</table>
 	<table name="tbl_batches"
-		class="com.jrdevel.aboutus.core.model.Batch">
+		class="com.jrdevel.aboutus.core.common.model.Batch">
 	</table>
 	<table name="tbl_access"
-		class="com.jrdevel.aboutus.core.model.Access">
+		class="com.jrdevel.aboutus.core.common.model.Access">
 	</table>
 	<table name="tbl_register"
-		class="com.jrdevel.aboutus.core.model.Register">
+		class="com.jrdevel.aboutus.core.common.model.Register">
 	</table>
 	<table name="tbl_customer"
-		class="com.jrdevel.aboutus.core.model.Customer">
+		class="com.jrdevel.aboutus.core.common.model.Customer">
 	</table>
 	<table name="tbl_plan"
-		class="com.jrdevel.aboutus.core.model.Plan">
+		class="com.jrdevel.aboutus.core.common.model.Plan">
 	</table>
 </hibernate-reverse-engineering>

@@ -6,16 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jrdevel.aboutus.core.dao.UserDAO;
-import com.jrdevel.aboutus.core.model.Church;
-import com.jrdevel.aboutus.core.model.Customer;
-import com.jrdevel.aboutus.core.model.Person;
-import com.jrdevel.aboutus.core.model.Plan;
-import com.jrdevel.aboutus.core.model.Register;
-import com.jrdevel.aboutus.core.model.User;
-import com.jrdevel.aboutus.core.service.ChurchService;
-import com.jrdevel.aboutus.core.service.PersonService;
-import com.jrdevel.aboutus.core.util.ResultObject;
+import com.jrdevel.aboutus.core.church.ChurchService;
+import com.jrdevel.aboutus.core.common.model.Church;
+import com.jrdevel.aboutus.core.common.model.Customer;
+import com.jrdevel.aboutus.core.common.model.Person;
+import com.jrdevel.aboutus.core.common.model.Plan;
+import com.jrdevel.aboutus.core.common.model.Register;
+import com.jrdevel.aboutus.core.common.model.User;
+import com.jrdevel.aboutus.core.common.to.ResultObject;
+import com.jrdevel.aboutus.core.person.PersonService;
+import com.jrdevel.aboutus.core.user.UserDAO;
 
 /**
  * @author Raphael Domingues

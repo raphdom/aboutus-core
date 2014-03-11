@@ -2,8 +2,8 @@ package com.jrdevel.aboutus.core.common;
 
 import java.util.List;
 
-import com.jrdevel.aboutus.core.util.ListParams;
-import com.jrdevel.aboutus.core.util.ResultObject;
+import com.jrdevel.aboutus.core.common.to.ListParams;
+import com.jrdevel.aboutus.core.common.to.ResultObject;
 
 /**
  * @author Raphael Domingues

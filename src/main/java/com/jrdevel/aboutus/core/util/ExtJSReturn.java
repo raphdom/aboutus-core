@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.jrdevel.aboutus.core.common.to.Message;
+import com.jrdevel.aboutus.core.common.to.ResultObject;
+
 /**
  * @author Raphael Domingues
  *

@@ -25,14 +25,14 @@ import org.hibernate.persister.entity.AbstractEntityPersister;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.jrdevel.aboutus.core.model.Audit;
-import com.jrdevel.aboutus.core.model.Permission;
-import com.jrdevel.aboutus.core.model.User;
-import com.jrdevel.aboutus.core.util.Filter;
-import com.jrdevel.aboutus.core.util.ListParams;
-import com.jrdevel.aboutus.core.util.ListResult;
-import com.jrdevel.aboutus.core.util.Sort;
-import com.jrdevel.aboutus.core.view.Projection;
+import com.jrdevel.aboutus.core.common.model.Audit;
+import com.jrdevel.aboutus.core.common.model.Permission;
+import com.jrdevel.aboutus.core.common.model.User;
+import com.jrdevel.aboutus.core.common.to.Filter;
+import com.jrdevel.aboutus.core.common.to.ListParams;
+import com.jrdevel.aboutus.core.common.to.ListResult;
+import com.jrdevel.aboutus.core.common.to.Sort;
+import com.jrdevel.aboutus.core.common.view.Projection;
 
 
 /**

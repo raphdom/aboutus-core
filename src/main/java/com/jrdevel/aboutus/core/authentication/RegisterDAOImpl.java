@@ -6,8 +6,8 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.jrdevel.aboutus.core.common.AbstractGenericDAO;
-import com.jrdevel.aboutus.core.model.Register;
-import com.jrdevel.aboutus.core.model.User;
+import com.jrdevel.aboutus.core.common.model.Register;
+import com.jrdevel.aboutus.core.common.model.User;
 
 /**
  * @author Raphael Domingues
