@@ -1,14 +1,20 @@
 package com.jrdevel.aboutus.core.authentication;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jrdevel.aboutus.core.church.ChurchService;
 import com.jrdevel.aboutus.core.common.model.Church;
 import com.jrdevel.aboutus.core.common.model.Customer;
+import com.jrdevel.aboutus.core.common.model.Group;
+import com.jrdevel.aboutus.core.common.model.Permission;
 import com.jrdevel.aboutus.core.common.model.Person;
 import com.jrdevel.aboutus.core.common.model.Plan;
 import com.jrdevel.aboutus.core.common.model.Register;
@@ -21,7 +27,7 @@ import com.jrdevel.aboutus.core.user.UserDAO;
  * @author Raphael Domingues
  *
  */
-@Service
+@Service("authenticationService")
 public class AuthenticationServiceImpl implements AuthenticationService{
 
 	@Autowired
@@ -35,6 +41,25 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 	
 	private PersonService personService;
 
+	@Transactional(readOnly=true)
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		
+		User user = userDAO.getUserByEmail(username);
+		
+		if (user == null) {
+			throw new UsernameNotFoundException("No such user: " + username);
+		}
+		
+		List<Permission> permissions = new ArrayList<Permission>();
+
+		permissions.addAll(user.getPermissions());
+		for (Group group : user.getGroups()){
+			permissions.addAll(group.getPermissions());
+		}
+		
+		return new UserDetailsAdapter(user,permissions);
+	}
+	
 
 	@Transactional
 	public ResultObject login(User user){
@@ -76,6 +101,13 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 		}
 
 		return result;
+	}
+	
+	@Transactional
+	public void updateLogin(Integer id){
+		User userDB = userDAO.findById(id, false);
+		userDB.setLastvisitDate(new Date());
+		userDAO.makePersistent(userDB);
 	}
 	
 	private Register getRegister(User user){
