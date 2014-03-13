@@ -197,6 +197,12 @@ public class CloudService extends AbstractGenericService<File>{
 		return null;
 	}
 
+	@Override
+	public ResultObject insert(File bean) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 
 }

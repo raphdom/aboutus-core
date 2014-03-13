@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,33 +28,42 @@ public class UserServiceImpl extends AbstractGenericService<User> implements Use
 	@Autowired
 	private UserDAO userDAO;
 	
+	@Secured("ROLE_UPDATE_USERS")
 	@Transactional
 	public ResultObject update(User entity){
 		
-		ResultObject result = new ResultObject();
-		
-		boolean isUpdate = entity.getId() != null && entity.getId() != 0;
-		
-		if (!isUpdate){
-			if (existUserEmail(entity.getEmail())){
-				result.setSuccess(false);
-				result.addErrorMessage("Este email j� existe registado na aplica��o");
-				return result;
-			}
-			entity.setId(null);
-			//entity.setCustomer(userSession.getCustomer());
-			entity.setRegisterDate(new Date());
-			entity.setPassword(PasswordGenerator.passGenerator(8));
-		}
+		ResultObject result = newResultObject();
 		
 		userDAO.makePersistent(entity);
-		
-		result.setSuccess(true);
 		
 		return result;
 		
 	}
 	
+	@Secured("ROLE_INSERT_USERS")
+	@Transactional
+	public ResultObject insert(User entity){
+		
+		ResultObject result = new ResultObject();
+
+		if (existUserEmail(entity.getEmail())){
+			result.setSuccess(false);
+			result.addErrorMessage("Este email já se encontra registado no sistema.");
+			return result;
+		}
+		
+		entity.setId(null);
+		//entity.setCustomer(userSession.getCustomer());
+		entity.setRegisterDate(new Date());
+		entity.setPassword(PasswordGenerator.passGenerator(8));
+
+		userDAO.makePersistent(entity);
+
+		return result;
+		
+	}
+	
+	@Secured("ROLE_LIST_USERS")
 	@Transactional
 	public ResultObject list(ListParams params) {
 		
@@ -73,7 +83,7 @@ public class UserServiceImpl extends AbstractGenericService<User> implements Use
 		
 		if (bean == null || bean.getId() == null){
 			result.setSuccess(false);
-			result.addErrorMessage("Utilizador n�o existe.");
+			result.addErrorMessage("Utilizador não existe.");
 		}else{
 			User user = userDAO.getUserById(bean.getId());
 			result.setData(user);
@@ -82,6 +92,7 @@ public class UserServiceImpl extends AbstractGenericService<User> implements Use
 		return result;
 	}
 
+	@Secured("ROLE_DELETE_USERS")
 	@Transactional
 	public ResultObject delete(List<User> beans) {
 		

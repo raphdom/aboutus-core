@@ -34,7 +34,7 @@ public class UserDetailsAdapter implements UserDetails{
 		Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
 		authorities.add(new SimpleGrantedAuthority("ROLE_AUTHENTICATED_USER"));
 		for(Permission role: roles){
-			authorities.add(new SimpleGrantedAuthority("ROLE_"+role.getName().toUpperCase()));
+			authorities.add(new SimpleGrantedAuthority(role.getName()));
 		}
 		return authorities;
 	}

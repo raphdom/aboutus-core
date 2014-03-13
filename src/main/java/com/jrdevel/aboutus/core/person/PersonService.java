@@ -87,5 +87,12 @@ public class PersonService extends AbstractGenericService<Person>{
 	}
 
 
+	@Override
+	public ResultObject insert(Person bean) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 
 }

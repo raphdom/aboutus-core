@@ -85,4 +85,11 @@ public class GroupService extends AbstractGenericService<Group>{
 		return result;
 	}
 
+
+	@Override
+	public ResultObject insert(Group bean) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
