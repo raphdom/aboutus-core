@@ -12,8 +12,9 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 
 	<security:global-method-security secured-annotations="enabled" />
  
-    <security:http auto-config="false" use-expressions="true" entry-point-ref="authenticationProcessingFilterEntryPoint">
+    <security:http auto-config="false" use-expressions="false" entry-point-ref="authenticationProcessingFilterEntryPoint">
         <security:intercept-url pattern="/home.jsp" access="ROLE_AUTHENTICATED_USER" />
+        <security:intercept-url pattern="/*.action" access="ROLE_AUTHENTICATED_USER" />
         <security:custom-filter position="FORM_LOGIN_FILTER" ref="authenticationProcessingFilter"/>
         <security:logout logout-success-url="/login.jsp" />
     </security:http>

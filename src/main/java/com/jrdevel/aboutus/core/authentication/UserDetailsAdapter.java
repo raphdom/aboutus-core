@@ -38,6 +38,10 @@ public class UserDetailsAdapter implements UserDetails{
 		}
 		return authorities;
 	}
+	
+	public List<Permission> getRoles(){
+		return roles;
+	}
 
 	@Override
 	public String getPassword() {

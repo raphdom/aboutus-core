@@ -12,6 +12,11 @@ public class ListResult<T>{
 	private List<T> data;
 	private int total;
 	
+	public ListResult(List<T> data){
+		this.data=data;
+		this.total=data.size();
+	}
+	
 	public ListResult(List<T> data, int total){
 		this.data=data;
 		this.total=total;
