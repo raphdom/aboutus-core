@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -103,6 +104,7 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 		return result;
 	}
 	
+	@Secured("ROLE_AUTHENTICATED_USER")
 	@Transactional
 	public void updateLogin(Integer id){
 		User userDB = userDAO.findById(id, false);

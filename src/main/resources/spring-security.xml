@@ -10,10 +10,9 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd  
     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-	<security:global-method-security />
+	<security:global-method-security secured-annotations="enabled" />
  
-    <security:http auto-config="false" entry-point-ref="authenticationProcessingFilterEntryPoint">
-        <security:intercept-url pattern="/*.action" access="ROLE_AUTHENTICATED_USER" />
+    <security:http auto-config="false" use-expressions="true" entry-point-ref="authenticationProcessingFilterEntryPoint">
         <security:intercept-url pattern="/home.jsp" access="ROLE_AUTHENTICATED_USER" />
         <security:custom-filter position="FORM_LOGIN_FILTER" ref="authenticationProcessingFilter"/>
         <security:logout logout-success-url="/login.jsp" />
