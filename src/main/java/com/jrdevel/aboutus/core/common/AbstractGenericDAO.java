@@ -25,9 +25,9 @@ import org.hibernate.persister.entity.AbstractEntityPersister;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
 import com.jrdevel.aboutus.core.common.model.Audit;
 import com.jrdevel.aboutus.core.common.model.Permission;
-import com.jrdevel.aboutus.core.common.model.User;
 import com.jrdevel.aboutus.core.common.to.Filter;
 import com.jrdevel.aboutus.core.common.to.ListParams;
 import com.jrdevel.aboutus.core.common.to.ListResult;
@@ -56,7 +56,7 @@ public abstract class AbstractGenericDAO<T, PK extends Serializable> implements 
 	}
 	
 	//@Autowired
-	private User userSession;
+	//private User userSession;
 
 	public Session getSession(){
 		return getSessionFactory().getCurrentSession();
@@ -85,7 +85,7 @@ public abstract class AbstractGenericDAO<T, PK extends Serializable> implements 
 
 		Criteria criteria = getSession().createCriteria(getPersistentClass());
 		if (this.getPersistentClass() != Permission.class){
-			criteria.add(Restrictions.eq("customer.id", userSession.getCustomer().getId()));
+			criteria.add(Restrictions.eq("customer.id", UserAuthenticatedManager.getCurrentCustomer().getId()));
 		}
 		setOrder(criteria,params.getSorters());
 		setFilters(criteria, params.getFilter());
@@ -243,7 +243,7 @@ public abstract class AbstractGenericDAO<T, PK extends Serializable> implements 
 		audit.setTableId(tableId);
 		audit.setTableName(tableName);
 		audit.setActionId(mode);
-		audit.setUserName(userSession.getPerson().getName());
+		audit.setUserName(UserAuthenticatedManager.getCurrentUser().getPerson().getName());
 //		audit.setObjectName(getObjectName());
 //		audit.setObjectTitle(getObjectTitle(entity));
 		

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
 import com.jrdevel.aboutus.core.common.AbstractGenericService;
 import com.jrdevel.aboutus.core.common.configuration.AboutUsConfiguration;
 import com.jrdevel.aboutus.core.common.model.File;
@@ -102,7 +103,7 @@ public class CloudServiceImpl extends AbstractGenericService<File> implements Cl
 		fileBean.setPath(filePath);
 		fileBean.setCreatedDate(new Date());
 		fileBean.setModifiedDate(new Date());
-		//fileBean.setCustomer(getUserSession().getCustomer());
+		fileBean.setCustomer(UserAuthenticatedManager.getCurrentCustomer());
 		
 		fileDAO.makePersistent(fileBean);
 		

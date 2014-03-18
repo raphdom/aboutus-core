@@ -28,6 +28,9 @@ public class UserDAOImpl extends AbstractGenericDAO<User, Integer> implements Us
 		criteria.add(Restrictions.eq("block", false));
 		criteria.setFetchMode("groups", FetchMode.JOIN);
 		criteria.setFetchMode("permissions", FetchMode.JOIN);
+		criteria.setFetchMode("person", FetchMode.JOIN);
+		criteria.setFetchMode("church", FetchMode.JOIN);
+		criteria.setFetchMode("customer", FetchMode.JOIN);
 		User user = (User) criteria.uniqueResult(); 
 		return user;
 	}
