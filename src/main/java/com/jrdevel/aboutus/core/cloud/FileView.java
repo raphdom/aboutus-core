@@ -14,7 +14,7 @@ public class FileView implements Serializable{
 	private static final long serialVersionUID = -5329692834378102889L;
 	private Integer id;
 	private String filename;
-	private String filetype;
+	private String fileType;
 	private long filesize;
 	private String title;
 	private String caption;
@@ -35,12 +35,12 @@ public class FileView implements Serializable{
 	public void setFilename(String filename) {
 		this.filename = filename;
 	}
-	@Projection(entityName="fileType")
-	public String getFiletype() {
-		return filetype;
+	@Projection
+	public String getFileType() {
+		return fileType;
 	}
-	public void setFiletype(String filetype) {
-		this.filetype = filetype;
+	public void setFileType(String fileType) {
+		this.fileType = fileType;
 	}
 	@Projection
 	public long getFilesize() {

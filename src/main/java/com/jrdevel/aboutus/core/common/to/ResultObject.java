@@ -44,6 +44,12 @@ public class ResultObject {
 	public void setTotal(int total) {
 		this.total = total;
 	}
+	public void addInfoMessage(String message){
+		messages.add(new Message(INFO,message));
+	}
+	public void addWarningMessage(String message){
+		messages.add(new Message(WARNING,message));
+	}
 	public void addErrorMessage(String message){
 		messages.add(new Message(ERROR,message));
 	}

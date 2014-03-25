@@ -193,9 +193,22 @@ public class CloudServiceImpl extends AbstractGenericService<File> implements Cl
 		
 	}
 
-	@Override
+	@Transactional
 	public ResultObject delete(List<File> beans) {
-		return null;
+		
+		ResultObject result = newResultObject();
+		
+		for (File file : beans){
+			File beanDB = fileDAO.findById(file.getId(), false);
+			java.io.File fileHD = new java.io.File(beanDB.getPath());
+			fileDAO.makeTransient(beanDB);
+			//Remove original FileSystem
+			fileHD.delete();
+		}
+		
+		result.addInfoMessage(beans.size() + " ficheiro(s) eliminados.");
+		
+		return result;
 	}
 
 	@Override
