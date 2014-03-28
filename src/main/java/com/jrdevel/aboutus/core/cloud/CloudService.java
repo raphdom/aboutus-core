@@ -14,5 +14,5 @@ public interface CloudService extends GenericService<File>{
 	public byte[] getThumb(Integer fileId, Integer dataType);
 	
 	public Map<String,Object> download(Integer fileId);
-
+	
 }

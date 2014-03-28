@@ -102,10 +102,12 @@ public class FolderServiceImpl extends AbstractGenericService<Folder> implements
 	}
 
 
-	@Override
+	@Transactional
 	public ResultObject update(Folder bean) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		folderDAO.makePersistent(bean);
+		
+		return newResultObject();
 	}
 
 
