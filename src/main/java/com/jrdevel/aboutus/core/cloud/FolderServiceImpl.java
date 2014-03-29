@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
 import com.jrdevel.aboutus.core.common.AbstractGenericService;
 import com.jrdevel.aboutus.core.common.model.Folder;
 import com.jrdevel.aboutus.core.common.model.User;
@@ -97,8 +98,11 @@ public class FolderServiceImpl extends AbstractGenericService<Folder> implements
 
 	@Override
 	public ResultObject insert(Folder bean) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		bean.setCustomer(UserAuthenticatedManager.getCurrentCustomer());
+		folderDAO.makePersistent(bean);
+		
+		return newResultObject();
 	}
 
 

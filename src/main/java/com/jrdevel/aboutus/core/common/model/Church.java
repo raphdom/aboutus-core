@@ -1,19 +1,15 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 11/Mar/2014 23:37:04 by Hibernate Tools 3.4.0.CR1
+// Generated 29/Mar/2014 22:16:19 by Hibernate Tools 3.4.0.CR1
 
 import com.jrdevel.aboutus.core.common.model.lists.Country;
-
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-
 import static javax.persistence.GenerationType.IDENTITY;
-
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;

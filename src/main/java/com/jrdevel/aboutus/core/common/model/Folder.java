@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 11/Mar/2014 23:37:04 by Hibernate Tools 3.4.0.CR1
+// Generated 29/Mar/2014 22:16:19 by Hibernate Tools 3.4.0.CR1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,6 +10,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -21,6 +23,7 @@ import javax.persistence.Table;
 public class Folder implements java.io.Serializable {
 
 	private Integer id;
+	private Customer customer;
 	private String name;
 	private int parent;
 	private boolean folderSys;
@@ -31,14 +34,17 @@ public class Folder implements java.io.Serializable {
 	public Folder() {
 	}
 
-	public Folder(String name, int parent, boolean folderSys) {
+	public Folder(Customer customer, String name, int parent, boolean folderSys) {
+		this.customer = customer;
 		this.name = name;
 		this.parent = parent;
 		this.folderSys = folderSys;
 	}
 
-	public Folder(String name, int parent, boolean folderSys, Set<File> files,
-			Set<Music> musics, Set<FolderRole> folderRoles) {
+	public Folder(Customer customer, String name, int parent,
+			boolean folderSys, Set<File> files, Set<Music> musics,
+			Set<FolderRole> folderRoles) {
+		this.customer = customer;
 		this.name = name;
 		this.parent = parent;
 		this.folderSys = folderSys;
@@ -56,6 +62,16 @@ public class Folder implements java.io.Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "customerId", nullable = false)
+	public Customer getCustomer() {
+		return this.customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 	@Column(name = "name", nullable = false)

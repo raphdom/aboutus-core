@@ -194,10 +194,10 @@ public abstract class AbstractGenericDAO<T, PK extends Serializable> implements 
 	}
 	
 	public T makePersistent(T entity) {
-    	return makePersistent(entity, false);
+    	return makePersistent(entity, false, true);
     }
-    
-    public T makePersistent(T entity, boolean audit) {
+	
+    public T makePersistent(T entity, boolean audit, boolean customer) {
     	int mode = 0;
     	if (audit){
 	    	ClassMetadata hibernateMetadata = getSession().getSessionFactory().getClassMetadata(getPersistentClass());

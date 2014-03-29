@@ -8,6 +8,7 @@ import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
+import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
 import com.jrdevel.aboutus.core.common.AbstractGenericDAO;
 import com.jrdevel.aboutus.core.common.model.Folder;
 import com.jrdevel.aboutus.core.common.model.Group;
@@ -27,8 +28,10 @@ public class FolderDAOImpl extends AbstractGenericDAO<Folder, Integer> implement
 		crit.createAlias("folderRoles", "role", Criteria.INNER_JOIN);
 		Criterion crit1 = Restrictions.and(Restrictions.isNull("role.user"), Restrictions.isNull("role.group"));
 		Criterion crit2 = Restrictions.eq("role.user.id", user.getId());
+		Criterion crit3 = Restrictions.eq("customer.id", UserAuthenticatedManager.getCurrentCustomer().getId());
 		or.add(crit1);
 		or.add(crit2);
+		or.add(crit3);
 		for (Group group : user.getGroups()){
 			or.add(Restrictions.eq("role.group.id", group.getId()));
 		}
