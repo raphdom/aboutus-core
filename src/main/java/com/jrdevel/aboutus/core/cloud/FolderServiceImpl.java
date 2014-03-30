@@ -96,7 +96,7 @@ public class FolderServiceImpl extends AbstractGenericService<Folder> implements
 	}
 
 
-	@Override
+	@Transactional
 	public ResultObject insert(Folder bean) {
 		
 		bean.setCustomer(UserAuthenticatedManager.getCurrentCustomer());
