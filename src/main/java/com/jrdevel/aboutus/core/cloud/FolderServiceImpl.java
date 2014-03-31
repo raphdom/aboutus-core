@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
 import com.jrdevel.aboutus.core.common.AbstractGenericService;
 import com.jrdevel.aboutus.core.common.model.Folder;
+import com.jrdevel.aboutus.core.common.model.FolderRole;
 import com.jrdevel.aboutus.core.common.model.User;
 import com.jrdevel.aboutus.core.common.to.ListParams;
 import com.jrdevel.aboutus.core.common.to.ListResult;
@@ -22,17 +23,10 @@ import com.jrdevel.aboutus.core.common.to.ResultObject;
 @Service
 public class FolderServiceImpl extends AbstractGenericService<Folder> implements FolderService{
 	
-	private FolderDAO folderDAO;
-	
-	/**
-	 * Spring use - DI
-	 * @param userDAO
-	 */
 	@Autowired
-	public void setFolderDAO(FolderDAO folderDAO) {
-		this.folderDAO = folderDAO;
-	}
-	
+	private FolderDAO folderDAO;
+	@Autowired
+	private FolderRoleDAO folderRoleDAO;
 	
 	/**
 	 * Get all folders
@@ -91,7 +85,6 @@ public class FolderServiceImpl extends AbstractGenericService<Folder> implements
 
 	@Override
 	public ResultObject list(ListParams params) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -101,6 +94,10 @@ public class FolderServiceImpl extends AbstractGenericService<Folder> implements
 		
 		bean.setCustomer(UserAuthenticatedManager.getCurrentCustomer());
 		folderDAO.makePersistent(bean);
+		
+		FolderRole roleDefault = new FolderRole();
+		roleDefault.setFolder(bean);
+		folderRoleDAO.makePersistent(roleDefault);
 		
 		return newResultObject();
 	}
@@ -117,14 +114,12 @@ public class FolderServiceImpl extends AbstractGenericService<Folder> implements
 
 	@Override
 	public ResultObject get(Folder bean) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 
 	@Override
 	public ResultObject delete(List<Folder> beans) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
