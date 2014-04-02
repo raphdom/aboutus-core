@@ -12,7 +12,7 @@ public class FolderWrapper implements Serializable{
 	
 	private static final long serialVersionUID = 5058736287655478100L;
 	
-	private int id;
+	private Integer id;
 	private String text;
 	private Integer parent;
 	private boolean leaf = true;
@@ -24,11 +24,11 @@ public class FolderWrapper implements Serializable{
 		
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

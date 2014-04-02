@@ -57,6 +57,7 @@ public class FolderServiceImpl extends AbstractGenericService<Folder> implements
 		FolderWrapper rootNode = new FolderWrapper();
 		rootNode.setPath("/");
 		rootNode.setText("");
+		rootNode.setId(0);
 		generateFolderTree(foldersWrapper,rootNode);
 		
 		return rootNode;
@@ -92,6 +93,7 @@ public class FolderServiceImpl extends AbstractGenericService<Folder> implements
 	@Transactional
 	public ResultObject insert(Folder bean) {
 		
+		bean.setId(null);
 		bean.setCustomer(UserAuthenticatedManager.getCurrentCustomer());
 		folderDAO.makePersistent(bean);
 		
@@ -106,6 +108,7 @@ public class FolderServiceImpl extends AbstractGenericService<Folder> implements
 	@Transactional
 	public ResultObject update(Folder bean) {
 		
+		bean.setCustomer(UserAuthenticatedManager.getCurrentCustomer());
 		folderDAO.makePersistent(bean);
 		
 		return newResultObject();
