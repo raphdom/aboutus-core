@@ -21,7 +21,7 @@ import com.jrdevel.aboutus.core.common.model.Plan;
 import com.jrdevel.aboutus.core.common.model.Register;
 import com.jrdevel.aboutus.core.common.model.User;
 import com.jrdevel.aboutus.core.common.to.ResultObject;
-import com.jrdevel.aboutus.core.person.PersonService;
+import com.jrdevel.aboutus.core.person.PersonServiceImpl;
 import com.jrdevel.aboutus.core.user.UserDAO;
 
 /**
@@ -40,7 +40,7 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 
 	private ChurchService churchService;
 	
-	private PersonService personService;
+	private PersonServiceImpl personService;
 
 	@Transactional(readOnly=true)
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

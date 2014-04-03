@@ -102,6 +102,9 @@ public abstract class AbstractGenericDAO<T, PK extends Serializable> implements 
 	public <R> ListResult<R> findAllByView(ListParams params, Class<R> view){
 		
 		Criteria criteria = getSession().createCriteria(getPersistentClass());
+		if (this.getPersistentClass() != Permission.class){
+			criteria.add(Restrictions.eq("customer.id", UserAuthenticatedManager.getCurrentCustomer().getId()));
+		}
 		setOrder(criteria,params.getSorters());
 		setFilters(criteria, params.getFilter());
 		setExtraFilters(criteria);
