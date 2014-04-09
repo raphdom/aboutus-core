@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jrdevel.aboutus.core.church.ChurchService;
+import com.jrdevel.aboutus.core.church.ChurchServiceImpl;
 import com.jrdevel.aboutus.core.common.model.Church;
 import com.jrdevel.aboutus.core.common.model.Customer;
 import com.jrdevel.aboutus.core.common.model.Group;
@@ -38,7 +38,7 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 	@Autowired
 	private CustomerDAO customerDAO;
 
-	private ChurchService churchService;
+	private ChurchServiceImpl churchService;
 	
 	private PersonServiceImpl personService;
 
@@ -148,7 +148,7 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 
 		Person person = new Person();
 		person.setName(register.getNameResp());
-		person.setIsMember(true);
+		person.setMember(true);
 		person.setChurch(church);
 		person.setCustomer(customer);
 

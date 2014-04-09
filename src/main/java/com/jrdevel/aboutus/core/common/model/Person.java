@@ -35,7 +35,7 @@ public class Person implements java.io.Serializable {
 	private Customer customer;
 	private Country country;
 	private String name;
-	private boolean isMember;
+	private boolean member;
 	private int nif;
 	private Date birthday;
 	private Date baptismdate;
@@ -57,12 +57,12 @@ public class Person implements java.io.Serializable {
 	}
 
 	public Person(Church church, Customer customer, String name,
-			boolean isMember, int nif, boolean consolidated, int state,
+			boolean member, int nif, boolean consolidated, int state,
 			boolean male, boolean baptized) {
 		this.church = church;
 		this.customer = customer;
 		this.name = name;
-		this.isMember = isMember;
+		this.member = member;
 		this.nif = nif;
 		this.consolidated = consolidated;
 		this.state = state;
@@ -72,7 +72,7 @@ public class Person implements java.io.Serializable {
 
 	public Person(MemberType memberType, Church church,
 			CivilStatus civilStatus, Customer customer, Country country,
-			String name, boolean isMember, int nif, Date birthday,
+			String name, boolean member, int nif, Date birthday,
 			Date baptismdate, String profession, boolean consolidated,
 			int state, boolean male, boolean baptized, Date arrivalChurchDate,
 			String precedingChurch, String observations,
@@ -85,7 +85,7 @@ public class Person implements java.io.Serializable {
 		this.customer = customer;
 		this.country = country;
 		this.name = name;
-		this.isMember = isMember;
+		this.member = member;
 		this.nif = nif;
 		this.birthday = birthday;
 		this.baptismdate = baptismdate;
@@ -173,13 +173,13 @@ public class Person implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@Column(name = "isMember", nullable = false)
-	public boolean isIsMember() {
-		return this.isMember;
+	@Column(name = "member", nullable = false)
+	public boolean isMember() {
+		return this.member;
 	}
 
-	public void setIsMember(boolean isMember) {
-		this.isMember = isMember;
+	public void setMember(boolean member) {
+		this.member = member;
 	}
 
 	@Column(name = "nif", nullable = false)

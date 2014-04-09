@@ -8,5 +8,5 @@ import com.jrdevel.aboutus.core.common.model.Person;
  *
  */
 public interface PersonService extends GenericService<Person>{
-
+	
 }

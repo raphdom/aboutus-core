@@ -40,11 +40,11 @@ public class PersonServiceImpl extends AbstractGenericService<Person> implements
 
 	@Transactional
 	public ResultObject list(ListParams params) {
-		ListResult<Person> listResult = personDAO.findAllByCriteria(params);
+		ListResult<PersonView> listResult = personDAO.findAllByView(params, PersonView.class);
 		ResultObject result = newResultObject();
 		result.setData(listResult.getData());
 		result.setTotal(listResult.getTotal());
-		
+		//personDAO.teste();
 		return result;
 	}
 
