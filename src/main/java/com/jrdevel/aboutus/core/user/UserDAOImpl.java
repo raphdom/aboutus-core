@@ -67,7 +67,7 @@ public class UserDAOImpl extends AbstractGenericDAO<User, Integer> implements Us
 		return (User) crit.uniqueResult();
 	}
 	
-	public ListResult<UserView> getUsersView(){
+	public ListResult<UserListView> getUsersView(){
 		Criteria criteria = getSession().createCriteria(getPersistentClass());
 		criteria.createAlias("person", "person", Criteria.LEFT_JOIN);
 		criteria.createAlias("church", "church", Criteria.LEFT_JOIN);
@@ -76,8 +76,8 @@ public class UserDAOImpl extends AbstractGenericDAO<User, Integer> implements Us
                 .add( Projections.property("email"), "email" )
                 .add( Projections.property("person.name"), "personName" ));
 		
-		criteria.setResultTransformer(Transformers.aliasToBean(UserView.class));
-		return new ListResult<UserView>(criteria.list(), 15);
+		criteria.setResultTransformer(Transformers.aliasToBean(UserListView.class));
+		return new ListResult<UserListView>(criteria.list(), 15);
 	}
 
 }

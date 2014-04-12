@@ -70,6 +70,15 @@ public abstract class AbstractGenericDAO<T, PK extends Serializable> implements 
 		}
 		return (T) crit.uniqueResult();
 	}
+	
+	public <R> Object findUniqueByView (PK key, Class<R> view){
+		
+		Criteria criteria = getSession().createCriteria(getPersistentClass());
+		criteria.setProjection(getProjectionList(view));
+		criteria.setResultTransformer(Transformers.aliasToBean(view));
+		
+		return criteria.uniqueResult();
+	}
 
 	@SuppressWarnings("unchecked")
 	public List<T> findByCriteria(Criterion... criterion) {

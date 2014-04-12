@@ -67,7 +67,7 @@ public class UserServiceImpl extends AbstractGenericService<User> implements Use
 	@Transactional
 	public ResultObject list(ListParams params) {
 		
-		ListResult<UserView> listResult = userDAO.findAllByView(params, UserView.class);
+		ListResult<UserListView> listResult = userDAO.findAllByView(params, UserListView.class);
 		ResultObject result = newResultObject();
 		result.setData(listResult.getData());
 		result.setTotal(listResult.getTotal());
