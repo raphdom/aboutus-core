@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jrdevel.aboutus.core.common.AbstractGenericService;
 import com.jrdevel.aboutus.core.common.model.Group;
 import com.jrdevel.aboutus.core.common.to.ListParams;
 import com.jrdevel.aboutus.core.common.to.ListResult;
@@ -17,7 +16,7 @@ import com.jrdevel.aboutus.core.common.to.ResultObject;
  *
  */
 @Service
-public class GroupServiceImpl extends AbstractGenericService<Group> implements GroupService{
+public class GroupServiceImpl implements GroupService{
 	
 	@Autowired
 	private GroupDAO groupDAO;
@@ -25,7 +24,7 @@ public class GroupServiceImpl extends AbstractGenericService<Group> implements G
 	@Transactional
 	public ResultObject list(ListParams params) {
 		ListResult<Group> listResult = groupDAO.findAllByCriteria(params);
-		ResultObject result = newResultObject();
+		ResultObject result = new ResultObject();
 		result.setData(listResult.getData());
 		result.setTotal(listResult.getTotal());
 		
@@ -52,7 +51,7 @@ public class GroupServiceImpl extends AbstractGenericService<Group> implements G
 
 	@Transactional
 	public ResultObject get(Group bean) {
-		ResultObject result = newResultObject();
+		ResultObject result = new ResultObject();
 		
 		if (bean == null || bean.getId() == null){
 			result.setSuccess(false);
@@ -67,7 +66,7 @@ public class GroupServiceImpl extends AbstractGenericService<Group> implements G
 
 	@Transactional
 	public ResultObject delete(List<Group> beans) {
-		ResultObject result = newResultObject();
+		ResultObject result = new ResultObject();
 		
 		for (Group group: beans){
 			groupDAO.makeTransient(group);
@@ -77,9 +76,7 @@ public class GroupServiceImpl extends AbstractGenericService<Group> implements G
 	}
 
 
-	@Override
 	public ResultObject insert(Group bean) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -71,13 +71,15 @@ public abstract class AbstractGenericDAO<T, PK extends Serializable> implements 
 		return (T) crit.uniqueResult();
 	}
 	
-	public <R> Object findUniqueByView (PK key, Class<R> view){
+	@SuppressWarnings("unchecked")
+	public <R> R findUniqueByViewAndId (PK key, Class<R> view){
 		
 		Criteria criteria = getSession().createCriteria(getPersistentClass());
+		criteria.add(Restrictions.eq("id", key));
 		criteria.setProjection(getProjectionList(view));
 		criteria.setResultTransformer(Transformers.aliasToBean(view));
 		
-		return criteria.uniqueResult();
+		return (R) criteria.uniqueResult();
 	}
 
 	@SuppressWarnings("unchecked")

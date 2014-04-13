@@ -15,6 +15,7 @@ import com.jrdevel.aboutus.core.common.to.ListResult;
 public interface GenericDAO<T, PK extends Serializable>{
 	
 	public T findUniqueByCriteria(Criterion... criterion);
+	public <R> R findUniqueByViewAndId (PK key, Class<R> view);
 	public List<T> findByCriteria(Criterion... criterion);
 	public T findById(PK id, boolean lock);
 	public <R> ListResult<R> findAllByView(ListParams params, Class<R> view);

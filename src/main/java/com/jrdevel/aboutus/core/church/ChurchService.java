@@ -1,12 +1,15 @@
 package com.jrdevel.aboutus.core.church;
 
-import com.jrdevel.aboutus.core.common.GenericService;
-import com.jrdevel.aboutus.core.common.model.Church;
+import com.jrdevel.aboutus.core.common.to.ListParams;
+import com.jrdevel.aboutus.core.common.to.ResultObject;
+
 
 /**
  * @author Raphael Domingues
  *
  */
-public interface ChurchService extends GenericService<Church>{
+public interface ChurchService{
+
+	public ResultObject list(ListParams input);
 
 }

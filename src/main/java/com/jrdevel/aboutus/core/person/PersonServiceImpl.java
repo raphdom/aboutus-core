@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jrdevel.aboutus.core.common.AbstractGenericService;
 import com.jrdevel.aboutus.core.common.model.Person;
 import com.jrdevel.aboutus.core.common.to.ListParams;
 import com.jrdevel.aboutus.core.common.to.ListResult;
@@ -17,7 +16,7 @@ import com.jrdevel.aboutus.core.common.to.ResultObject;
  *
  */
 @Service
-public class PersonServiceImpl extends AbstractGenericService<Person> implements PersonService{
+public class PersonServiceImpl implements PersonService{
 	
 	@Autowired
 	private PersonDAO personDAO;
@@ -41,7 +40,7 @@ public class PersonServiceImpl extends AbstractGenericService<Person> implements
 	@Transactional
 	public ResultObject list(ListParams params) {
 		ListResult<PersonView> listResult = personDAO.findAllByView(params, PersonView.class);
-		ResultObject result = newResultObject();
+		ResultObject result = new ResultObject();
 		result.setData(listResult.getData());
 		result.setTotal(listResult.getTotal());
 		//personDAO.teste();
@@ -51,11 +50,11 @@ public class PersonServiceImpl extends AbstractGenericService<Person> implements
 	@Transactional
 	public ResultObject get(Person bean) {
 		
-		ResultObject result = newResultObject();
+		ResultObject result = new ResultObject();
 		
 		if (bean == null || bean.getId() == null){
 			result.setSuccess(false);
-			result.addErrorMessage("Pessoa n�o existe.");
+			result.addErrorMessage("Pessoa não existe.");
 		}else{
 			Person person = personDAO.findById(bean.getId(),false);
 			result.setData(person);
@@ -68,7 +67,7 @@ public class PersonServiceImpl extends AbstractGenericService<Person> implements
 	@Transactional
 	public ResultObject delete(List<Person> beans) {
 		
-		ResultObject result = newResultObject();
+		ResultObject result = new ResultObject();
 		
 		for (Person person: beans){
 			personDAO.makeTransient(person);
@@ -79,9 +78,7 @@ public class PersonServiceImpl extends AbstractGenericService<Person> implements
 	}
 
 
-	@Override
 	public ResultObject insert(Person bean) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

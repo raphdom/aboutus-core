@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
-import com.jrdevel.aboutus.core.common.AbstractGenericService;
 import com.jrdevel.aboutus.core.common.configuration.AboutUsConfiguration;
 import com.jrdevel.aboutus.core.common.model.File;
 import com.jrdevel.aboutus.core.common.model.FileData;
@@ -27,7 +26,7 @@ import com.jrdevel.aboutus.core.common.to.ResultObject;
  *
  */
 @Service
-public class CloudServiceImpl extends AbstractGenericService<File> implements CloudService{
+public class CloudServiceImpl implements CloudService{
 	
 	private FileDAO fileDAO;
 	private FileDataDAO fileDataDAO;
@@ -134,7 +133,7 @@ public class CloudServiceImpl extends AbstractGenericService<File> implements Cl
 	public ResultObject list(ListParams params) {
 		
 		ListResult<FileView> listResult = fileDAO.findAllByView(params, FileView.class);
-		ResultObject result = newResultObject();
+		ResultObject result = new ResultObject();
 		result.setData(listResult.getData());
 		result.setTotal(listResult.getTotal());
 		
@@ -142,12 +141,10 @@ public class CloudServiceImpl extends AbstractGenericService<File> implements Cl
 		
 	}
 
-	@Override
 	public ResultObject update(File bean) {
 		return null;
 	}
 
-	@Override
 	public ResultObject get(File bean) {
 		return null;
 	}
@@ -196,7 +193,7 @@ public class CloudServiceImpl extends AbstractGenericService<File> implements Cl
 	@Transactional
 	public ResultObject delete(List<File> beans) {
 		
-		ResultObject result = newResultObject();
+		ResultObject result = new ResultObject();
 		
 		for (File file : beans){
 			File beanDB = fileDAO.findById(file.getId(), false);
@@ -211,9 +208,7 @@ public class CloudServiceImpl extends AbstractGenericService<File> implements Cl
 		return result;
 	}
 
-	@Override
 	public ResultObject insert(File bean) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

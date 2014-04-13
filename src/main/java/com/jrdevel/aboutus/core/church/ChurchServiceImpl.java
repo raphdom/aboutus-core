@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jrdevel.aboutus.core.common.AbstractGenericService;
 import com.jrdevel.aboutus.core.common.model.Church;
 import com.jrdevel.aboutus.core.common.to.ListParams;
 import com.jrdevel.aboutus.core.common.to.ListResult;
@@ -17,7 +16,7 @@ import com.jrdevel.aboutus.core.common.to.ResultObject;
  *
  */
 @Service
-public class ChurchServiceImpl extends AbstractGenericService<Church> implements ChurchService{
+public class ChurchServiceImpl implements ChurchService{
 	
 	@Autowired
 	private ChurchDAO churchDAO;
@@ -25,7 +24,10 @@ public class ChurchServiceImpl extends AbstractGenericService<Church> implements
 	@Transactional
 	public ResultObject list(ListParams params) {
 		ListResult<ChurchView> listResult = churchDAO.findAllByView(params, ChurchView.class);
-		return newResultObject(listResult);
+		ResultObject resultObject = new ResultObject();
+		resultObject.setData(listResult.getData());
+		resultObject.setTotal(listResult.getTotal());
+		return resultObject;
 	}
 
 	@Transactional

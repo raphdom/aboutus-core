@@ -1,34 +1,29 @@
 package com.jrdevel.aboutus.core.user;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jrdevel.aboutus.core.common.AbstractGenericService;
-import com.jrdevel.aboutus.core.common.model.Group;
-import com.jrdevel.aboutus.core.common.model.Permission;
 import com.jrdevel.aboutus.core.common.model.User;
 import com.jrdevel.aboutus.core.common.to.ListParams;
 import com.jrdevel.aboutus.core.common.to.ListResult;
 import com.jrdevel.aboutus.core.common.to.ResultObject;
-import com.jrdevel.aboutus.core.util.PasswordGenerator;
 
 /**
  * @author Raphael Domingues
  *
  */
 @Service
-public class UserServiceImpl extends AbstractGenericService<User> implements UserService{
+public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private UserDAO userDAO;
 	
-	@Secured("ROLE_UPDATE_USERS")
+	private GroupDAO groupDAO;
+	
+	/*@Secured("ROLE_UPDATE_USERS")
 	@Transactional
 	public ResultObject update(User entity){
 		
@@ -42,7 +37,7 @@ public class UserServiceImpl extends AbstractGenericService<User> implements Use
 	
 	@Secured("ROLE_INSERT_USERS")
 	@Transactional
-	public ResultObject insert(User entity){
+	public ResultObject insert(UserView entity){
 		
 		ResultObject result = new ResultObject();
 
@@ -85,7 +80,7 @@ public class UserServiceImpl extends AbstractGenericService<User> implements Use
 			result.setSuccess(false);
 			result.addErrorMessage("Utilizador não existe.");
 		}else{
-			User user = userDAO.getUserById(bean.getId());
+			UserView user = userDAO.findUniqueByViewAndId(bean.getId(),UserView.class);
 			result.setData(user);
 		}
 		
@@ -105,7 +100,7 @@ public class UserServiceImpl extends AbstractGenericService<User> implements Use
 		return result;
 	}
 	
-	@Transactional
+	/*@Transactional
 	public List<Permission> getUserPermissions(User bean){
 		
 		List<Permission> permissions = new ArrayList<Permission>();
@@ -118,16 +113,69 @@ public class UserServiceImpl extends AbstractGenericService<User> implements Use
 		
 		return permissions;
 		
+	}*/
+	
+	@Transactional
+	public ResultObject list(ListParams params) {
+		
+		ResultObject result = new ResultObject();
+		
+		ListResult<UserListView> listResult = userDAO.findAllByView(params, UserListView.class);
+		
+		result.setData(listResult.getData());
+		result.setTotal(listResult.getTotal());
+		
+		return result;
 	}
+	
+	@Transactional
+	public ResultObject get(Integer id) {
+		
+		ResultObject result = new ResultObject();
+		
+		UserView user = userDAO.findUniqueByViewAndId(id,UserView.class);
+		
+		if (user != null && user.getId() != null){
+			result.setData(user);
+		}else{
+			result.setSuccess(false);
+			result.addErrorMessage("Utilizador não existe.");
+		}
+		
+		return result;
+	}
+	
+	public ResultObject save(UserView bean) {
+		if (bean.getId() != null && bean.getId() != 0){
+			return update(bean);
+		}else{
+			return insert(bean);
+		}
+	}
+
+	@Transactional
+	public ResultObject update(UserView bean) {
+		return null;
+	}
+
+	@Transactional
+	public ResultObject insert(UserView bean) {
+		return null;
+	}
+
+	@Transactional
+	public ResultObject delete(List<Integer> beans) {
+		return null;
+	}
+	
 	
 	//Private methods
 	private boolean existUserEmail(String email) {
-		
-		User bean = userDAO.getUserByEmail(email);
-		
-		return bean != null;
-		
-	}
 
+		User bean = userDAO.getUserByEmail(email);
+
+		return bean != null;
+
+	}
 
 }

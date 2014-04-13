@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
-import com.jrdevel.aboutus.core.common.AbstractGenericService;
 import com.jrdevel.aboutus.core.common.model.Folder;
 import com.jrdevel.aboutus.core.common.model.FolderRole;
 import com.jrdevel.aboutus.core.common.model.User;
@@ -21,7 +20,7 @@ import com.jrdevel.aboutus.core.common.to.ResultObject;
  *
  */
 @Service
-public class FolderServiceImpl extends AbstractGenericService<Folder> implements FolderService{
+public class FolderServiceImpl implements FolderService{
 	
 	@Autowired
 	private FolderDAO folderDAO;
@@ -84,7 +83,6 @@ public class FolderServiceImpl extends AbstractGenericService<Folder> implements
 	}
 
 
-	@Override
 	public ResultObject list(ListParams params) {
 		return null;
 	}
@@ -101,7 +99,7 @@ public class FolderServiceImpl extends AbstractGenericService<Folder> implements
 		roleDefault.setFolder(bean);
 		folderRoleDAO.makePersistent(roleDefault);
 		
-		return newResultObject();
+		return new ResultObject();
 	}
 
 
@@ -111,17 +109,15 @@ public class FolderServiceImpl extends AbstractGenericService<Folder> implements
 		bean.setCustomer(UserAuthenticatedManager.getCurrentCustomer());
 		folderDAO.makePersistent(bean);
 		
-		return newResultObject();
+		return new ResultObject();
 	}
 
 
-	@Override
 	public ResultObject get(Folder bean) {
 		return null;
 	}
 
 
-	@Override
 	public ResultObject delete(List<Folder> beans) {
 		return null;
 	}
