@@ -1,15 +1,26 @@
 package com.jrdevel.aboutus.core.user;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
+import com.jrdevel.aboutus.core.common.model.Church;
+import com.jrdevel.aboutus.core.common.model.Group;
+import com.jrdevel.aboutus.core.common.model.Permission;
+import com.jrdevel.aboutus.core.common.model.Person;
 import com.jrdevel.aboutus.core.common.model.User;
 import com.jrdevel.aboutus.core.common.to.ListParams;
 import com.jrdevel.aboutus.core.common.to.ListResult;
 import com.jrdevel.aboutus.core.common.to.ResultObject;
+import com.jrdevel.aboutus.core.dto.UserDTO;
+import com.jrdevel.aboutus.core.dto.UserListDTO;
+import com.jrdevel.aboutus.core.util.PasswordGenerator;
 
 /**
  * @author Raphael Domingues
@@ -21,6 +32,7 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private UserDAO userDAO;
 	
+	@Autowired
 	private GroupDAO groupDAO;
 	
 	/*@Secured("ROLE_UPDATE_USERS")
@@ -116,13 +128,28 @@ public class UserServiceImpl implements UserService{
 	}*/
 	
 	@Transactional
+	@Secured("ROLE_LIST_USERS")
 	public ResultObject list(ListParams params) {
 		
 		ResultObject result = new ResultObject();
 		
 		ListResult<UserListView> listResult = userDAO.findAllByView(params, UserListView.class);
 		
-		result.setData(listResult.getData());
+		List<UserListDTO> dtos = new ArrayList<UserListDTO>();
+		
+		for(UserListView userBean : listResult.getData()){
+			UserListDTO dto = new UserListDTO();
+			dto.setId(userBean.getId());
+			dto.setEmail(userBean.getEmail());
+			dto.setPersonName(userBean.getPersonName());
+			dto.setChurchName(userBean.getChurchName());
+			dto.setBlock(userBean.isBlock());
+			dto.setActivation(userBean.isActivation());
+			dto.setLastvisitDate(userBean.getLastvisitDate());
+			dtos.add(dto);
+		}
+		
+		result.setData(dtos);
 		result.setTotal(listResult.getTotal());
 		
 		return result;
@@ -133,10 +160,29 @@ public class UserServiceImpl implements UserService{
 		
 		ResultObject result = new ResultObject();
 		
-		UserView user = userDAO.findUniqueByViewAndId(id,UserView.class);
+		User userDB = userDAO.getUserById(id);
 		
-		if (user != null && user.getId() != null){
-			result.setData(user);
+		if (userDB != null && userDB.getId() != null){
+			
+			UserDTO dto = new UserDTO();
+			dto.setId(userDB.getId());
+			dto.setEmail(userDB.getEmail());
+			if (userDB.getPerson() != null){
+				dto.setPersonId(userDB.getPerson().getId());
+			}
+			dto.setChurchId(userDB.getChurch().getId());
+			List<Integer> groups = new ArrayList<Integer>();
+			for (Group group : userDB.getGroups()){
+				groups.add(group.getId());
+			}
+			dto.setGroups(groups);
+			List<Integer> permissions = new ArrayList<Integer>();
+			for (Permission permission : userDB.getPermissions()){
+				permissions.add(permission.getId());
+			}
+			dto.setPermissions(permissions);
+			result.setData(dto);
+			
 		}else{
 			result.setSuccess(false);
 			result.addErrorMessage("Utilizador não existe.");
@@ -145,21 +191,51 @@ public class UserServiceImpl implements UserService{
 		return result;
 	}
 	
-	public ResultObject save(UserView bean) {
-		if (bean.getId() != null && bean.getId() != 0){
-			return update(bean);
+	@Transactional
+	public ResultObject save(UserDTO userDTO) {
+		if (existUserEmail(userDTO.getEmail())){
+			ResultObject result = new ResultObject();
+			result.setSuccess(false);
+			result.addErrorMessage("Este email já se encontra registado no sistema.");
+			return result;
+		}
+		if (userDTO.getId() != null && userDTO.getId() != 0){
+			return update(userDTO);
 		}else{
-			return insert(bean);
+			return insert(userDTO);
 		}
 	}
 
 	@Transactional
-	public ResultObject update(UserView bean) {
-		return null;
-	}
+	@Secured("ROLE_INSERT_USERS")
+	public ResultObject insert(UserDTO userDTO) {
+		
+		ResultObject result = new ResultObject();
 
+		Person person = new Person();
+		person.setId(userDTO.getPersonId());
+		
+		Church church = new Church();
+		church.setId(userDTO.getChurchId());
+		
+		User entity = new User();
+		entity.setId(null);
+		entity.setEmail(userDTO.getEmail());
+		entity.setRegisterDate(new Date());
+		entity.setPassword(PasswordGenerator.passGenerator(8));
+		entity.setPerson(person);
+		entity.setChurch(church);
+		entity.setCustomer(UserAuthenticatedManager.getCurrentCustomer());
+
+		userDAO.makePersistent(entity);
+
+		return result;
+		
+	}
+	
 	@Transactional
-	public ResultObject insert(UserView bean) {
+	@Secured("ROLE_UPDATE_USERS")
+	public ResultObject update(UserDTO userDTO) {
 		return null;
 	}
 
@@ -170,6 +246,7 @@ public class UserServiceImpl implements UserService{
 	
 	
 	//Private methods
+	@Transactional
 	private boolean existUserEmail(String email) {
 
 		User bean = userDAO.getUserByEmail(email);

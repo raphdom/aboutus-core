@@ -1,5 +1,7 @@
 package com.jrdevel.aboutus.core.user;
 
+import java.util.List;
+
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.criterion.Restrictions;
@@ -21,12 +23,18 @@ public class GroupDAOImpl extends AbstractGenericDAO<Group, Integer> implements 
 		
 	}
 	
-	
 	public Group getGroupById(int id){
 		Criteria crit = getSession().createCriteria(getPersistentClass());
 		crit.setFetchMode("permissions", FetchMode.JOIN);
 		crit.add(Restrictions.eq("id", id));
 		return (Group) crit.uniqueResult();
+	}
+
+
+	public List<Integer> getUserGroups(Integer userId) {
+		Criteria crit = getSession().createCriteria(getPersistentClass());
+		crit.add(Restrictions.eq("user.id", userId));
+		return crit.list();
 	}
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.jrdevel.aboutus.core.common.to.ListParams;
 import com.jrdevel.aboutus.core.common.to.ResultObject;
+import com.jrdevel.aboutus.core.dto.UserDTO;
 
 /**
  * @author Raphael Domingues
@@ -13,9 +14,9 @@ public interface UserService{
 	
 	public ResultObject list(ListParams params);
 	public ResultObject get(Integer id);
-	public ResultObject update(UserView bean);
-	public ResultObject insert(UserView bean);
-	public ResultObject save(UserView bean);
+	public ResultObject update(UserDTO userDTO);
+	public ResultObject insert(UserDTO userDTO);
+	public ResultObject save(UserDTO userDTO);
 	public ResultObject delete(List<Integer> beans);
 	
 
