@@ -32,9 +32,6 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private UserDAO userDAO;
 	
-	@Autowired
-	private GroupDAO groupDAO;
-	
 	/*@Secured("ROLE_UPDATE_USERS")
 	@Transactional
 	public ResultObject update(User entity){
@@ -236,12 +233,39 @@ public class UserServiceImpl implements UserService{
 	@Transactional
 	@Secured("ROLE_UPDATE_USERS")
 	public ResultObject update(UserDTO userDTO) {
-		return null;
+		
+		ResultObject result = new ResultObject();
+
+		Person person = new Person();
+		person.setId(userDTO.getPersonId());
+		
+		Church church = new Church();
+		church.setId(userDTO.getChurchId());
+		
+		User entity = userDAO.findById(userDTO.getId(), false);
+		
+		entity.setEmail(userDTO.getEmail());
+		entity.setPerson(person);
+		entity.setChurch(church);
+		
+		userDAO.makePersistent(entity);
+
+		return result;
 	}
 
 	@Transactional
+	@Secured("ROLE_DELETE_USERS")
 	public ResultObject delete(List<Integer> beans) {
-		return null;
+		
+		ResultObject result = new ResultObject();
+		
+		for (Integer id: beans){
+			User user = userDAO.findById(id, false);
+			userDAO.makeTransient(user);
+		}
+		
+		return result;
+		
 	}
 	
 	
