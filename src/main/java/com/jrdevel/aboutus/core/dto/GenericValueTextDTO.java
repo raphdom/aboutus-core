@@ -1,4 +1,4 @@
-package com.jrdevel.aboutus.core.common.to;
+package com.jrdevel.aboutus.core.dto;
 
 import java.io.Serializable;
 
@@ -6,7 +6,7 @@ import java.io.Serializable;
  * @author Raphael Domingues
  *
  */
-public class GenericValueText implements Serializable{
+public class GenericValueTextDTO implements Serializable{
 
 	private static final long serialVersionUID = -4112522759204799523L;
 	

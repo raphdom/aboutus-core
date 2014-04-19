@@ -2,10 +2,10 @@ package com.jrdevel.aboutus.core.common;
 
 import java.util.List;
 
-import com.jrdevel.aboutus.core.common.to.GenericValueText;
+import com.jrdevel.aboutus.core.dto.GenericValueTextDTO;
 
-public interface ListDAO extends GenericDAO<GenericValueText, Integer>{
+public interface ListDAO extends GenericDAO<GenericValueTextDTO, Integer>{
 	
-	public List<GenericValueText> getList(int listType);
+	public List<GenericValueTextDTO> getList(int listType);
 
 }

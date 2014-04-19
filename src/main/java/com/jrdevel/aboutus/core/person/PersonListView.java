@@ -9,7 +9,7 @@ import com.jrdevel.aboutus.core.common.view.Projection;
  * @author Raphael Domingues
  *
  */
-public class PersonView implements Serializable{
+public class PersonListView implements Serializable{
 
 	private static final long serialVersionUID = -952498841612285280L;
 	private Integer id;

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jrdevel.aboutus.core.common.to.GenericValueText;
+import com.jrdevel.aboutus.core.dto.GenericValueTextDTO;
 
 /**
  * @author Raphael Domingues
@@ -27,7 +27,7 @@ public class ListService {
 	}
 	
 	@Transactional
-	public List<GenericValueText> getList(int listType){
+	public List<GenericValueTextDTO> getList(int listType){
 		return listDAO.getList(listType);
 	}
 

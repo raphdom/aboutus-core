@@ -11,20 +11,20 @@ import org.springframework.stereotype.Repository;
 import com.jrdevel.aboutus.core.common.constants.DAOConstants;
 import com.jrdevel.aboutus.core.common.model.lists.translate.CivilStatusTranslate;
 import com.jrdevel.aboutus.core.common.model.lists.translate.CountryTranslate;
-import com.jrdevel.aboutus.core.common.to.GenericValueText;
+import com.jrdevel.aboutus.core.dto.GenericValueTextDTO;
 
 /**
  * @author Raphael Domingues
  *
  */
 @Repository
-public class ListDAOImpl extends AbstractGenericDAO<GenericValueText, Integer> implements ListDAO{
+public class ListDAOImpl extends AbstractGenericDAO<GenericValueTextDTO, Integer> implements ListDAO{
 	
 	public void setExtraFilters(Criteria criteria) {
 		
 	}
 	
-	public List<GenericValueText> getList(int listType){
+	public List<GenericValueTextDTO> getList(int listType){
 		switch(listType){
 			case DAOConstants.COUNTRY_LIST:
 				return getCountryList();
@@ -35,14 +35,14 @@ public class ListDAOImpl extends AbstractGenericDAO<GenericValueText, Integer> i
 	}
 	
 	@SuppressWarnings("unchecked")
-	private List<GenericValueText> getCountryList(){
-		List<GenericValueText> itens = new ArrayList<GenericValueText>();
+	private List<GenericValueTextDTO> getCountryList(){
+		List<GenericValueTextDTO> itens = new ArrayList<GenericValueTextDTO>();
 		Criteria criteria = getSession().createCriteria(CountryTranslate.class);
 		criteria.add(Restrictions.eq("langId", "pt_PT"));
 		criteria.addOrder(Order.asc("text"));
 		List<CountryTranslate> data = criteria.list();
 		for (CountryTranslate bean: data){
-			GenericValueText item = new GenericValueText();
+			GenericValueTextDTO item = new GenericValueTextDTO();
 			item.setValue(bean.getCountry().getId());
 			item.setText(bean.getText());
 			itens.add(item);
@@ -51,14 +51,14 @@ public class ListDAOImpl extends AbstractGenericDAO<GenericValueText, Integer> i
 	}
 	
 	@SuppressWarnings("unchecked")
-	private List<GenericValueText> getCivilStatusList(){
-		List<GenericValueText> itens = new ArrayList<GenericValueText>();
+	private List<GenericValueTextDTO> getCivilStatusList(){
+		List<GenericValueTextDTO> itens = new ArrayList<GenericValueTextDTO>();
 		Criteria criteria = getSession().createCriteria(CivilStatusTranslate.class);
 		criteria.add(Restrictions.eq("langId", "pt_PT"));
 		criteria.addOrder(Order.asc("text"));
 		List<CivilStatusTranslate> data = criteria.list();
 		for (CivilStatusTranslate bean: data){
-			GenericValueText item = new GenericValueText();
+			GenericValueTextDTO item = new GenericValueTextDTO();
 			item.setValue(bean.getCivilStatus().getId());
 			item.setText(bean.getText());
 			itens.add(item);

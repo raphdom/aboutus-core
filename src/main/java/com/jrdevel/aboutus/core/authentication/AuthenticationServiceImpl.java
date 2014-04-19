@@ -152,7 +152,7 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 		person.setChurch(church);
 		person.setCustomer(customer);
 
-		personService.update(person);
+		//personService.update(person);
 
 		return person;
 	}

@@ -2,9 +2,9 @@ package com.jrdevel.aboutus.core.person;
 
 import java.util.List;
 
-import com.jrdevel.aboutus.core.common.model.Person;
 import com.jrdevel.aboutus.core.common.to.ListParams;
 import com.jrdevel.aboutus.core.common.to.ResultObject;
+import com.jrdevel.aboutus.core.dto.PersonDTO;
 
 
 /**
@@ -13,12 +13,12 @@ import com.jrdevel.aboutus.core.common.to.ResultObject;
  */
 public interface PersonService{
 
-	public ResultObject list(ListParams input);
-
-	public ResultObject update(Person data);
-
-	public ResultObject get(Person input);
-
-	public ResultObject delete(List<Person> input);
+	public ResultObject list(ListParams params);
+	public ResultObject listNames();
+	public ResultObject get(Integer id);
+	public ResultObject update(PersonDTO personDTO);
+	public ResultObject insert(PersonDTO personDTO);
+	public ResultObject save(PersonDTO personDTO);
+	public ResultObject delete(List<Integer> beans);
 	
 }

@@ -1,15 +1,18 @@
 package com.jrdevel.aboutus.core.person;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jrdevel.aboutus.core.common.model.Person;
 import com.jrdevel.aboutus.core.common.to.ListParams;
 import com.jrdevel.aboutus.core.common.to.ListResult;
 import com.jrdevel.aboutus.core.common.to.ResultObject;
+import com.jrdevel.aboutus.core.dto.GenericValueTextDTO;
+import com.jrdevel.aboutus.core.dto.PersonDTO;
+import com.jrdevel.aboutus.core.dto.PersonListDTO;
 
 /**
  * @author Raphael Domingues
@@ -20,9 +23,79 @@ public class PersonServiceImpl implements PersonService{
 	
 	@Autowired
 	private PersonDAO personDAO;
+
+	@Transactional
+	public ResultObject list(ListParams params) {
+		ResultObject result = new ResultObject();
+		
+		ListResult<PersonListView> listResult = personDAO.findAllByView(params, PersonListView.class);
+		
+		List<PersonListDTO> dtos = new ArrayList<PersonListDTO>();
+		
+		for(PersonListView userBean : listResult.getData()){
+			PersonListDTO dto = new PersonListDTO();
+			dto.setId(userBean.getId());
+			dto.setName(userBean.getName());
+			dto.setMale(userBean.isMale());
+			dto.setCivilStatus(userBean.getCivilStatus());
+			dto.setNaturality(userBean.getNaturality());
+			dto.setMember(userBean.isMember());
+			dto.setBirthday(userBean.getBirthday());
+			dto.setNif(userBean.getNif());
+			dto.setProfession(userBean.getProfession());
+			dto.setMemberType(userBean.getMemberType());
+			dtos.add(dto);
+		}
+		
+		result.setData(dtos);
+		result.setTotal(listResult.getTotal());
+		
+		return result;
+	}
 	
-	
-	@Transactional()
+	@Transactional
+	public ResultObject listNames() {
+		
+		ResultObject result = new ResultObject();
+		
+		List<GenericValueTextDTO> dtos = new ArrayList<GenericValueTextDTO>();
+		
+		ListResult<PersonComboListView> listResult = personDAO.findComboList();
+		
+		for(PersonComboListView userBean : listResult.getData()){
+			GenericValueTextDTO dto = new GenericValueTextDTO();
+			dto.setValue(Integer.toString(userBean.getId()));
+			dto.setText(userBean.getName());
+			dtos.add(dto);
+		}
+		
+		result.setData(dtos);
+		result.setTotal(listResult.getTotal());
+		
+		return result;
+	}
+
+	public ResultObject get(Integer id) {
+		return null;
+	}
+
+	public ResultObject update(PersonDTO personDTO) {
+		return null;
+	}
+
+	public ResultObject insert(PersonDTO personDTO) {
+		return null;
+	}
+
+	public ResultObject save(PersonDTO personDTO) {
+		return null;
+	}
+
+	public ResultObject delete(List<Integer> beans) {
+		return null;
+	}
+
+	/*@Transactional()
 	public ResultObject update(Person person){
 		ResultObject result = new ResultObject();
 		
@@ -80,7 +153,7 @@ public class PersonServiceImpl implements PersonService{
 
 	public ResultObject insert(Person bean) {
 		return null;
-	}
+	}*/
 
 
 
