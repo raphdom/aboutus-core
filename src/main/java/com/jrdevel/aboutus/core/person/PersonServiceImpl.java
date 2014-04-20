@@ -7,10 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jrdevel.aboutus.core.common.GenericIdTextView;
 import com.jrdevel.aboutus.core.common.to.ListParams;
 import com.jrdevel.aboutus.core.common.to.ListResult;
 import com.jrdevel.aboutus.core.common.to.ResultObject;
-import com.jrdevel.aboutus.core.dto.GenericValueTextDTO;
+import com.jrdevel.aboutus.core.dto.GenericIdTextDTO;
 import com.jrdevel.aboutus.core.dto.PersonDTO;
 import com.jrdevel.aboutus.core.dto.PersonListDTO;
 
@@ -58,14 +59,14 @@ public class PersonServiceImpl implements PersonService{
 		
 		ResultObject result = new ResultObject();
 		
-		List<GenericValueTextDTO> dtos = new ArrayList<GenericValueTextDTO>();
+		List<GenericIdTextDTO> dtos = new ArrayList<GenericIdTextDTO>();
 		
-		ListResult<PersonComboListView> listResult = personDAO.findComboList();
+		ListResult<GenericIdTextView> listResult = personDAO.findComboList();
 		
-		for(PersonComboListView userBean : listResult.getData()){
-			GenericValueTextDTO dto = new GenericValueTextDTO();
-			dto.setValue(Integer.toString(userBean.getId()));
-			dto.setText(userBean.getName());
+		for(GenericIdTextView view : listResult.getData()){
+			GenericIdTextDTO dto = new GenericIdTextDTO();
+			dto.setValue(view.getValue());
+			dto.setText(view.getText());
 			dtos.add(dto);
 		}
 		

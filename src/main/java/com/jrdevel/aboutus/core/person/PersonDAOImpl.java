@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
 import com.jrdevel.aboutus.core.common.AbstractGenericDAO;
+import com.jrdevel.aboutus.core.common.GenericIdTextView;
 import com.jrdevel.aboutus.core.common.model.Person;
 import com.jrdevel.aboutus.core.common.to.ListResult;
 
@@ -56,19 +57,19 @@ public class PersonDAOImpl extends AbstractGenericDAO<Person, Integer> implement
 	}
 
 	@SuppressWarnings("unchecked")
-	public ListResult<PersonComboListView> findComboList() {
+	public ListResult<GenericIdTextView> findComboList() {
 		Criteria criteria = getSession().createCriteria(getPersistentClass());
 		criteria.add(Restrictions.eq("customer.id", UserAuthenticatedManager.getCurrentCustomer().getId()));
 		
 		criteria.setProjection( Projections.projectionList()
-                .add( Projections.property("id"), "id" )
-                .add( Projections.property("name"), "name" ));
+                .add( Projections.property("id"), "value" )
+                .add( Projections.property("name"), "text" ));
 		
-		criteria.setResultTransformer(Transformers.aliasToBean(PersonComboListView.class));
+		criteria.setResultTransformer(Transformers.aliasToBean(GenericIdTextView.class));
 		
-		List<PersonComboListView> list = criteria.list();
+		List<GenericIdTextView> list = criteria.list();
 		
-		return new ListResult<PersonComboListView>(list, list.size());
+		return new ListResult<GenericIdTextView>(list, list.size());
 	}
 
 }

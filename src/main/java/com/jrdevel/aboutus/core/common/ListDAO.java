@@ -6,6 +6,8 @@ import com.jrdevel.aboutus.core.dto.GenericValueTextDTO;
 
 public interface ListDAO extends GenericDAO<GenericValueTextDTO, Integer>{
 	
-	public List<GenericValueTextDTO> getList(int listType);
+	public List<GenericValueTextView> getCountryList();
+	public List<GenericValueTextView> getCivilStatusList();
+	public List<GenericValueTextView> getMemberTypeList();
 
 }
