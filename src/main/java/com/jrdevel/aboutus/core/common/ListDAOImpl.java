@@ -10,6 +10,7 @@ import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 
 import com.jrdevel.aboutus.core.common.model.lists.translate.CivilStatusTranslate;
+import com.jrdevel.aboutus.core.common.model.lists.translate.ContactTypeTranslate;
 import com.jrdevel.aboutus.core.common.model.lists.translate.CountryTranslate;
 import com.jrdevel.aboutus.core.common.model.lists.translate.MemberTypeTranslate;
 import com.jrdevel.aboutus.core.dto.GenericValueTextDTO;
@@ -35,6 +36,10 @@ public class ListDAOImpl extends AbstractGenericDAO<GenericValueTextDTO, Integer
 
 	public List<GenericValueTextView> getMemberTypeList() {
 		return getList(MemberTypeTranslate.class, "memberType");
+	}
+	
+	public List<GenericValueTextView> getContactTypeList() {
+		return getList(ContactTypeTranslate.class, "contactType");
 	}
 	
 	@SuppressWarnings("unchecked")

@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.jrdevel.aboutus.core.common.to.ListParams;
 import com.jrdevel.aboutus.core.common.to.ResultObject;
-import com.jrdevel.aboutus.core.dto.PersonDTO;
 
 
 /**

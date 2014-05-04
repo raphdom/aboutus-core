@@ -1,4 +1,4 @@
-package com.jrdevel.aboutus.core.dto;
+package com.jrdevel.aboutus.core.person;
 
 import java.io.Serializable;
 import java.util.Date;

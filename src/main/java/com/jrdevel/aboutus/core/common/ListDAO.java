@@ -9,5 +9,6 @@ public interface ListDAO extends GenericDAO<GenericValueTextDTO, Integer>{
 	public List<GenericValueTextView> getCountryList();
 	public List<GenericValueTextView> getCivilStatusList();
 	public List<GenericValueTextView> getMemberTypeList();
+	public List<GenericValueTextView> getContactTypeList();
 
 }

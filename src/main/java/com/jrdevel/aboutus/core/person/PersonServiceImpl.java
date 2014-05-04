@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,8 +13,6 @@ import com.jrdevel.aboutus.core.common.to.ListParams;
 import com.jrdevel.aboutus.core.common.to.ListResult;
 import com.jrdevel.aboutus.core.common.to.ResultObject;
 import com.jrdevel.aboutus.core.dto.GenericIdTextDTO;
-import com.jrdevel.aboutus.core.dto.PersonDTO;
-import com.jrdevel.aboutus.core.dto.PersonListDTO;
 
 /**
  * @author Raphael Domingues
@@ -80,16 +79,24 @@ public class PersonServiceImpl implements PersonService{
 		return null;
 	}
 
+	@Transactional
+	@Secured("ROLE_UPDATE_PEOPLE")
 	public ResultObject update(PersonDTO personDTO) {
 		return null;
 	}
 
+	@Transactional
+	@Secured("ROLE_INSERT_PEOPLE")
 	public ResultObject insert(PersonDTO personDTO) {
 		return null;
 	}
 
 	public ResultObject save(PersonDTO personDTO) {
-		return null;
+		if (personDTO.getId() != null && personDTO.getId() != 0){
+			return update(personDTO);
+		}else{
+			return insert(personDTO);
+		}
 	}
 
 	public ResultObject delete(List<Integer> beans) {

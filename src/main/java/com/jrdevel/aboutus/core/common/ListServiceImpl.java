@@ -24,16 +24,7 @@ public class ListServiceImpl implements ListService{
 		
 		List<GenericValueTextView> listView = listDAO.getCivilStatusList();
 		
-		List<GenericValueTextDTO> dtos = new ArrayList<GenericValueTextDTO>();
-		
-		for(GenericValueTextView view : listView){
-			GenericValueTextDTO dto = new GenericValueTextDTO();
-			dto.setValue(view.getValue());
-			dto.setText(view.getText());
-			dtos.add(dto);
-		}
-		
-		return dtos;
+		return beansToDTOs(listView);
 		
 	}
 
@@ -42,16 +33,8 @@ public class ListServiceImpl implements ListService{
 		
 		List<GenericValueTextView> listView = listDAO.getCountryList();
 		
-		List<GenericValueTextDTO> dtos = new ArrayList<GenericValueTextDTO>();
+		return beansToDTOs(listView);
 		
-		for(GenericValueTextView view : listView){
-			GenericValueTextDTO dto = new GenericValueTextDTO();
-			dto.setValue(view.getValue());
-			dto.setText(view.getText());
-			dtos.add(dto);
-		}
-		
-		return dtos;
 	}
 	
 	@Transactional
@@ -59,12 +42,26 @@ public class ListServiceImpl implements ListService{
 
 		List<GenericValueTextView> listView = listDAO.getMemberTypeList();
 		
+		return beansToDTOs(listView);
+		
+	}
+	
+	@Transactional
+	public List<GenericValueTextDTO> getContactType() {
+
+		List<GenericValueTextView> listView = listDAO.getContactTypeList();
+		
+		return beansToDTOs(listView);
+		
+	}
+	
+	private List<GenericValueTextDTO> beansToDTOs(List<GenericValueTextView> beans){
 		List<GenericValueTextDTO> dtos = new ArrayList<GenericValueTextDTO>();
 		
-		for(GenericValueTextView view : listView){
+		for(GenericValueTextView bean : beans){
 			GenericValueTextDTO dto = new GenericValueTextDTO();
-			dto.setValue(view.getValue());
-			dto.setText(view.getText());
+			dto.setValue(bean.getValue());
+			dto.setText(bean.getText());
 			dtos.add(dto);
 		}
 		
