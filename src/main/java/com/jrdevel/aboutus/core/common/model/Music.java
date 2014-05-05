@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 29/Mar/2014 22:16:19 by Hibernate Tools 3.4.0.CR1
+// Generated 5/mai/2014 23:56:03 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import java.util.HashSet;
@@ -44,8 +44,8 @@ public class Music implements java.io.Serializable {
 	private String author;
 	private String musicNotes;
 	private boolean favorite;
-	private Set<Tab> tabs = new HashSet<Tab>(0);
 	private Set<Playlist> playlists = new HashSet<Playlist>(0);
+	private Set<Tab> tabs = new HashSet<Tab>(0);
 
 	public Music() {
 	}
@@ -61,7 +61,7 @@ public class Music implements java.io.Serializable {
 			String drumsStyle, Integer time, String originalTone,
 			String observations, String link, Date createDate,
 			Date modificationDate, String author, String musicNotes,
-			boolean favorite, Set<Tab> tabs, Set<Playlist> playlists) {
+			boolean favorite, Set<Playlist> playlists, Set<Tab> tabs) {
 		this.folder = folder;
 		this.title = title;
 		this.liryc = liryc;
@@ -76,8 +76,8 @@ public class Music implements java.io.Serializable {
 		this.author = author;
 		this.musicNotes = musicNotes;
 		this.favorite = favorite;
-		this.tabs = tabs;
 		this.playlists = playlists;
+		this.tabs = tabs;
 	}
 
 	@Id
@@ -230,15 +230,6 @@ public class Music implements java.io.Serializable {
 		this.favorite = favorite;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "music")
-	public Set<Tab> getTabs() {
-		return this.tabs;
-	}
-
-	public void setTabs(Set<Tab> tabs) {
-		this.tabs = tabs;
-	}
-
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "tbl_musics_playlist", joinColumns = { @JoinColumn(name = "id_music", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "id_playlist", nullable = false, updatable = false) })
 	public Set<Playlist> getPlaylists() {
@@ -247,6 +238,15 @@ public class Music implements java.io.Serializable {
 
 	public void setPlaylists(Set<Playlist> playlists) {
 		this.playlists = playlists;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "music")
+	public Set<Tab> getTabs() {
+		return this.tabs;
+	}
+
+	public void setTabs(Set<Tab> tabs) {
+		this.tabs = tabs;
 	}
 
 }

@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model.lists.translate;
 
-// Generated 29/Mar/2014 22:16:19 by Hibernate Tools 3.4.0.CR1
+// Generated 5/mai/2014 23:56:03 by Hibernate Tools 3.4.0.CR1
 
 import com.jrdevel.aboutus.core.common.model.lists.Frequency;
 import javax.persistence.Column;

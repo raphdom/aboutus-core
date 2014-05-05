@@ -10,18 +10,11 @@ public class AddressDTO implements Serializable{
 
 	private static final long serialVersionUID = 2190720453395740188L;
 	
-	private Integer id;
 	private String address;
 	private String state;
 	private String country;
 	private String postcode;
 	
-	public Integer getId() {
-		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
 	public String getAddress() {
 		return address;
 	}

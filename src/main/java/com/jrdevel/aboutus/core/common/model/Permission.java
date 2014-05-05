@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 29/Mar/2014 22:16:19 by Hibernate Tools 3.4.0.CR1
+// Generated 5/mai/2014 23:56:03 by Hibernate Tools 3.4.0.CR1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -24,8 +24,8 @@ public class Permission implements java.io.Serializable {
 
 	private Integer id;
 	private String name;
-	private Set<Group> groups = new HashSet<Group>(0);
 	private Set<User> users = new HashSet<User>(0);
+	private Set<Group> groups = new HashSet<Group>(0);
 
 	public Permission() {
 	}
@@ -34,10 +34,10 @@ public class Permission implements java.io.Serializable {
 		this.name = name;
 	}
 
-	public Permission(String name, Set<Group> groups, Set<User> users) {
+	public Permission(String name, Set<User> users, Set<Group> groups) {
 		this.name = name;
-		this.groups = groups;
 		this.users = users;
+		this.groups = groups;
 	}
 
 	@Id
@@ -61,16 +61,6 @@ public class Permission implements java.io.Serializable {
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "tbl_group_permissions", joinColumns = { @JoinColumn(name = "permission_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "group_id", nullable = false, updatable = false) })
-	public Set<Group> getGroups() {
-		return this.groups;
-	}
-
-	public void setGroups(Set<Group> groups) {
-		this.groups = groups;
-	}
-
-	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "tbl_user_permissions", joinColumns = { @JoinColumn(name = "permission_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "user_id", nullable = false, updatable = false) })
 	public Set<User> getUsers() {
 		return this.users;
@@ -78,6 +68,16 @@ public class Permission implements java.io.Serializable {
 
 	public void setUsers(Set<User> users) {
 		this.users = users;
+	}
+
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "tbl_group_permissions", joinColumns = { @JoinColumn(name = "permission_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "group_id", nullable = false, updatable = false) })
+	public Set<Group> getGroups() {
+		return this.groups;
+	}
+
+	public void setGroups(Set<Group> groups) {
+		this.groups = groups;
 	}
 
 }

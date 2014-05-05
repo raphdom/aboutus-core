@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 29/Mar/2014 22:16:19 by Hibernate Tools 3.4.0.CR1
+// Generated 5/mai/2014 23:56:03 by Hibernate Tools 3.4.0.CR1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -30,10 +30,10 @@ public class Category implements java.io.Serializable {
 	private int parent;
 	private boolean publishedAlbuns;
 	private boolean publishedVideos;
-	private Set<Event> events = new HashSet<Event>(0);
 	private Set<Album> albums = new HashSet<Album>(0);
 	private Set<Article> articles = new HashSet<Article>(0);
 	private Set<Video> videos = new HashSet<Video>(0);
+	private Set<Event> events = new HashSet<Event>(0);
 
 	public Category() {
 	}
@@ -49,8 +49,8 @@ public class Category implements java.io.Serializable {
 
 	public Category(File file, String name, String description, int position,
 			int parent, boolean publishedAlbuns, boolean publishedVideos,
-			Set<Event> events, Set<Album> albums, Set<Article> articles,
-			Set<Video> videos) {
+			Set<Album> albums, Set<Article> articles, Set<Video> videos,
+			Set<Event> events) {
 		this.file = file;
 		this.name = name;
 		this.description = description;
@@ -58,10 +58,10 @@ public class Category implements java.io.Serializable {
 		this.parent = parent;
 		this.publishedAlbuns = publishedAlbuns;
 		this.publishedVideos = publishedVideos;
-		this.events = events;
 		this.albums = albums;
 		this.articles = articles;
 		this.videos = videos;
+		this.events = events;
 	}
 
 	@Id
@@ -140,15 +140,6 @@ public class Category implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
-	public Set<Event> getEvents() {
-		return this.events;
-	}
-
-	public void setEvents(Set<Event> events) {
-		this.events = events;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
 	public Set<Album> getAlbums() {
 		return this.albums;
 	}
@@ -173,6 +164,15 @@ public class Category implements java.io.Serializable {
 
 	public void setVideos(Set<Video> videos) {
 		this.videos = videos;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
+	public Set<Event> getEvents() {
+		return this.events;
+	}
+
+	public void setEvents(Set<Event> events) {
+		this.events = events;
 	}
 
 }

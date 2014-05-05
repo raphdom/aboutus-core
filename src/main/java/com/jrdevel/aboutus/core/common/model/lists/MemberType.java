@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model.lists;
 
-// Generated 29/Mar/2014 22:16:19 by Hibernate Tools 3.4.0.CR1
+// Generated 5/mai/2014 23:56:03 by Hibernate Tools 3.4.0.CR1
 
 import com.jrdevel.aboutus.core.common.model.Person;
 import com.jrdevel.aboutus.core.common.model.lists.translate.MemberTypeTranslate;
@@ -21,9 +21,9 @@ import javax.persistence.Table;
 public class MemberType implements java.io.Serializable {
 
 	private String id;
-	private Set<Person> persons = new HashSet<Person>(0);
 	private Set<MemberTypeTranslate> memberTypeTranslates = new HashSet<MemberTypeTranslate>(
 			0);
+	private Set<Person> persons = new HashSet<Person>(0);
 
 	public MemberType() {
 	}
@@ -32,11 +32,11 @@ public class MemberType implements java.io.Serializable {
 		this.id = id;
 	}
 
-	public MemberType(String id, Set<Person> persons,
-			Set<MemberTypeTranslate> memberTypeTranslates) {
+	public MemberType(String id, Set<MemberTypeTranslate> memberTypeTranslates,
+			Set<Person> persons) {
 		this.id = id;
-		this.persons = persons;
 		this.memberTypeTranslates = memberTypeTranslates;
+		this.persons = persons;
 	}
 
 	@Id
@@ -50,15 +50,6 @@ public class MemberType implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "memberType")
-	public Set<Person> getPersons() {
-		return this.persons;
-	}
-
-	public void setPersons(Set<Person> persons) {
-		this.persons = persons;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "memberType")
 	public Set<MemberTypeTranslate> getMemberTypeTranslates() {
 		return this.memberTypeTranslates;
 	}
@@ -66,6 +57,15 @@ public class MemberType implements java.io.Serializable {
 	public void setMemberTypeTranslates(
 			Set<MemberTypeTranslate> memberTypeTranslates) {
 		this.memberTypeTranslates = memberTypeTranslates;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "memberType")
+	public Set<Person> getPersons() {
+		return this.persons;
+	}
+
+	public void setPersons(Set<Person> persons) {
+		this.persons = persons;
 	}
 
 }

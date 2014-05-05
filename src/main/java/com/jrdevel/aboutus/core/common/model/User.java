@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 29/Mar/2014 22:16:19 by Hibernate Tools 3.4.0.CR1
+// Generated 5/mai/2014 23:56:03 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import java.util.HashSet;
@@ -29,18 +29,18 @@ public class User implements java.io.Serializable {
 
 	private Integer id;
 	private Church church;
-	private Person person;
 	private Customer customer;
+	private Person person;
 	private String email;
 	private String password;
 	private boolean block;
 	private boolean activation;
 	private Date registerDate;
 	private Date lastvisitDate;
-	private Set<Register> registers = new HashSet<Register>(0);
 	private Set<Permission> permissions = new HashSet<Permission>(0);
-	private Set<Session> sessions = new HashSet<Session>(0);
+	private Set<Register> registers = new HashSet<Register>(0);
 	private Set<FolderRole> folderRoles = new HashSet<FolderRole>(0);
+	private Set<Session> sessions = new HashSet<Session>(0);
 	private Set<Group> groups = new HashSet<Group>(0);
 
 	public User() {
@@ -55,24 +55,24 @@ public class User implements java.io.Serializable {
 		this.registerDate = registerDate;
 	}
 
-	public User(Church church, Person person, Customer customer, String email,
+	public User(Church church, Customer customer, Person person, String email,
 			String password, boolean block, boolean activation,
-			Date registerDate, Date lastvisitDate, Set<Register> registers,
-			Set<Permission> permissions, Set<Session> sessions,
-			Set<FolderRole> folderRoles, Set<Group> groups) {
+			Date registerDate, Date lastvisitDate, Set<Permission> permissions,
+			Set<Register> registers, Set<FolderRole> folderRoles,
+			Set<Session> sessions, Set<Group> groups) {
 		this.church = church;
-		this.person = person;
 		this.customer = customer;
+		this.person = person;
 		this.email = email;
 		this.password = password;
 		this.block = block;
 		this.activation = activation;
 		this.registerDate = registerDate;
 		this.lastvisitDate = lastvisitDate;
-		this.registers = registers;
 		this.permissions = permissions;
-		this.sessions = sessions;
+		this.registers = registers;
 		this.folderRoles = folderRoles;
+		this.sessions = sessions;
 		this.groups = groups;
 	}
 
@@ -98,16 +98,6 @@ public class User implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "person_id")
-	public Person getPerson() {
-		return this.person;
-	}
-
-	public void setPerson(Person person) {
-		this.person = person;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "customerId")
 	public Customer getCustomer() {
 		return this.customer;
@@ -115,6 +105,16 @@ public class User implements java.io.Serializable {
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "person_id")
+	public Person getPerson() {
+		return this.person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
 	}
 
 	@Column(name = "email", nullable = false)
@@ -173,15 +173,6 @@ public class User implements java.io.Serializable {
 		this.lastvisitDate = lastvisitDate;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-	public Set<Register> getRegisters() {
-		return this.registers;
-	}
-
-	public void setRegisters(Set<Register> registers) {
-		this.registers = registers;
-	}
-
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "tbl_user_permissions", joinColumns = { @JoinColumn(name = "user_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "permission_id", nullable = false, updatable = false) })
 	public Set<Permission> getPermissions() {
@@ -193,12 +184,12 @@ public class User implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-	public Set<Session> getSessions() {
-		return this.sessions;
+	public Set<Register> getRegisters() {
+		return this.registers;
 	}
 
-	public void setSessions(Set<Session> sessions) {
-		this.sessions = sessions;
+	public void setRegisters(Set<Register> registers) {
+		this.registers = registers;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
@@ -208,6 +199,15 @@ public class User implements java.io.Serializable {
 
 	public void setFolderRoles(Set<FolderRole> folderRoles) {
 		this.folderRoles = folderRoles;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	public Set<Session> getSessions() {
+		return this.sessions;
+	}
+
+	public void setSessions(Set<Session> sessions) {
+		this.sessions = sessions;
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY)

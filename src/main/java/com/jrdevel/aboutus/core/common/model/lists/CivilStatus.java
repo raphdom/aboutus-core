@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model.lists;
 
-// Generated 29/Mar/2014 22:16:19 by Hibernate Tools 3.4.0.CR1
+// Generated 5/mai/2014 23:56:03 by Hibernate Tools 3.4.0.CR1
 
 import com.jrdevel.aboutus.core.common.model.Person;
 import com.jrdevel.aboutus.core.common.model.lists.translate.CivilStatusTranslate;
@@ -21,9 +21,9 @@ import javax.persistence.Table;
 public class CivilStatus implements java.io.Serializable {
 
 	private String id;
-	private Set<Person> persons = new HashSet<Person>(0);
 	private Set<CivilStatusTranslate> civilStatusTranslates = new HashSet<CivilStatusTranslate>(
 			0);
+	private Set<Person> persons = new HashSet<Person>(0);
 
 	public CivilStatus() {
 	}
@@ -32,11 +32,11 @@ public class CivilStatus implements java.io.Serializable {
 		this.id = id;
 	}
 
-	public CivilStatus(String id, Set<Person> persons,
-			Set<CivilStatusTranslate> civilStatusTranslates) {
+	public CivilStatus(String id,
+			Set<CivilStatusTranslate> civilStatusTranslates, Set<Person> persons) {
 		this.id = id;
-		this.persons = persons;
 		this.civilStatusTranslates = civilStatusTranslates;
+		this.persons = persons;
 	}
 
 	@Id
@@ -50,15 +50,6 @@ public class CivilStatus implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "civilStatus")
-	public Set<Person> getPersons() {
-		return this.persons;
-	}
-
-	public void setPersons(Set<Person> persons) {
-		this.persons = persons;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "civilStatus")
 	public Set<CivilStatusTranslate> getCivilStatusTranslates() {
 		return this.civilStatusTranslates;
 	}
@@ -66,6 +57,15 @@ public class CivilStatus implements java.io.Serializable {
 	public void setCivilStatusTranslates(
 			Set<CivilStatusTranslate> civilStatusTranslates) {
 		this.civilStatusTranslates = civilStatusTranslates;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "civilStatus")
+	public Set<Person> getPersons() {
+		return this.persons;
+	}
+
+	public void setPersons(Set<Person> persons) {
+		this.persons = persons;
 	}
 
 }

@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 29/Mar/2014 22:16:19 by Hibernate Tools 3.4.0.CR1
+// Generated 5/mai/2014 23:56:03 by Hibernate Tools 3.4.0.CR1
 
 import com.jrdevel.aboutus.core.common.model.lists.Country;
 import java.util.HashSet;
@@ -24,17 +24,17 @@ import javax.persistence.Table;
 public class Church implements java.io.Serializable {
 
 	private Integer id;
-	private Country country;
-	private File file;
 	private Customer customer;
+	private File file;
+	private Country country;
 	private String name;
 	private String completeName;
 	private String address;
 	private String state;
 	private String postalCode;
 	private Integer nif;
-	private Set<Person> persons = new HashSet<Person>(0);
 	private Set<User> users = new HashSet<User>(0);
+	private Set<Person> persons = new HashSet<Person>(0);
 
 	public Church() {
 	}
@@ -45,20 +45,20 @@ public class Church implements java.io.Serializable {
 		this.completeName = completeName;
 	}
 
-	public Church(Country country, File file, Customer customer, String name,
+	public Church(Customer customer, File file, Country country, String name,
 			String completeName, String address, String state,
-			String postalCode, Integer nif, Set<Person> persons, Set<User> users) {
-		this.country = country;
-		this.file = file;
+			String postalCode, Integer nif, Set<User> users, Set<Person> persons) {
 		this.customer = customer;
+		this.file = file;
+		this.country = country;
 		this.name = name;
 		this.completeName = completeName;
 		this.address = address;
 		this.state = state;
 		this.postalCode = postalCode;
 		this.nif = nif;
-		this.persons = persons;
 		this.users = users;
+		this.persons = persons;
 	}
 
 	@Id
@@ -73,13 +73,13 @@ public class Church implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "country")
-	public Country getCountry() {
-		return this.country;
+	@JoinColumn(name = "customerId", nullable = false)
+	public Customer getCustomer() {
+		return this.customer;
 	}
 
-	public void setCountry(Country country) {
-		this.country = country;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -93,13 +93,13 @@ public class Church implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "customerId", nullable = false)
-	public Customer getCustomer() {
-		return this.customer;
+	@JoinColumn(name = "country")
+	public Country getCountry() {
+		return this.country;
 	}
 
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
+	public void setCountry(Country country) {
+		this.country = country;
 	}
 
 	@Column(name = "name", nullable = false)
@@ -157,21 +157,21 @@ public class Church implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "church")
-	public Set<Person> getPersons() {
-		return this.persons;
-	}
-
-	public void setPersons(Set<Person> persons) {
-		this.persons = persons;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "church")
 	public Set<User> getUsers() {
 		return this.users;
 	}
 
 	public void setUsers(Set<User> users) {
 		this.users = users;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "church")
+	public Set<Person> getPersons() {
+		return this.persons;
+	}
+
+	public void setPersons(Set<Person> persons) {
+		this.persons = persons;
 	}
 
 }

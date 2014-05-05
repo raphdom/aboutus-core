@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 29/Mar/2014 22:16:19 by Hibernate Tools 3.4.0.CR1
+// Generated 5/mai/2014 23:56:03 by Hibernate Tools 3.4.0.CR1
 
 import com.jrdevel.aboutus.core.common.model.lists.ContactType;
 import javax.persistence.Column;
@@ -21,21 +21,21 @@ import javax.persistence.Table;
 public class PersonContacts implements java.io.Serializable {
 
 	private Integer id;
-	private ContactType contactType;
 	private Person person;
+	private ContactType contactType;
 	private String value;
 
 	public PersonContacts() {
 	}
 
-	public PersonContacts(ContactType contactType, Person person) {
-		this.contactType = contactType;
+	public PersonContacts(Person person, ContactType contactType) {
 		this.person = person;
+		this.contactType = contactType;
 	}
 
-	public PersonContacts(ContactType contactType, Person person, String value) {
-		this.contactType = contactType;
+	public PersonContacts(Person person, ContactType contactType, String value) {
 		this.person = person;
+		this.contactType = contactType;
 		this.value = value;
 	}
 
@@ -51,16 +51,6 @@ public class PersonContacts implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "contactType", nullable = false)
-	public ContactType getContactType() {
-		return this.contactType;
-	}
-
-	public void setContactType(ContactType contactType) {
-		this.contactType = contactType;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "person_id", nullable = false)
 	public Person getPerson() {
 		return this.person;
@@ -68,6 +58,16 @@ public class PersonContacts implements java.io.Serializable {
 
 	public void setPerson(Person person) {
 		this.person = person;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "contactType", nullable = false)
+	public ContactType getContactType() {
+		return this.contactType;
+	}
+
+	public void setContactType(ContactType contactType) {
+		this.contactType = contactType;
 	}
 
 	@Column(name = "value")

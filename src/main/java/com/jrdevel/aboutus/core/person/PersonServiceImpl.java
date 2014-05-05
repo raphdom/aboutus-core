@@ -1,14 +1,25 @@
 package com.jrdevel.aboutus.core.person;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.apache.commons.collections.CollectionUtils;
 
+import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
 import com.jrdevel.aboutus.core.common.GenericIdTextView;
+import com.jrdevel.aboutus.core.common.model.Address;
+import com.jrdevel.aboutus.core.common.model.Person;
+import com.jrdevel.aboutus.core.common.model.PersonContacts;
+import com.jrdevel.aboutus.core.common.model.lists.CivilStatus;
+import com.jrdevel.aboutus.core.common.model.lists.ContactType;
+import com.jrdevel.aboutus.core.common.model.lists.Country;
+import com.jrdevel.aboutus.core.common.model.lists.MemberType;
 import com.jrdevel.aboutus.core.common.to.ListParams;
 import com.jrdevel.aboutus.core.common.to.ListResult;
 import com.jrdevel.aboutus.core.common.to.ResultObject;
@@ -25,6 +36,7 @@ public class PersonServiceImpl implements PersonService{
 	private PersonDAO personDAO;
 
 	@Transactional
+	@Secured("ROLE_LIST_PEOPLE")
 	public ResultObject list(ListParams params) {
 		ResultObject result = new ResultObject();
 		
@@ -86,11 +98,71 @@ public class PersonServiceImpl implements PersonService{
 	}
 
 	@Transactional
-	@Secured("ROLE_INSERT_PEOPLE")
 	public ResultObject insert(PersonDTO personDTO) {
-		return null;
+		
+		ResultObject result = new ResultObject();
+		
+		Person entity = new Person();
+		
+		//Personal data
+		entity.setId(null);
+		entity.setName(personDTO.getName());
+		entity.setMale(personDTO.isMale());
+		entity.setCivilStatus(new CivilStatus(personDTO.getCivilStatusValue()));
+		entity.setCountry(new Country(personDTO.getNaturalityValue()));
+		entity.setBirthday(personDTO.getBirthday());
+		entity.setNif(personDTO.getNif());
+		entity.setProfession(personDTO.getProfession());
+		entity.setMember(personDTO.isMember());
+		entity.setMemberType(new MemberType(personDTO.getMemberTypeValue()));
+		
+		//Church data
+		entity.setBaptized(personDTO.isBaptized());
+		entity.setBaptismdate(personDTO.getBaptismdate());
+		entity.setConsolidated(personDTO.isConsolidated());
+		entity.setArrivalChurchDate(personDTO.getArrivalChurchDate());
+		entity.setPrecedingChurch(personDTO.getPrecedingChurch());
+		
+		//Addresses
+		if (CollectionUtils.isNotEmpty(personDTO.getAddresses())){
+			for (AddressDTO addressDTO : personDTO.getAddresses()){
+				Address address = new Address();
+				address.setPerson(entity);
+				address.setAddress(addressDTO.getAddress());
+				address.setCountry(addressDTO.getCountry());
+				address.setPostcode(addressDTO.getPostcode());
+				address.setState(addressDTO.getState());
+				entity.getAddresses().add(address);
+			}
+		}
+		
+		//Contacts
+		if (CollectionUtils.isNotEmpty(personDTO.getContacts())){
+			for (ContactDTO contactDTO : personDTO.getContacts()){
+				PersonContacts contact = new PersonContacts();
+				contact.setContactType(new ContactType(contactDTO.getContactTypeValue()));
+				contact.setValue(contactDTO.getValue());
+				entity.getPersonContactses().add(contact);
+			}
+		}
+		
+		//Observations
+		entity.setObservations(personDTO.getObservations());
+		
+		//Common data
+		entity.setState(0);
+		entity.setChurch(UserAuthenticatedManager.getCurrentUser().getChurch());
+		entity.setCustomer(UserAuthenticatedManager.getCurrentCustomer());
+
+		personDAO.makePersistent(entity);
+		
+
+		return result;
+		
+		
 	}
 
+	@Transactional
 	public ResultObject save(PersonDTO personDTO) {
 		if (personDTO.getId() != null && personDTO.getId() != 0){
 			return update(personDTO);

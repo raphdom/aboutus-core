@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 29/Mar/2014 22:16:19 by Hibernate Tools 3.4.0.CR1
+// Generated 5/mai/2014 23:56:03 by Hibernate Tools 3.4.0.CR1
 
 import com.jrdevel.aboutus.core.common.model.lists.CivilStatus;
 import com.jrdevel.aboutus.core.common.model.lists.Country;
@@ -31,9 +31,9 @@ public class Person implements java.io.Serializable {
 	private Integer id;
 	private MemberType memberType;
 	private Church church;
-	private CivilStatus civilStatus;
 	private Customer customer;
 	private Country country;
+	private CivilStatus civilStatus;
 	private String name;
 	private boolean member;
 	private int nif;
@@ -50,8 +50,8 @@ public class Person implements java.io.Serializable {
 	private Set<MemberFunction> memberFunctions = new HashSet<MemberFunction>(0);
 	private Set<PersonContacts> personContactses = new HashSet<PersonContacts>(
 			0);
-	private Set<User> users = new HashSet<User>(0);
 	private Set<Address> addresses = new HashSet<Address>(0);
+	private Set<User> users = new HashSet<User>(0);
 
 	public Person() {
 	}
@@ -70,20 +70,19 @@ public class Person implements java.io.Serializable {
 		this.baptized = baptized;
 	}
 
-	public Person(MemberType memberType, Church church,
-			CivilStatus civilStatus, Customer customer, Country country,
-			String name, boolean member, int nif, Date birthday,
-			Date baptismdate, String profession, boolean consolidated,
-			int state, boolean male, boolean baptized, Date arrivalChurchDate,
-			String precedingChurch, String observations,
-			Set<MemberFunction> memberFunctions,
-			Set<PersonContacts> personContactses, Set<User> users,
-			Set<Address> addresses) {
+	public Person(MemberType memberType, Church church, Customer customer,
+			Country country, CivilStatus civilStatus, String name,
+			boolean member, int nif, Date birthday, Date baptismdate,
+			String profession, boolean consolidated, int state, boolean male,
+			boolean baptized, Date arrivalChurchDate, String precedingChurch,
+			String observations, Set<MemberFunction> memberFunctions,
+			Set<PersonContacts> personContactses, Set<Address> addresses,
+			Set<User> users) {
 		this.memberType = memberType;
 		this.church = church;
-		this.civilStatus = civilStatus;
 		this.customer = customer;
 		this.country = country;
+		this.civilStatus = civilStatus;
 		this.name = name;
 		this.member = member;
 		this.nif = nif;
@@ -99,8 +98,8 @@ public class Person implements java.io.Serializable {
 		this.observations = observations;
 		this.memberFunctions = memberFunctions;
 		this.personContactses = personContactses;
-		this.users = users;
 		this.addresses = addresses;
+		this.users = users;
 	}
 
 	@Id
@@ -135,16 +134,6 @@ public class Person implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "civilStatus")
-	public CivilStatus getCivilStatus() {
-		return this.civilStatus;
-	}
-
-	public void setCivilStatus(CivilStatus civilStatus) {
-		this.civilStatus = civilStatus;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "customerId", nullable = false)
 	public Customer getCustomer() {
 		return this.customer;
@@ -162,6 +151,16 @@ public class Person implements java.io.Serializable {
 
 	public void setCountry(Country country) {
 		this.country = country;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "civilStatus")
+	public CivilStatus getCivilStatus() {
+		return this.civilStatus;
+	}
+
+	public void setCivilStatus(CivilStatus civilStatus) {
+		this.civilStatus = civilStatus;
 	}
 
 	@Column(name = "name", nullable = false)
@@ -303,21 +302,21 @@ public class Person implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
-	public Set<User> getUsers() {
-		return this.users;
-	}
-
-	public void setUsers(Set<User> users) {
-		this.users = users;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
 	public Set<Address> getAddresses() {
 		return this.addresses;
 	}
 
 	public void setAddresses(Set<Address> addresses) {
 		this.addresses = addresses;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
+	public Set<User> getUsers() {
+		return this.users;
+	}
+
+	public void setUsers(Set<User> users) {
+		this.users = users;
 	}
 
 }

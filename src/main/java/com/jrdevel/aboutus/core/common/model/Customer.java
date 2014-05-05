@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 29/Mar/2014 22:16:19 by Hibernate Tools 3.4.0.CR1
+// Generated 5/mai/2014 23:56:03 by Hibernate Tools 3.4.0.CR1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,11 +25,11 @@ public class Customer implements java.io.Serializable {
 	private Integer id;
 	private Plan plan;
 	private String name;
-	private Set<Church> churches = new HashSet<Church>(0);
-	private Set<Person> persons = new HashSet<Person>(0);
-	private Set<File> files = new HashSet<File>(0);
 	private Set<User> users = new HashSet<User>(0);
 	private Set<Group> groups = new HashSet<Group>(0);
+	private Set<Person> persons = new HashSet<Person>(0);
+	private Set<File> files = new HashSet<File>(0);
+	private Set<Church> churches = new HashSet<Church>(0);
 	private Set<Folder> folders = new HashSet<Folder>(0);
 
 	public Customer() {
@@ -40,16 +40,16 @@ public class Customer implements java.io.Serializable {
 		this.name = name;
 	}
 
-	public Customer(Plan plan, String name, Set<Church> churches,
-			Set<Person> persons, Set<File> files, Set<User> users,
-			Set<Group> groups, Set<Folder> folders) {
+	public Customer(Plan plan, String name, Set<User> users, Set<Group> groups,
+			Set<Person> persons, Set<File> files, Set<Church> churches,
+			Set<Folder> folders) {
 		this.plan = plan;
 		this.name = name;
-		this.churches = churches;
-		this.persons = persons;
-		this.files = files;
 		this.users = users;
 		this.groups = groups;
+		this.persons = persons;
+		this.files = files;
+		this.churches = churches;
 		this.folders = folders;
 	}
 
@@ -84,12 +84,21 @@ public class Customer implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
-	public Set<Church> getChurches() {
-		return this.churches;
+	public Set<User> getUsers() {
+		return this.users;
 	}
 
-	public void setChurches(Set<Church> churches) {
-		this.churches = churches;
+	public void setUsers(Set<User> users) {
+		this.users = users;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
+	public Set<Group> getGroups() {
+		return this.groups;
+	}
+
+	public void setGroups(Set<Group> groups) {
+		this.groups = groups;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
@@ -111,21 +120,12 @@ public class Customer implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
-	public Set<User> getUsers() {
-		return this.users;
+	public Set<Church> getChurches() {
+		return this.churches;
 	}
 
-	public void setUsers(Set<User> users) {
-		this.users = users;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
-	public Set<Group> getGroups() {
-		return this.groups;
-	}
-
-	public void setGroups(Set<Group> groups) {
-		this.groups = groups;
+	public void setChurches(Set<Church> churches) {
+		this.churches = churches;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")

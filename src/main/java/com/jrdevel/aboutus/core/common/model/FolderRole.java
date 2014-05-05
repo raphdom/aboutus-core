@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 29/Mar/2014 22:16:19 by Hibernate Tools 3.4.0.CR1
+// Generated 5/mai/2014 23:56:03 by Hibernate Tools 3.4.0.CR1
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,8 +21,8 @@ public class FolderRole implements java.io.Serializable {
 
 	private Integer id;
 	private User user;
-	private Group group;
 	private Folder folder;
+	private Group group;
 	private boolean roleView;
 	private boolean roleAdd;
 	private boolean roleDownload;
@@ -42,12 +42,12 @@ public class FolderRole implements java.io.Serializable {
 		this.roleEdit = roleEdit;
 	}
 
-	public FolderRole(User user, Group group, Folder folder, boolean roleView,
+	public FolderRole(User user, Folder folder, Group group, boolean roleView,
 			boolean roleAdd, boolean roleDownload, boolean roleDelete,
 			boolean roleEdit) {
 		this.user = user;
-		this.group = group;
 		this.folder = folder;
+		this.group = group;
 		this.roleView = roleView;
 		this.roleAdd = roleAdd;
 		this.roleDownload = roleDownload;
@@ -77,16 +77,6 @@ public class FolderRole implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "group_id")
-	public Group getGroup() {
-		return this.group;
-	}
-
-	public void setGroup(Group group) {
-		this.group = group;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "folder_id", nullable = false)
 	public Folder getFolder() {
 		return this.folder;
@@ -94,6 +84,16 @@ public class FolderRole implements java.io.Serializable {
 
 	public void setFolder(Folder folder) {
 		this.folder = folder;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "group_id")
+	public Group getGroup() {
+		return this.group;
+	}
+
+	public void setGroup(Group group) {
+		this.group = group;
 	}
 
 	@Column(name = "roleView", nullable = false)

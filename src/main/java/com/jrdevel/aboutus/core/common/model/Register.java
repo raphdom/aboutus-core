@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 29/Mar/2014 22:16:19 by Hibernate Tools 3.4.0.CR1
+// Generated 5/mai/2014 23:56:03 by Hibernate Tools 3.4.0.CR1
 
 import com.jrdevel.aboutus.core.common.model.lists.Country;
 import java.util.Date;
@@ -24,8 +24,8 @@ import javax.persistence.TemporalType;
 public class Register implements java.io.Serializable {
 
 	private Integer id;
-	private Country country;
 	private User user;
+	private Country country;
 	private String email;
 	private String password;
 	private String churchName;
@@ -51,11 +51,11 @@ public class Register implements java.io.Serializable {
 		this.registerDate = registerDate;
 	}
 
-	public Register(Country country, User user, String email, String password,
+	public Register(User user, Country country, String email, String password,
 			String churchName, String churchAddress, String nameResp,
 			String siteAlias, String qtdMembers, Date registerDate) {
-		this.country = country;
 		this.user = user;
+		this.country = country;
 		this.email = email;
 		this.password = password;
 		this.churchName = churchName;
@@ -78,16 +78,6 @@ public class Register implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "country", nullable = false)
-	public Country getCountry() {
-		return this.country;
-	}
-
-	public void setCountry(Country country) {
-		this.country = country;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "userId")
 	public User getUser() {
 		return this.user;
@@ -95,6 +85,16 @@ public class Register implements java.io.Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "country", nullable = false)
+	public Country getCountry() {
+		return this.country;
+	}
+
+	public void setCountry(Country country) {
+		this.country = country;
 	}
 
 	@Column(name = "email", nullable = false)

@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 29/Mar/2014 22:16:19 by Hibernate Tools 3.4.0.CR1
+// Generated 5/mai/2014 23:56:03 by Hibernate Tools 3.4.0.CR1
 
 import com.jrdevel.aboutus.core.common.model.lists.Frequency;
 import java.util.Date;
@@ -27,8 +27,8 @@ import javax.persistence.TemporalType;
 public class Event implements java.io.Serializable {
 
 	private Integer id;
-	private Frequency frequency;
 	private Category category;
+	private Frequency frequency;
 	private File file;
 	private String what;
 	private Date startsOn;
@@ -54,13 +54,13 @@ public class Event implements java.io.Serializable {
 		this.published = published;
 	}
 
-	public Event(Frequency frequency, Category category, File file,
+	public Event(Category category, Frequency frequency, File file,
 			String what, Date startsOn, Date endsOn, Date startsAt,
 			Date endsAt, int separation, Integer count, Date until,
 			String description, String location, String style,
 			boolean published, Set<EventRecurrence> eventRecurrences) {
-		this.frequency = frequency;
 		this.category = category;
+		this.frequency = frequency;
 		this.file = file;
 		this.what = what;
 		this.startsOn = startsOn;
@@ -89,16 +89,6 @@ public class Event implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "frequency")
-	public Frequency getFrequency() {
-		return this.frequency;
-	}
-
-	public void setFrequency(Frequency frequency) {
-		this.frequency = frequency;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "categoryId")
 	public Category getCategory() {
 		return this.category;
@@ -106,6 +96,16 @@ public class Event implements java.io.Serializable {
 
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "frequency")
+	public Frequency getFrequency() {
+		return this.frequency;
+	}
+
+	public void setFrequency(Frequency frequency) {
+		this.frequency = frequency;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)

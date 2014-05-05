@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 29/Mar/2014 22:16:19 by Hibernate Tools 3.4.0.CR1
+// Generated 5/mai/2014 23:56:03 by Hibernate Tools 3.4.0.CR1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -27,8 +27,8 @@ public class Group implements java.io.Serializable {
 	private Integer id;
 	private Customer customer;
 	private String name;
-	private Set<FolderRole> folderRoles = new HashSet<FolderRole>(0);
 	private Set<User> users = new HashSet<User>(0);
+	private Set<FolderRole> folderRoles = new HashSet<FolderRole>(0);
 	private Set<Permission> permissions = new HashSet<Permission>(0);
 
 	public Group() {
@@ -38,12 +38,12 @@ public class Group implements java.io.Serializable {
 		this.name = name;
 	}
 
-	public Group(Customer customer, String name, Set<FolderRole> folderRoles,
-			Set<User> users, Set<Permission> permissions) {
+	public Group(Customer customer, String name, Set<User> users,
+			Set<FolderRole> folderRoles, Set<Permission> permissions) {
 		this.customer = customer;
 		this.name = name;
-		this.folderRoles = folderRoles;
 		this.users = users;
+		this.folderRoles = folderRoles;
 		this.permissions = permissions;
 	}
 
@@ -77,15 +77,6 @@ public class Group implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "group")
-	public Set<FolderRole> getFolderRoles() {
-		return this.folderRoles;
-	}
-
-	public void setFolderRoles(Set<FolderRole> folderRoles) {
-		this.folderRoles = folderRoles;
-	}
-
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "tbl_user_groups", joinColumns = { @JoinColumn(name = "group_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "user_id", nullable = false, updatable = false) })
 	public Set<User> getUsers() {
@@ -94,6 +85,15 @@ public class Group implements java.io.Serializable {
 
 	public void setUsers(Set<User> users) {
 		this.users = users;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "group")
+	public Set<FolderRole> getFolderRoles() {
+		return this.folderRoles;
+	}
+
+	public void setFolderRoles(Set<FolderRole> folderRoles) {
+		this.folderRoles = folderRoles;
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY)

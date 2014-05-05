@@ -29,7 +29,6 @@ public class UserDetailsAdapter implements UserDetails{
 		this.roles = roles;
 	}
 	
-	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
 		authorities.add(new SimpleGrantedAuthority("ROLE_AUTHENTICATED_USER"));
@@ -43,7 +42,6 @@ public class UserDetailsAdapter implements UserDetails{
 		return roles;
 	}
 
-	@Override
 	public String getPassword() {
 		return user.getPassword();
 	}
@@ -52,27 +50,22 @@ public class UserDetailsAdapter implements UserDetails{
 		return user.getId();
 	}
 
-	@Override
 	public String getUsername() {
 		return user.getEmail();
 	}
 
-	@Override
 	public boolean isAccountNonExpired() {
 		return true;
 	}
 
-	@Override
 	public boolean isAccountNonLocked() {
 		return true;
 	}
 
-	@Override
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
 
-	@Override
 	public boolean isEnabled() {
 		return true;
 	}
