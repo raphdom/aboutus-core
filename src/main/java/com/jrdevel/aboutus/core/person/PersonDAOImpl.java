@@ -30,7 +30,7 @@ public class PersonDAOImpl extends AbstractGenericDAO<Person, Integer> implement
 	}
 	
 	private void addCivilStatusCriteria(Criteria criteria){
-		criteria.createAlias("civilStatus", "civilStatus", Criteria.INNER_JOIN);
+		criteria.createAlias("civilStatus", "civilStatus", Criteria.LEFT_JOIN);
 		criteria.createAlias("civilStatus.civilStatusTranslates", "cvStatTrans", Criteria.LEFT_JOIN);
 		Criterion crit1 = Restrictions.eq("cvStatTrans.langId", "pt_PT");
 		Criterion crit2 = Restrictions.isNull("civilStatus");
@@ -39,7 +39,7 @@ public class PersonDAOImpl extends AbstractGenericDAO<Person, Integer> implement
 	}
 	
 	private void addCountryCriteria(Criteria criteria){
-		criteria.createAlias("country", "country", Criteria.INNER_JOIN);
+		criteria.createAlias("country", "country", Criteria.LEFT_JOIN);
 		criteria.createAlias("country.countryTranslates", "countryTrans", Criteria.LEFT_JOIN);
 		Criterion crit1 = Restrictions.eq("countryTrans.langId", "pt_PT");
 		Criterion crit2 = Restrictions.isNull("country");
@@ -48,7 +48,7 @@ public class PersonDAOImpl extends AbstractGenericDAO<Person, Integer> implement
 	}
 	
 	private void addMemberType(Criteria criteria){
-		criteria.createAlias("memberType", "memberType", Criteria.INNER_JOIN);
+		criteria.createAlias("memberType", "memberType", Criteria.LEFT_JOIN);
 		criteria.createAlias("memberType.memberTypeTranslates", "memberTypeTrans", Criteria.LEFT_JOIN);
 		Criterion crit1 = Restrictions.eq("memberTypeTrans.langId", "pt_PT");
 		Criterion crit2 = Restrictions.isNull("memberType");
