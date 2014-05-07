@@ -182,6 +182,13 @@ public abstract class AbstractGenericDAO<T, PK extends Serializable> implements 
     			criteria.add(Restrictions.eq(filter.getProperty(), Integer.parseInt(filter.getValue())));
     		}else if(filter.getType().equals("textfield")){
     			criteria.add(Restrictions.like(filter.getProperty(), "%"+filter.getValue()+"%"));
+    		}else if(filter.getType().contains("combo")){
+    			try {
+    		        int number = Integer.parseInt(filter.getValue());
+    		        criteria.add(Restrictions.eq(filter.getProperty(), number));
+    		    } catch(NumberFormatException e) {
+    		    	criteria.add(Restrictions.eq(filter.getProperty(), filter.getValue()));
+    		    }
     		}
     	}
     }
