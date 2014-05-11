@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
+import com.jrdevel.aboutus.core.common.helper.MessageHelper;
+import com.jrdevel.aboutus.core.common.helper.MessageKeyEnum;
 import com.jrdevel.aboutus.core.common.model.Church;
 import com.jrdevel.aboutus.core.common.model.Group;
 import com.jrdevel.aboutus.core.common.model.Permission;
@@ -32,8 +34,11 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private UserDAO userDAO;
 	
+	@Autowired
+	private MessageHelper messageHelper;
+	
 	@Transactional
-	@Secured("ROLE_LIST_USERS")
+	@Secured("ROLE_LIST_USERS1")
 	public ResultObject list(ListParams params) {
 		
 		ResultObject result = new ResultObject();
@@ -98,10 +103,12 @@ public class UserServiceImpl implements UserService{
 	
 	@Transactional
 	public ResultObject save(UserDTO userDTO) {
-		if (existUserEmail(userDTO.getEmail())){
+		
+		if (existUserEmail(userDTO)){
 			ResultObject result = new ResultObject();
 			result.setSuccess(false);
-			result.addErrorMessage("Este email já se encontra registado no sistema.");
+			result.addErrorMessage(
+					messageHelper.getMessage(MessageKeyEnum.DULICATED_EMAIL));
 			return result;
 		}
 		if (userDTO.getId() != null && userDTO.getId() != 0){
@@ -185,11 +192,18 @@ public class UserServiceImpl implements UserService{
 	
 	//Private methods
 	@Transactional
-	private boolean existUserEmail(String email) {
+	private boolean existUserEmail(UserDTO dto) {
 
-		User bean = userDAO.getUserByEmail(email);
-
-		return bean != null;
+		User bean = userDAO.getUserByEmail(dto.getEmail());
+		
+		boolean isUpdate = dto.getId() != null && dto.getId() != 0;
+		
+		if (bean == null || 
+				(bean.getEmail().equals(dto.getEmail()) && isUpdate)){
+			return false;
+		}else{
+			return true;
+		}
 
 	}
 

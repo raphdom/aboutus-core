@@ -17,4 +17,10 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 	
 	<import resource="classpath:spring-security.xml" />
 	
+	<!-- Register the welcome.properties -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="classpath:messages/messages" />
+	</bean>
+	
 </beans>
