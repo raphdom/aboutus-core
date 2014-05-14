@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,7 +39,7 @@ public class UserServiceImpl implements UserService{
 	private MessageHelper messageHelper;
 	
 	@Transactional
-	@Secured("ROLE_LIST_USERS1")
+	@PreAuthorize("hasAuthority('ROLE_LIST_USERS1')")
 	public ResultObject list(ListParams params) {
 		
 		ResultObject result = new ResultObject();

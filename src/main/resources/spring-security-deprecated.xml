@@ -12,15 +12,22 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 
 	<security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled" />
  
- 	<bean id="accessDeniedHandler" class="com.jrdevel.aboutus.web.util.CustomAjaxAccessDeniedHandlerImpl">  
+	<bean id="exceptionTranslationFilter"
+  		class="org.springframework.security.web.access.ExceptionTranslationFilter">
+ 		<property name="authenticationEntryPoint" ref="authenticationProcessingFilterEntryPoint"/>
+ 		<property name="accessDeniedHandler" ref="accessDeniedHandler"/>
+	</bean> 
+ 	<bean id="accessDeniedHandler" class="com.jrdevel.aboutus.web.util.CustomAjaxAccessDeniedHandlerImpl">
+ 		<property name="errorPage" value="/user/view.action"/>  
   	</bean>  
- 
+ 	
+ 	
     <security:http auto-config="false" use-expressions="false" entry-point-ref="authenticationProcessingFilterEntryPoint">
         <security:intercept-url pattern="/home.jsp" access="ROLE_AUTHENTICATED_USER" />
         <security:intercept-url pattern="/*.action" access="ROLE_AUTHENTICATED_USER" />
         <security:custom-filter position="FORM_LOGIN_FILTER" ref="authenticationProcessingFilter"/>
         <security:logout logout-success-url="/login.jsp" />
-        <security:access-denied-handler ref="accessDeniedHandler"/>
+        <security:access-denied-handler ref="accessDeniedHandler" />
     </security:http>
  
     <bean id="authenticationProcessingFilter" class="com.jrdevel.aboutus.web.util.CustomAjaxAuthenticationFilter">
@@ -36,5 +43,6 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     <security:authentication-manager alias="authenticationManager">
     	<security:authentication-provider user-service-ref="authenticationService" />
     </security:authentication-manager>
+
  
 </beans>
