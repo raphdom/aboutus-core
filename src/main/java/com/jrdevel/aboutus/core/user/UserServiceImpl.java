@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,11 +34,8 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private UserDAO userDAO;
 	
-	@Autowired
-	private MessageHelper messageHelper;
-	
 	@Transactional
-	@PreAuthorize("hasAuthority('ROLE_LIST_USERS1')")
+	@PreAuthorize("hasAuthority('ROLE_LIST_USERS')")
 	public ResultObject list(ListParams params) {
 		
 		ResultObject result = new ResultObject();
@@ -109,7 +105,7 @@ public class UserServiceImpl implements UserService{
 			ResultObject result = new ResultObject();
 			result.setSuccess(false);
 			result.addErrorMessage(
-					messageHelper.getMessage(MessageKeyEnum.DULICATED_EMAIL));
+					MessageHelper.getMessage(MessageKeyEnum.DULICATED_EMAIL));
 			return result;
 		}
 		if (userDTO.getId() != null && userDTO.getId() != 0){
@@ -120,7 +116,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Transactional
-	@Secured("ROLE_INSERT_USERS")
+	@PreAuthorize("hasAuthority('ROLE_INSERT_USERS')")
 	public ResultObject insert(UserDTO userDTO) {
 		
 		ResultObject result = new ResultObject();
@@ -151,7 +147,7 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	@Transactional
-	@Secured("ROLE_UPDATE_USERS")
+	@PreAuthorize("hasAuthority('ROLE_UPDATE_USERS')")
 	public ResultObject update(UserDTO userDTO) {
 		
 		ResultObject result = new ResultObject();
@@ -174,7 +170,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Transactional
-	@Secured("ROLE_DELETE_USERS")
+	@PreAuthorize("hasAuthority('ROLE_DELETE_USERS')")
 	public ResultObject delete(List<Integer> beans) {
 		
 		ResultObject result = new ResultObject();

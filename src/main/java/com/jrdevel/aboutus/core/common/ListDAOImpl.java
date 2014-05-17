@@ -7,8 +7,10 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.jrdevel.aboutus.core.common.helper.MessageHelper;
 import com.jrdevel.aboutus.core.common.model.lists.translate.CivilStatusTranslate;
 import com.jrdevel.aboutus.core.common.model.lists.translate.ContactTypeTranslate;
 import com.jrdevel.aboutus.core.common.model.lists.translate.CountryTranslate;
@@ -45,7 +47,7 @@ public class ListDAOImpl extends AbstractGenericDAO<GenericValueTextDTO, Integer
 	@SuppressWarnings("unchecked")
 	private List<GenericValueTextView> getList(Class<?> clazz, String listName){
 		Criteria criteria = getSession().createCriteria(clazz);
-		criteria.add(Restrictions.eq("langId", "pt_PT"));
+		criteria.add(Restrictions.eq("langId", MessageHelper.getCurrentLocale().toString()));
 		criteria.addOrder(Order.asc("text"));
 		
 		criteria.setProjection( Projections.projectionList()

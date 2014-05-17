@@ -15,5 +15,6 @@ public interface AuthenticationService extends UserDetailsService{
 	public ResultObject login(User user);
 	public ResultObject register(Register register);
 	public void updateLogin(Integer id);
+	public void logout();
 
 }

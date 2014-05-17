@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
 import com.jrdevel.aboutus.core.common.AbstractGenericDAO;
 import com.jrdevel.aboutus.core.common.GenericIdTextView;
+import com.jrdevel.aboutus.core.common.helper.MessageHelper;
 import com.jrdevel.aboutus.core.common.model.Person;
 import com.jrdevel.aboutus.core.common.to.ListResult;
 
@@ -32,7 +33,7 @@ public class PersonDAOImpl extends AbstractGenericDAO<Person, Integer> implement
 	private void addCivilStatusCriteria(Criteria criteria){
 		criteria.createAlias("civilStatus", "civilStatus", Criteria.LEFT_JOIN);
 		criteria.createAlias("civilStatus.civilStatusTranslates", "cvStatTrans", Criteria.LEFT_JOIN);
-		Criterion crit1 = Restrictions.eq("cvStatTrans.langId", "pt_PT");
+		Criterion crit1 = Restrictions.eq("cvStatTrans.langId", MessageHelper.getCurrentLocale().toString());
 		Criterion crit2 = Restrictions.isNull("civilStatus");
 		LogicalExpression orExp = Restrictions.or(crit1,crit2);
 		criteria.add(orExp);
@@ -41,7 +42,7 @@ public class PersonDAOImpl extends AbstractGenericDAO<Person, Integer> implement
 	private void addCountryCriteria(Criteria criteria){
 		criteria.createAlias("country", "country", Criteria.LEFT_JOIN);
 		criteria.createAlias("country.countryTranslates", "countryTrans", Criteria.LEFT_JOIN);
-		Criterion crit1 = Restrictions.eq("countryTrans.langId", "pt_PT");
+		Criterion crit1 = Restrictions.eq("countryTrans.langId", MessageHelper.getCurrentLocale().toString());
 		Criterion crit2 = Restrictions.isNull("country");
 		LogicalExpression orExp = Restrictions.or(crit1,crit2);
 		criteria.add(orExp);
@@ -50,7 +51,7 @@ public class PersonDAOImpl extends AbstractGenericDAO<Person, Integer> implement
 	private void addMemberType(Criteria criteria){
 		criteria.createAlias("memberType", "memberType", Criteria.LEFT_JOIN);
 		criteria.createAlias("memberType.memberTypeTranslates", "memberTypeTrans", Criteria.LEFT_JOIN);
-		Criterion crit1 = Restrictions.eq("memberTypeTrans.langId", "pt_PT");
+		Criterion crit1 = Restrictions.eq("memberTypeTrans.langId", MessageHelper.getCurrentLocale().toString());
 		Criterion crit2 = Restrictions.isNull("memberType");
 		LogicalExpression orExp = Restrictions.or(crit1,crit2);
 		criteria.add(orExp);
