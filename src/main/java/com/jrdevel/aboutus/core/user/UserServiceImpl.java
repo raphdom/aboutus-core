@@ -20,8 +20,6 @@ import com.jrdevel.aboutus.core.common.model.User;
 import com.jrdevel.aboutus.core.common.to.ListParams;
 import com.jrdevel.aboutus.core.common.to.ListResult;
 import com.jrdevel.aboutus.core.common.to.ResultObject;
-import com.jrdevel.aboutus.core.dto.UserDTO;
-import com.jrdevel.aboutus.core.dto.UserListDTO;
 import com.jrdevel.aboutus.core.util.PasswordGenerator;
 
 /**

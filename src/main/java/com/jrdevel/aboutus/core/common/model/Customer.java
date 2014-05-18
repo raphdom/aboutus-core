@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 5/mai/2014 23:56:03 by Hibernate Tools 3.4.0.CR1
+// Generated 18/mai/2014 19:38:22 by Hibernate Tools 3.4.0.CR1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -31,6 +31,7 @@ public class Customer implements java.io.Serializable {
 	private Set<File> files = new HashSet<File>(0);
 	private Set<Church> churches = new HashSet<Church>(0);
 	private Set<Folder> folders = new HashSet<Folder>(0);
+	private Set<Category> categories = new HashSet<Category>(0);
 
 	public Customer() {
 	}
@@ -42,7 +43,7 @@ public class Customer implements java.io.Serializable {
 
 	public Customer(Plan plan, String name, Set<User> users, Set<Group> groups,
 			Set<Person> persons, Set<File> files, Set<Church> churches,
-			Set<Folder> folders) {
+			Set<Folder> folders, Set<Category> categories) {
 		this.plan = plan;
 		this.name = name;
 		this.users = users;
@@ -51,6 +52,7 @@ public class Customer implements java.io.Serializable {
 		this.files = files;
 		this.churches = churches;
 		this.folders = folders;
+		this.categories = categories;
 	}
 
 	@Id
@@ -135,6 +137,15 @@ public class Customer implements java.io.Serializable {
 
 	public void setFolders(Set<Folder> folders) {
 		this.folders = folders;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
+	public Set<Category> getCategories() {
+		return this.categories;
+	}
+
+	public void setCategories(Set<Category> categories) {
+		this.categories = categories;
 	}
 
 }

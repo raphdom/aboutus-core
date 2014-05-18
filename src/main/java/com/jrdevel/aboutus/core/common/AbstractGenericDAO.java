@@ -120,8 +120,10 @@ public abstract class AbstractGenericDAO<T, PK extends Serializable> implements 
 		setFilters(criteria, params.getFilter());
 		setExtraFilters(criteria);
 		int count = setPagingInfo(criteria);
-		criteria.setFirstResult(params.getStart());
-		criteria.setMaxResults(params.getLimit());
+		if (params.getLimit()!= -1){
+			criteria.setFirstResult(params.getStart());
+			criteria.setMaxResults(params.getLimit());
+		}
 		criteria.setProjection(null);
 		
 		criteria.setProjection(getProjectionList(view));

@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 5/mai/2014 23:56:03 by Hibernate Tools 3.4.0.CR1
+// Generated 18/mai/2014 19:38:22 by Hibernate Tools 3.4.0.CR1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,6 +23,7 @@ import javax.persistence.Table;
 public class Category implements java.io.Serializable {
 
 	private Integer id;
+	private Customer customer;
 	private File file;
 	private String name;
 	private String description;
@@ -38,8 +39,9 @@ public class Category implements java.io.Serializable {
 	public Category() {
 	}
 
-	public Category(String name, int position, int parent,
+	public Category(Customer customer, String name, int position, int parent,
 			boolean publishedAlbuns, boolean publishedVideos) {
+		this.customer = customer;
 		this.name = name;
 		this.position = position;
 		this.parent = parent;
@@ -47,10 +49,12 @@ public class Category implements java.io.Serializable {
 		this.publishedVideos = publishedVideos;
 	}
 
-	public Category(File file, String name, String description, int position,
-			int parent, boolean publishedAlbuns, boolean publishedVideos,
+	public Category(Customer customer, File file, String name,
+			String description, int position, int parent,
+			boolean publishedAlbuns, boolean publishedVideos,
 			Set<Album> albums, Set<Article> articles, Set<Video> videos,
 			Set<Event> events) {
+		this.customer = customer;
 		this.file = file;
 		this.name = name;
 		this.description = description;
@@ -73,6 +77,16 @@ public class Category implements java.io.Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "customerId", nullable = false)
+	public Customer getCustomer() {
+		return this.customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
