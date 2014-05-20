@@ -2,27 +2,44 @@ package com.jrdevel.aboutus.core.site.category;
 
 import java.io.Serializable;
 
+import com.jrdevel.aboutus.core.dto.NodeDTO;
+
 /**
  * @author Raphael Domingues
  *
  */
-public class CategoryListDTO implements Serializable{
+public class CategoryListDTO extends NodeDTO implements Serializable{
 
-	private static final long serialVersionUID = -56033427120000776L;
-	private Integer id;
-	private String name;
+	private static final long serialVersionUID = 2513871739789525803L;
 	
-	public Integer getId() {
-		return id;
+	private String description;
+	private int position;
+	private boolean publishedAlbuns;
+	private boolean publishedVideos;
+	
+	public String getDescription() {
+		return description;
 	}
-	public void setId(Integer id) {
-		this.id = id;
+	public void setDescription(String description) {
+		this.description = description;
 	}
-	public String getName() {
-		return name;
+	public int getPosition() {
+		return position;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setPosition(int position) {
+		this.position = position;
+	}
+	public boolean isPublishedAlbuns() {
+		return publishedAlbuns;
+	}
+	public void setPublishedAlbuns(boolean publishedAlbuns) {
+		this.publishedAlbuns = publishedAlbuns;
+	}
+	public boolean isPublishedVideos() {
+		return publishedVideos;
+	}
+	public void setPublishedVideos(boolean publishedVideos) {
+		this.publishedVideos = publishedVideos;
 	}
 	
 }

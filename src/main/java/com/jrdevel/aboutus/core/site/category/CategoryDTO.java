@@ -1,18 +1,19 @@
 package com.jrdevel.aboutus.core.site.category;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class CategoryDTO implements Serializable{
 	
 	private static final long serialVersionUID = 6548590740401867795L;
 	
 	private Integer id;
-	private String email;
-	private Integer personId;
-	private Integer churchId;
-	private List<Integer> permissions;
-	private List<Integer> groups;
+	private String text;
+	private int parentId;
+	private int position;
+	private String description;
+	private boolean publishedAlbuns;
+	private boolean publishedVideos;
+	private int thumbId;
 	
 	public Integer getId() {
 		return id;
@@ -20,35 +21,47 @@ public class CategoryDTO implements Serializable{
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getEmail() {
-		return email;
+	public String getText() {
+		return text;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setText(String text) {
+		this.text = text;
 	}
-	public Integer getPersonId() {
-		return personId;
+	public int getPosition() {
+		return position;
 	}
-	public void setPersonId(Integer personId) {
-		this.personId = personId;
+	public void setPosition(int position) {
+		this.position = position;
 	}
-	public Integer getChurchId() {
-		return churchId;
+	public String getDescription() {
+		return description;
 	}
-	public void setChurchId(Integer churchId) {
-		this.churchId = churchId;
+	public void setDescription(String description) {
+		this.description = description;
 	}
-	public List<Integer> getPermissions() {
-		return permissions;
+	public boolean isPublishedAlbuns() {
+		return publishedAlbuns;
 	}
-	public void setPermissions(List<Integer> permission) {
-		this.permissions = permission;
+	public void setPublishedAlbuns(boolean publishedAlbuns) {
+		this.publishedAlbuns = publishedAlbuns;
 	}
-	public List<Integer> getGroups() {
-		return groups;
+	public boolean isPublishedVideos() {
+		return publishedVideos;
 	}
-	public void setGroups(List<Integer> group) {
-		this.groups = group;
+	public void setPublishedVideos(boolean publishedVideos) {
+		this.publishedVideos = publishedVideos;
+	}
+	public int getParentId() {
+		return parentId;
+	}
+	public void setParentId(int parentId) {
+		this.parentId = parentId;
+	}
+	public int getThumbId() {
+		return thumbId;
+	}
+	public void setThumbId(int thumbId) {
+		this.thumbId = thumbId;
 	}
 	
 }

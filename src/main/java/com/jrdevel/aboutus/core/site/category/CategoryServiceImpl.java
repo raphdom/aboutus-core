@@ -1,6 +1,5 @@
 package com.jrdevel.aboutus.core.site.category;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +7,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
 import com.jrdevel.aboutus.core.common.model.Category;
 import com.jrdevel.aboutus.core.common.to.ListParams;
 import com.jrdevel.aboutus.core.common.to.ListResult;
 import com.jrdevel.aboutus.core.common.to.ResultObject;
-import com.jrdevel.aboutus.core.dto.NodeDTO;
 
 /**
  * @author Raphael Domingues
@@ -26,47 +25,35 @@ public class CategoryServiceImpl implements CategoryService{
 	
 	@Transactional
 	//@PreAuthorize("hasAuthority('ROLE_LIST_CATEGORY')")
-	public List<NodeDTO> list(ListParams params) {
+	public List<CategoryListDTO> list(ListParams params) {
 		
 		params.setLimit(-1);
 		
 		ListResult<CategoryListView> listResult = categoryDAO.findAllByView(params, CategoryListView.class);
 		
-		List<NodeDTO> dtos = new ArrayList<NodeDTO>();
-		
-		for(CategoryListView bean : listResult.getData()){
-			if (bean.getParent()==0){
-				NodeDTO node = new NodeDTO();
-				node.setId(bean.getId());
-				node.setParent(new Integer(bean.getParent()));
-				node.setText(bean.getName());
-				createNodes(listResult.getData(),node);
-				dtos.add(node);
-			}
-		}
+		List<CategoryListDTO> dtos = CategoryMappingHelper.listViewTolistDTO(listResult.getData());
 		
 		return dtos;
 		
 	}
 	
-	private void createNodes(List<CategoryListView> listResult, NodeDTO parent) {
-		for(CategoryListView bean : listResult){
-			if (bean.getParent()==parent.getId()){
-				NodeDTO node = new NodeDTO();
-				node.setId(bean.getId());
-				node.setParent(parent.getId());
-				node.setText(bean.getName());
-				createNodes(listResult,node);
-				parent.setLeaf(false);
-				parent.addChild(node);
-			}
-		}
-	}
-
 	@Transactional
 	public ResultObject get(Integer id) {
 		
 		ResultObject result = new ResultObject();
+		
+		Category categoryDB = categoryDAO.findById(id, false);
+		
+		if (categoryDB != null && categoryDB.getId() != null){
+			
+			CategoryDTO dto = CategoryMappingHelper.beanToDTO(categoryDB);
+			
+			result.setData(dto);
+			
+		}else{
+			result.setSuccess(false);
+			result.addErrorMessage("Categoria não existe.");
+		}
 		
 		return result;
 	}
@@ -87,6 +74,14 @@ public class CategoryServiceImpl implements CategoryService{
 		
 		ResultObject result = new ResultObject();
 		
+		Category entity = CategoryMappingHelper.DTOToBean(categoryDTO);
+		
+		//Insert data
+		entity.setId(null);
+		entity.setCustomer(UserAuthenticatedManager.getCurrentCustomer());
+
+		categoryDAO.makePersistent(entity);
+		
 		return result;
 		
 	}
@@ -96,12 +91,22 @@ public class CategoryServiceImpl implements CategoryService{
 	public ResultObject update(CategoryDTO categoryDTO) {
 		
 		ResultObject result = new ResultObject();
-
+		
+		Category category = categoryDAO.findById(categoryDTO.getId(), false);
+		
+		if (category != null && category.getId() != null){
+			
+			category = CategoryMappingHelper.DTOToBean(categoryDTO, category);
+			
+			categoryDAO.makePersistent(category);
+			
+		}
+		
 		return result;
 	}
 
 	@Transactional
-	@PreAuthorize("hasAuthority('ROLE_DELETE_CATEGORY')")
+	//@PreAuthorize("hasAuthority('ROLE_DELETE_CATEGORY')")
 	public ResultObject delete(List<Integer> beans) {
 		
 		ResultObject result = new ResultObject();

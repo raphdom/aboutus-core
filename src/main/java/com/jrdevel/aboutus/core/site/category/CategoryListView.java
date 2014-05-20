@@ -14,6 +14,10 @@ public class CategoryListView implements Serializable{
 	private Integer id;
 	private String name;
 	private int parent;
+	private String description;
+	private int position;
+	private boolean publishedAlbuns;
+	private boolean publishedVideos;
 	
 	@Projection
 	public Integer getId() {
@@ -36,5 +40,32 @@ public class CategoryListView implements Serializable{
 	public void setParent(int parent) {
 		this.parent = parent;
 	}
-	
+	@Projection
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	@Projection
+	public int getPosition() {
+		return position;
+	}
+	public void setPosition(int position) {
+		this.position = position;
+	}
+	@Projection
+	public boolean isPublishedAlbuns() {
+		return publishedAlbuns;
+	}
+	public void setPublishedAlbuns(boolean publishedAlbuns) {
+		this.publishedAlbuns = publishedAlbuns;
+	}
+	@Projection
+	public boolean isPublishedVideos() {
+		return publishedVideos;
+	}
+	public void setPublishedVideos(boolean publishedVideos) {
+		this.publishedVideos = publishedVideos;
+	}
 }

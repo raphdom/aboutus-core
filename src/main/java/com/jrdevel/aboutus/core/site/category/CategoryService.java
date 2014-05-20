@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.jrdevel.aboutus.core.common.to.ListParams;
 import com.jrdevel.aboutus.core.common.to.ResultObject;
-import com.jrdevel.aboutus.core.dto.NodeDTO;
 
 /**
  * @author Raphael Domingues
@@ -12,7 +11,7 @@ import com.jrdevel.aboutus.core.dto.NodeDTO;
  */
 public interface CategoryService{
 	
-	public List<NodeDTO> list(ListParams params);
+	public List<CategoryListDTO> list(ListParams params);
 	public ResultObject get(Integer id);
 	public ResultObject update(CategoryDTO categoryDTO);
 	public ResultObject insert(CategoryDTO categoryDTO);

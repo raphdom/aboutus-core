@@ -48,8 +48,9 @@ public class NodeDTO implements Serializable{
 		return children;
 	}
 	
-	public void setChildren(List<NodeDTO> children){
-		this.children=children;
+	@SuppressWarnings("unchecked")
+	public void setChildren(List<? extends NodeDTO> children){
+		this.children=(List<NodeDTO>) children;
 	}
 
 	public boolean isLeaf() {
