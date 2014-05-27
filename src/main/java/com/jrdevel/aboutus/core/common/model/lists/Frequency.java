@@ -1,8 +1,7 @@
 package com.jrdevel.aboutus.core.common.model.lists;
 
-// Generated 18/mai/2014 19:38:22 by Hibernate Tools 3.4.0.CR1
+// Generated 27/mai/2014 21:32:42 by Hibernate Tools 3.4.0.CR1
 
-import com.jrdevel.aboutus.core.common.model.Event;
 import com.jrdevel.aboutus.core.common.model.lists.translate.FrequencyTranslate;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,7 +20,6 @@ import javax.persistence.Table;
 public class Frequency implements java.io.Serializable {
 
 	private String id;
-	private Set<Event> events = new HashSet<Event>(0);
 	private Set<FrequencyTranslate> frequencyTranslates = new HashSet<FrequencyTranslate>(
 			0);
 
@@ -32,10 +30,8 @@ public class Frequency implements java.io.Serializable {
 		this.id = id;
 	}
 
-	public Frequency(String id, Set<Event> events,
-			Set<FrequencyTranslate> frequencyTranslates) {
+	public Frequency(String id, Set<FrequencyTranslate> frequencyTranslates) {
 		this.id = id;
-		this.events = events;
 		this.frequencyTranslates = frequencyTranslates;
 	}
 
@@ -47,15 +43,6 @@ public class Frequency implements java.io.Serializable {
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "frequency")
-	public Set<Event> getEvents() {
-		return this.events;
-	}
-
-	public void setEvents(Set<Event> events) {
-		this.events = events;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "frequency")

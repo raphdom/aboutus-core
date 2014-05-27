@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 18/mai/2014 19:38:22 by Hibernate Tools 3.4.0.CR1
+// Generated 27/mai/2014 21:32:42 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import java.util.HashSet;
@@ -41,12 +41,12 @@ public class File implements java.io.Serializable {
 	private Set<Album> albums = new HashSet<Album>(0);
 	private Set<FileData> fileDatas = new HashSet<FileData>(0);
 	private Set<ItemAlbum> itemAlbums = new HashSet<ItemAlbum>(0);
+	private Set<Event> events = new HashSet<Event>(0);
 	private Set<Video> videos = new HashSet<Video>(0);
 	private Set<Category> categories = new HashSet<Category>(0);
 	private Set<Church> churches = new HashSet<Church>(0);
 	private Set<Banner> banners = new HashSet<Banner>(0);
 	private Set<Article> articles = new HashSet<Article>(0);
-	private Set<Event> events = new HashSet<Event>(0);
 
 	public File() {
 	}
@@ -70,9 +70,9 @@ public class File implements java.io.Serializable {
 			String fileType, long filesize, String title, String caption,
 			String keywords, boolean published, String path, Date createdDate,
 			Date modifiedDate, Set<Album> albums, Set<FileData> fileDatas,
-			Set<ItemAlbum> itemAlbums, Set<Video> videos,
+			Set<ItemAlbum> itemAlbums, Set<Event> events, Set<Video> videos,
 			Set<Category> categories, Set<Church> churches,
-			Set<Banner> banners, Set<Article> articles, Set<Event> events) {
+			Set<Banner> banners, Set<Article> articles) {
 		this.customer = customer;
 		this.folder = folder;
 		this.filename = filename;
@@ -88,12 +88,12 @@ public class File implements java.io.Serializable {
 		this.albums = albums;
 		this.fileDatas = fileDatas;
 		this.itemAlbums = itemAlbums;
+		this.events = events;
 		this.videos = videos;
 		this.categories = categories;
 		this.churches = churches;
 		this.banners = banners;
 		this.articles = articles;
-		this.events = events;
 	}
 
 	@Id
@@ -247,6 +247,15 @@ public class File implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "file")
+	public Set<Event> getEvents() {
+		return this.events;
+	}
+
+	public void setEvents(Set<Event> events) {
+		this.events = events;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "file")
 	public Set<Video> getVideos() {
 		return this.videos;
 	}
@@ -289,15 +298,6 @@ public class File implements java.io.Serializable {
 
 	public void setArticles(Set<Article> articles) {
 		this.articles = articles;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "file")
-	public Set<Event> getEvents() {
-		return this.events;
-	}
-
-	public void setEvents(Set<Event> events) {
-		this.events = events;
 	}
 
 }

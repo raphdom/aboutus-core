@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model.lists;
 
-// Generated 18/mai/2014 19:38:22 by Hibernate Tools 3.4.0.CR1
+// Generated 27/mai/2014 21:32:42 by Hibernate Tools 3.4.0.CR1
 
 import com.jrdevel.aboutus.core.common.model.Access;
 import com.jrdevel.aboutus.core.common.model.Church;

@@ -56,8 +56,11 @@
 	<table name="tbl_events"
 		class="com.jrdevel.aboutus.core.common.model.Event">
 	</table>
-	<table name="tbl_events_recurrences"
+	<table name="tbl_event_recurrences"
 		class="com.jrdevel.aboutus.core.common.model.EventRecurrence">
+	</table>
+	<table name="tbl_event_cancellations"
+		class="com.jrdevel.aboutus.core.common.model.EventCancellation">
 	</table>
 	<table name="tbl_file_data"
 		class="com.jrdevel.aboutus.core.common.model.FileData">

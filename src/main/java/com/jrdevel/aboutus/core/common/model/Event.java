@@ -1,8 +1,7 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 18/mai/2014 19:38:22 by Hibernate Tools 3.4.0.CR1
+// Generated 27/mai/2014 21:32:42 by Hibernate Tools 3.4.0.CR1
 
-import com.jrdevel.aboutus.core.common.model.lists.Frequency;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,54 +26,68 @@ import javax.persistence.TemporalType;
 public class Event implements java.io.Serializable {
 
 	private Integer id;
-	private Category category;
-	private Frequency frequency;
+	private Customer customer;
 	private File file;
-	private String what;
+	private Category category;
 	private Date startsOn;
 	private Date endsOn;
 	private Date startsAt;
 	private Date endsAt;
-	private int separation;
-	private Integer count;
+	private String frequency;
+	private boolean separation;
+	private Boolean count;
 	private Date until;
+	private String timezoneName;
+	private boolean status;
+	private String what;
 	private String description;
-	private String location;
-	private String style;
+	private String where;
 	private boolean published;
 	private Set<EventRecurrence> eventRecurrences = new HashSet<EventRecurrence>(
+			0);
+	private Set<EventCancellation> eventCancellations = new HashSet<EventCancellation>(
 			0);
 
 	public Event() {
 	}
 
-	public Event(String what, int separation, boolean published) {
-		this.what = what;
+	public Event(Customer customer, String frequency, boolean separation,
+			String timezoneName, boolean status, String what, boolean published) {
+		this.customer = customer;
+		this.frequency = frequency;
 		this.separation = separation;
+		this.timezoneName = timezoneName;
+		this.status = status;
+		this.what = what;
 		this.published = published;
 	}
 
-	public Event(Category category, Frequency frequency, File file,
-			String what, Date startsOn, Date endsOn, Date startsAt,
-			Date endsAt, int separation, Integer count, Date until,
-			String description, String location, String style,
-			boolean published, Set<EventRecurrence> eventRecurrences) {
-		this.category = category;
-		this.frequency = frequency;
+	public Event(Customer customer, File file, Category category,
+			Date startsOn, Date endsOn, Date startsAt, Date endsAt,
+			String frequency, boolean separation, Boolean count, Date until,
+			String timezoneName, boolean status, String what,
+			String description, String where, boolean published,
+			Set<EventRecurrence> eventRecurrences,
+			Set<EventCancellation> eventCancellations) {
+		this.customer = customer;
 		this.file = file;
-		this.what = what;
+		this.category = category;
 		this.startsOn = startsOn;
 		this.endsOn = endsOn;
 		this.startsAt = startsAt;
 		this.endsAt = endsAt;
+		this.frequency = frequency;
 		this.separation = separation;
 		this.count = count;
 		this.until = until;
+		this.timezoneName = timezoneName;
+		this.status = status;
+		this.what = what;
 		this.description = description;
-		this.location = location;
-		this.style = style;
+		this.where = where;
 		this.published = published;
 		this.eventRecurrences = eventRecurrences;
+		this.eventCancellations = eventCancellations;
 	}
 
 	@Id
@@ -89,27 +102,17 @@ public class Event implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "categoryId")
-	public Category getCategory() {
-		return this.category;
+	@JoinColumn(name = "customerId", nullable = false)
+	public Customer getCustomer() {
+		return this.customer;
 	}
 
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "frequency")
-	public Frequency getFrequency() {
-		return this.frequency;
-	}
-
-	public void setFrequency(Frequency frequency) {
-		this.frequency = frequency;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "thumb")
+	@JoinColumn(name = "thumbId")
 	public File getFile() {
 		return this.file;
 	}
@@ -118,13 +121,14 @@ public class Event implements java.io.Serializable {
 		this.file = file;
 	}
 
-	@Column(name = "what", nullable = false)
-	public String getWhat() {
-		return this.what;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "categoryId")
+	public Category getCategory() {
+		return this.category;
 	}
 
-	public void setWhat(String what) {
-		this.what = what;
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 	@Temporal(TemporalType.DATE)
@@ -167,32 +171,68 @@ public class Event implements java.io.Serializable {
 		this.endsAt = endsAt;
 	}
 
+	@Column(name = "frequency", nullable = false, length = 7)
+	public String getFrequency() {
+		return this.frequency;
+	}
+
+	public void setFrequency(String frequency) {
+		this.frequency = frequency;
+	}
+
 	@Column(name = "separation", nullable = false)
-	public int getSeparation() {
+	public boolean isSeparation() {
 		return this.separation;
 	}
 
-	public void setSeparation(int separation) {
+	public void setSeparation(boolean separation) {
 		this.separation = separation;
 	}
 
 	@Column(name = "count")
-	public Integer getCount() {
+	public Boolean getCount() {
 		return this.count;
 	}
 
-	public void setCount(Integer count) {
+	public void setCount(Boolean count) {
 		this.count = count;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "until", length = 19)
+	@Temporal(TemporalType.DATE)
+	@Column(name = "until", length = 10)
 	public Date getUntil() {
 		return this.until;
 	}
 
 	public void setUntil(Date until) {
 		this.until = until;
+	}
+
+	@Column(name = "timezone_name", nullable = false)
+	public String getTimezoneName() {
+		return this.timezoneName;
+	}
+
+	public void setTimezoneName(String timezoneName) {
+		this.timezoneName = timezoneName;
+	}
+
+	@Column(name = "status", nullable = false)
+	public boolean isStatus() {
+		return this.status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
+	@Column(name = "what", nullable = false)
+	public String getWhat() {
+		return this.what;
+	}
+
+	public void setWhat(String what) {
+		this.what = what;
 	}
 
 	@Column(name = "description", length = 65535)
@@ -204,22 +244,13 @@ public class Event implements java.io.Serializable {
 		this.description = description;
 	}
 
-	@Column(name = "location")
-	public String getLocation() {
-		return this.location;
+	@Column(name = "where")
+	public String getWhere() {
+		return this.where;
 	}
 
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-	@Column(name = "style", length = 100)
-	public String getStyle() {
-		return this.style;
-	}
-
-	public void setStyle(String style) {
-		this.style = style;
+	public void setWhere(String where) {
+		this.where = where;
 	}
 
 	@Column(name = "published", nullable = false)
@@ -238,6 +269,15 @@ public class Event implements java.io.Serializable {
 
 	public void setEventRecurrences(Set<EventRecurrence> eventRecurrences) {
 		this.eventRecurrences = eventRecurrences;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
+	public Set<EventCancellation> getEventCancellations() {
+		return this.eventCancellations;
+	}
+
+	public void setEventCancellations(Set<EventCancellation> eventCancellations) {
+		this.eventCancellations = eventCancellations;
 	}
 
 }

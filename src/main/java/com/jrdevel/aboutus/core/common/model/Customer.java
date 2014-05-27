@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 18/mai/2014 19:38:22 by Hibernate Tools 3.4.0.CR1
+// Generated 27/mai/2014 21:32:42 by Hibernate Tools 3.4.0.CR1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -26,6 +26,7 @@ public class Customer implements java.io.Serializable {
 	private Plan plan;
 	private String name;
 	private Set<User> users = new HashSet<User>(0);
+	private Set<Event> events = new HashSet<Event>(0);
 	private Set<Group> groups = new HashSet<Group>(0);
 	private Set<Person> persons = new HashSet<Person>(0);
 	private Set<File> files = new HashSet<File>(0);
@@ -41,12 +42,13 @@ public class Customer implements java.io.Serializable {
 		this.name = name;
 	}
 
-	public Customer(Plan plan, String name, Set<User> users, Set<Group> groups,
-			Set<Person> persons, Set<File> files, Set<Church> churches,
-			Set<Folder> folders, Set<Category> categories) {
+	public Customer(Plan plan, String name, Set<User> users, Set<Event> events,
+			Set<Group> groups, Set<Person> persons, Set<File> files,
+			Set<Church> churches, Set<Folder> folders, Set<Category> categories) {
 		this.plan = plan;
 		this.name = name;
 		this.users = users;
+		this.events = events;
 		this.groups = groups;
 		this.persons = persons;
 		this.files = files;
@@ -92,6 +94,15 @@ public class Customer implements java.io.Serializable {
 
 	public void setUsers(Set<User> users) {
 		this.users = users;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
+	public Set<Event> getEvents() {
+		return this.events;
+	}
+
+	public void setEvents(Set<Event> events) {
+		this.events = events;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
