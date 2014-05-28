@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
 import com.jrdevel.aboutus.core.common.model.Event;
 import com.jrdevel.aboutus.core.common.to.ResultObject;
 
@@ -80,7 +81,7 @@ public class EventServiceImpl implements EventService{
 		
 		//Insert data
 		entity.setId(null);
-		//entity.setCustomer(UserAuthenticatedManager.getCurrentCustomer());
+		entity.setCustomer(UserAuthenticatedManager.getCurrentCustomer());
 
 		eventDAO.makePersistent(entity);
 		

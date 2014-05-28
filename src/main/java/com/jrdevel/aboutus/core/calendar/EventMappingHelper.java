@@ -56,7 +56,10 @@ public class EventMappingHelper {
 	}
 	
 	public static Event DTOToBean(EventDTO dto, Event bean){
-		
+		bean.setFrequency(dto.getFrequency());
+		bean.setSeparation(dto.getSeparation());
+		bean.setWhat(dto.getTitle());
+		bean.setCalendarId(dto.getCid());
 		return bean;
 	}
 	

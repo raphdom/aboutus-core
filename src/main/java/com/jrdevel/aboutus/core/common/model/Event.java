@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 27/mai/2014 21:32:42 by Hibernate Tools 3.4.0.CR1
+// Generated 28/mai/2014 22:42:24 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import java.util.HashSet;
@@ -34,15 +34,16 @@ public class Event implements java.io.Serializable {
 	private Date startsAt;
 	private Date endsAt;
 	private String frequency;
-	private boolean separation;
-	private Boolean count;
+	private int separation;
+	private Integer count;
 	private Date until;
 	private String timezoneName;
-	private boolean status;
+	private Boolean status;
 	private String what;
 	private String description;
 	private String where;
 	private boolean published;
+	private int calendarId;
 	private Set<EventRecurrence> eventRecurrences = new HashSet<EventRecurrence>(
 			0);
 	private Set<EventCancellation> eventCancellations = new HashSet<EventCancellation>(
@@ -51,23 +52,22 @@ public class Event implements java.io.Serializable {
 	public Event() {
 	}
 
-	public Event(Customer customer, String frequency, boolean separation,
-			String timezoneName, boolean status, String what, boolean published) {
+	public Event(Customer customer, String frequency, int separation,
+			String what, boolean published, int calendarId) {
 		this.customer = customer;
 		this.frequency = frequency;
 		this.separation = separation;
-		this.timezoneName = timezoneName;
-		this.status = status;
 		this.what = what;
 		this.published = published;
+		this.calendarId = calendarId;
 	}
 
 	public Event(Customer customer, File file, Category category,
 			Date startsOn, Date endsOn, Date startsAt, Date endsAt,
-			String frequency, boolean separation, Boolean count, Date until,
-			String timezoneName, boolean status, String what,
+			String frequency, int separation, Integer count, Date until,
+			String timezoneName, Boolean status, String what,
 			String description, String where, boolean published,
-			Set<EventRecurrence> eventRecurrences,
+			int calendarId, Set<EventRecurrence> eventRecurrences,
 			Set<EventCancellation> eventCancellations) {
 		this.customer = customer;
 		this.file = file;
@@ -86,6 +86,7 @@ public class Event implements java.io.Serializable {
 		this.description = description;
 		this.where = where;
 		this.published = published;
+		this.calendarId = calendarId;
 		this.eventRecurrences = eventRecurrences;
 		this.eventCancellations = eventCancellations;
 	}
@@ -181,20 +182,20 @@ public class Event implements java.io.Serializable {
 	}
 
 	@Column(name = "separation", nullable = false)
-	public boolean isSeparation() {
+	public int getSeparation() {
 		return this.separation;
 	}
 
-	public void setSeparation(boolean separation) {
+	public void setSeparation(int separation) {
 		this.separation = separation;
 	}
 
 	@Column(name = "count")
-	public Boolean getCount() {
+	public Integer getCount() {
 		return this.count;
 	}
 
-	public void setCount(Boolean count) {
+	public void setCount(Integer count) {
 		this.count = count;
 	}
 
@@ -208,7 +209,7 @@ public class Event implements java.io.Serializable {
 		this.until = until;
 	}
 
-	@Column(name = "timezone_name", nullable = false)
+	@Column(name = "timezone_name")
 	public String getTimezoneName() {
 		return this.timezoneName;
 	}
@@ -217,12 +218,12 @@ public class Event implements java.io.Serializable {
 		this.timezoneName = timezoneName;
 	}
 
-	@Column(name = "status", nullable = false)
-	public boolean isStatus() {
+	@Column(name = "status")
+	public Boolean getStatus() {
 		return this.status;
 	}
 
-	public void setStatus(boolean status) {
+	public void setStatus(Boolean status) {
 		this.status = status;
 	}
 
@@ -260,6 +261,15 @@ public class Event implements java.io.Serializable {
 
 	public void setPublished(boolean published) {
 		this.published = published;
+	}
+
+	@Column(name = "calendarId", nullable = false)
+	public int getCalendarId() {
+		return this.calendarId;
+	}
+
+	public void setCalendarId(int calendarId) {
+		this.calendarId = calendarId;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
