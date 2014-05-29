@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 28/mai/2014 22:42:24 by Hibernate Tools 3.4.0.CR1
+// Generated 29/mai/2014 18:48:20 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import java.util.HashSet;
@@ -41,7 +41,7 @@ public class Event implements java.io.Serializable {
 	private Boolean status;
 	private String what;
 	private String description;
-	private String where;
+	private String location;
 	private boolean published;
 	private int calendarId;
 	private Set<EventRecurrence> eventRecurrences = new HashSet<EventRecurrence>(
@@ -66,7 +66,7 @@ public class Event implements java.io.Serializable {
 			Date startsOn, Date endsOn, Date startsAt, Date endsAt,
 			String frequency, int separation, Integer count, Date until,
 			String timezoneName, Boolean status, String what,
-			String description, String where, boolean published,
+			String description, String location, boolean published,
 			int calendarId, Set<EventRecurrence> eventRecurrences,
 			Set<EventCancellation> eventCancellations) {
 		this.customer = customer;
@@ -84,7 +84,7 @@ public class Event implements java.io.Serializable {
 		this.status = status;
 		this.what = what;
 		this.description = description;
-		this.where = where;
+		this.location = location;
 		this.published = published;
 		this.calendarId = calendarId;
 		this.eventRecurrences = eventRecurrences;
@@ -245,13 +245,13 @@ public class Event implements java.io.Serializable {
 		this.description = description;
 	}
 
-	@Column(name = "where")
-	public String getWhere() {
-		return this.where;
+	@Column(name = "location")
+	public String getLocation() {
+		return this.location;
 	}
 
-	public void setWhere(String where) {
-		this.where = where;
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 	@Column(name = "published", nullable = false)
