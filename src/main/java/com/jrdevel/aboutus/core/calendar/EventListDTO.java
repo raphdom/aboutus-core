@@ -17,6 +17,7 @@ public class EventListDTO implements Serializable{
 	private String title;
 	private Date start;
 	private Date end;
+	private boolean ad;
 	
 	public Integer getId() {
 		return id;
@@ -53,6 +54,12 @@ public class EventListDTO implements Serializable{
 	}
 	public void setEid(Integer eid) {
 		this.eid = eid;
+	}
+	public boolean isAd() {
+		return ad;
+	}
+	public void setAd(boolean ad) {
+		this.ad = ad;
 	}
 		
 }

@@ -11,6 +11,7 @@ public class EventListView implements Serializable{
 	
 	private static final long serialVersionUID = -5329692834378102889L;
 	private Integer id;
+	private Integer cid;
 	private Integer eventId;
 	private Date startsOn;
 	private Date endsOn;
@@ -101,6 +102,12 @@ public class EventListView implements Serializable{
 	}
 	public void setWhat(String what) {
 		this.what = what;
+	}
+	public Integer getCid() {
+		return cid;
+	}
+	public void setCid(Integer cid) {
+		this.cid = cid;
 	}
 	
 	
