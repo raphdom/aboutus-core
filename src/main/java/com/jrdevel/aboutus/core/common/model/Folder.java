@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 29/mai/2014 18:48:20 by Hibernate Tools 3.4.0.CR1
+// Generated 1/jun/2014 19:22:48 by Hibernate Tools 3.4.0.CR1
 
 import java.util.HashSet;
 import java.util.Set;

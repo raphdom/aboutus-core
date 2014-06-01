@@ -22,7 +22,7 @@ public class EventDTO implements Serializable{
 	private String frequency;
 	private String notes;
 	private Date until;
-	private String weekDays;
+	private Integer[] weekDays;
 	private String url;
 	private boolean published;
 	
@@ -119,12 +119,6 @@ public class EventDTO implements Serializable{
 	public void setUntil(Date until) {
 		this.until = until;
 	}
-	public String getWeekDays() {
-		return weekDays;
-	}
-	public void setWeekDays(String weekDays) {
-		this.weekDays = weekDays;
-	}
 	public String getUrl() {
 		return url;
 	}
@@ -148,6 +142,12 @@ public class EventDTO implements Serializable{
 	}
 	public void setPublished(boolean published) {
 		this.published = published;
+	}
+	public Integer[] getWeekDays() {
+		return weekDays;
+	}
+	public void setWeekDays(Integer[] weekDays) {
+		this.weekDays = weekDays;
 	}
 	
 }

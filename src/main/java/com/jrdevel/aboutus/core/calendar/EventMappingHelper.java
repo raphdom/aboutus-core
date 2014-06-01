@@ -2,12 +2,16 @@ package com.jrdevel.aboutus.core.calendar;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.util.StringUtils;
 
 import com.jrdevel.aboutus.core.common.model.Category;
 import com.jrdevel.aboutus.core.common.model.Event;
+import com.jrdevel.aboutus.core.common.model.EventRecurrence;
 import com.jrdevel.aboutus.core.common.model.File;
 
 /**
@@ -31,22 +35,8 @@ public class EventMappingHelper {
 			dto.setEnd(view.getEndsAt());
 			dto.setAd(false);
 		}else{
-			Calendar calStart = Calendar.getInstance();
-			calStart.setTime(view.getStartsOn());
-			calStart.set(Calendar.HOUR_OF_DAY, 0);
-			calStart.set(Calendar.MINUTE, 0);
-			calStart.set(Calendar.SECOND, 0);
-			calStart.set(Calendar.MILLISECOND, 0);
-			dto.setStart(calStart.getTime());
-			
-			Calendar calEnd = Calendar.getInstance();
-			calEnd.setTime(view.getEndsOn());
-			calEnd.set(Calendar.HOUR_OF_DAY, 0);
-			calEnd.set(Calendar.MINUTE, 0);
-			calEnd.set(Calendar.SECOND, 0);
-			calEnd.set(Calendar.MILLISECOND, 0);
-			dto.setEnd(calEnd.getTime());
-			
+			dto.setStart(getDateWithTimeMidnight(view.getStartsOn()));
+			dto.setEnd(getDateWithTimeMidnight(view.getEndsOn()));
 			dto.setAd(true);
 		}
 		dto.setTitle(view.getWhat());
@@ -72,6 +62,30 @@ public class EventMappingHelper {
 	public static EventDTO beanToDTO(Event bean){
 		
 		EventDTO dto = new EventDTO();
+		dto.setId(bean.getId());
+		dto.setEid(bean.getId());
+		dto.setCid(bean.getCalendarId());
+		if (bean.getCategory()!=null){
+			dto.setCatId(bean.getCategory().getId());
+		}
+		if (bean.getFile()!=null){
+			dto.setThbId(bean.getFile().getId());
+		}
+		dto.setPublished(bean.isPublished());
+		dto.setTitle(bean.getWhat());
+		dto.setLoc(bean.getLocation());
+		if (bean.getStartsAt()!= null){
+			dto.setStart(bean.getStartsAt());
+			dto.setEnd(bean.getEndsAt());
+		}else{
+			dto.setStart(getDateWithTimeMidnight(bean.getStartsOn()));
+			dto.setEnd(getDateWithTimeMidnight(bean.getEndsOn()));
+			dto.setAd(true);
+		}
+		
+		dto.setFrequency(bean.getFrequency());
+		dto.setSeparation(bean.getSeparation());
+		
 		
 		return dto;
 	}
@@ -110,8 +124,30 @@ public class EventMappingHelper {
 			file.setId(dto.getThbId());
 			bean.setFile(file);
 		}
+		
+		if (dto.getWeekDays()!=null && dto.getWeekDays().length > 0){
+			Set<EventRecurrence> recurrences = new HashSet<EventRecurrence>();
+			for(Integer day : dto.getWeekDays()){
+				EventRecurrence recurrence = new EventRecurrence();
+				recurrence.setEvent(bean);
+				recurrence.setDay(day);
+				recurrences.add(recurrence);
+			}
+			bean.setEventRecurrences(recurrences);
+		}
+		
 		bean.setPublished(dto.isPublished());
 		return bean;
+	}
+	
+	public static Date getDateWithTimeMidnight(Date original){
+		Calendar calEnd = Calendar.getInstance();
+		calEnd.setTime(original);
+		calEnd.set(Calendar.HOUR_OF_DAY, 0);
+		calEnd.set(Calendar.MINUTE, 0);
+		calEnd.set(Calendar.SECOND, 0);
+		calEnd.set(Calendar.MILLISECOND, 0);
+		return calEnd.getTime();
 	}
 	
 }

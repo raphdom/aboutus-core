@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 29/mai/2014 18:48:20 by Hibernate Tools 3.4.0.CR1
+// Generated 1/jun/2014 19:22:48 by Hibernate Tools 3.4.0.CR1
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,19 +21,19 @@ public class EventRecurrence implements java.io.Serializable {
 
 	private Integer id;
 	private Event event;
-	private boolean day;
-	private Boolean week;
-	private Boolean month;
+	private int day;
+	private Integer week;
+	private Integer month;
 
 	public EventRecurrence() {
 	}
 
-	public EventRecurrence(Event event, boolean day) {
+	public EventRecurrence(Event event, int day) {
 		this.event = event;
 		this.day = day;
 	}
 
-	public EventRecurrence(Event event, boolean day, Boolean week, Boolean month) {
+	public EventRecurrence(Event event, int day, Integer week, Integer month) {
 		this.event = event;
 		this.day = day;
 		this.week = week;
@@ -62,29 +62,29 @@ public class EventRecurrence implements java.io.Serializable {
 	}
 
 	@Column(name = "day", nullable = false)
-	public boolean isDay() {
+	public int getDay() {
 		return this.day;
 	}
 
-	public void setDay(boolean day) {
+	public void setDay(int day) {
 		this.day = day;
 	}
 
 	@Column(name = "week")
-	public Boolean getWeek() {
+	public Integer getWeek() {
 		return this.week;
 	}
 
-	public void setWeek(Boolean week) {
+	public void setWeek(Integer week) {
 		this.week = week;
 	}
 
 	@Column(name = "month")
-	public Boolean getMonth() {
+	public Integer getMonth() {
 		return this.month;
 	}
 
-	public void setMonth(Boolean month) {
+	public void setMonth(Integer month) {
 		this.month = month;
 	}
 
