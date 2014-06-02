@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
+import com.jrdevel.aboutus.core.common.helper.EmailHelper;
 import com.jrdevel.aboutus.core.common.helper.MessageHelper;
 import com.jrdevel.aboutus.core.common.helper.MessageKeyEnum;
 import com.jrdevel.aboutus.core.common.model.Church;
@@ -134,11 +135,14 @@ public class UserServiceImpl implements UserService{
 		entity.setId(null);
 		entity.setEmail(userDTO.getEmail());
 		entity.setRegisterDate(new Date());
-		entity.setPassword(PasswordGenerator.passGenerator(8));
+		String password = PasswordGenerator.passGenerator(8);
+		entity.setPassword(password);
 		
 		entity.setCustomer(UserAuthenticatedManager.getCurrentCustomer());
 
 		userDAO.makePersistent(entity);
+		
+		EmailHelper.sendEmail("Sua password é: " + password, entity.getEmail());
 
 		return result;
 		
