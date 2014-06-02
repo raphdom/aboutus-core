@@ -8,7 +8,8 @@ public enum MessageKeyEnum {
 	
 	GEN_ERROR ("gen.message.error"),
 	
-	DULICATED_EMAIL ("user.message.emailDuplicated");
+	DULICATED_EMAIL ("user.message.emailDuplicated"),
+	AUTHENTICATION_FAILED ("authentication.message.error");
 	
 	private String key = null;
 	

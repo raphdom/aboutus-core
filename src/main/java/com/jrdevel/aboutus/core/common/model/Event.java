@@ -1,18 +1,15 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 1/jun/2014 19:22:48 by Hibernate Tools 3.4.0.CR1
-
-import static javax.persistence.GenerationType.IDENTITY;
+// Generated 2/jun/2014 21:02:16 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -275,7 +272,7 @@ public class Event implements java.io.Serializable {
 		this.calendarId = calendarId;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
 	public Set<EventRecurrence> getEventRecurrences() {
 		return this.eventRecurrences;
 	}

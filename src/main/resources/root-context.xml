@@ -17,7 +17,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 	
 	<import resource="classpath:db-config.xml" />
 	
-	<bean id="messageSource"
+	<bean id="messageSourceService"
 		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 		<property name="basename" value="classpath:messages/messages" />
 	</bean>

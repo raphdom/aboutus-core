@@ -38,7 +38,7 @@ public class MessageHelper implements ApplicationContextAware{
 	
 	public static MessageSource getMessageSource(){
 		if (messageSource == null){
-			messageSource = (MessageSource) applicationContext.getBean("messageSource");
+			messageSource = (MessageSource) applicationContext.getBean("messageSourceService");
 		}
 		return messageSource;
 		

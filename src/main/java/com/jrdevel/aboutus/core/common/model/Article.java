@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 1/jun/2014 19:22:48 by Hibernate Tools 3.4.0.CR1
+// Generated 2/jun/2014 21:02:16 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -23,6 +23,7 @@ import javax.persistence.TemporalType;
 public class Article implements java.io.Serializable {
 
 	private Integer id;
+	private Customer customer;
 	private Category category;
 	private File file;
 	private String introarticle;
@@ -39,9 +40,10 @@ public class Article implements java.io.Serializable {
 	public Article() {
 	}
 
-	public Article(Category category, String article, String title,
-			Date created, Date publishUp, int ordering, int hits,
+	public Article(Customer customer, Category category, String article,
+			String title, Date created, Date publishUp, int ordering, int hits,
 			boolean homepage) {
+		this.customer = customer;
 		this.category = category;
 		this.article = article;
 		this.title = title;
@@ -52,10 +54,11 @@ public class Article implements java.io.Serializable {
 		this.homepage = homepage;
 	}
 
-	public Article(Category category, File file, String introarticle,
-			String article, String title, Date created, Date publishUp,
-			Date publishDown, int ordering, int hits, boolean homepage,
-			String author) {
+	public Article(Customer customer, Category category, File file,
+			String introarticle, String article, String title, Date created,
+			Date publishUp, Date publishDown, int ordering, int hits,
+			boolean homepage, String author) {
+		this.customer = customer;
 		this.category = category;
 		this.file = file;
 		this.introarticle = introarticle;
@@ -79,6 +82,16 @@ public class Article implements java.io.Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "customerId", nullable = false)
+	public Customer getCustomer() {
+		return this.customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
