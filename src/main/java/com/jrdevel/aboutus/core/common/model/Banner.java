@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 2/jun/2014 21:02:16 by Hibernate Tools 3.4.0.CR1
+// Generated 3/jun/2014 19:59:04 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -23,6 +23,7 @@ import javax.persistence.TemporalType;
 public class Banner implements java.io.Serializable {
 
 	private Integer id;
+	private Customer customer;
 	private File file;
 	private String name;
 	private String alias;
@@ -34,14 +35,16 @@ public class Banner implements java.io.Serializable {
 	public Banner() {
 	}
 
-	public Banner(String name, Date publishUp, int ordering) {
+	public Banner(Customer customer, String name, Date publishUp, int ordering) {
+		this.customer = customer;
 		this.name = name;
 		this.publishUp = publishUp;
 		this.ordering = ordering;
 	}
 
-	public Banner(File file, String name, String alias, String link,
-			Date publishUp, Date publishDown, int ordering) {
+	public Banner(Customer customer, File file, String name, String alias,
+			String link, Date publishUp, Date publishDown, int ordering) {
+		this.customer = customer;
 		this.file = file;
 		this.name = name;
 		this.alias = alias;
@@ -60,6 +63,16 @@ public class Banner implements java.io.Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "customerId", nullable = false)
+	public Customer getCustomer() {
+		return this.customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)

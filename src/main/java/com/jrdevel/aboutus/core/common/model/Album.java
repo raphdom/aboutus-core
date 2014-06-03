@@ -1,15 +1,19 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 2/jun/2014 21:02:16 by Hibernate Tools 3.4.0.CR1
+// Generated 3/jun/2014 19:59:04 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+
 import static javax.persistence.GenerationType.IDENTITY;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -26,11 +30,12 @@ import javax.persistence.TemporalType;
 public class Album implements java.io.Serializable {
 
 	private Integer id;
+	private Customer customer;
 	private Category category;
 	private File file;
 	private String title;
 	private String description;
-	private int position;
+	private int ordering;
 	private boolean published;
 	private Date created;
 	private Set<ItemAlbum> itemAlbums = new HashSet<ItemAlbum>(0);
@@ -38,23 +43,25 @@ public class Album implements java.io.Serializable {
 	public Album() {
 	}
 
-	public Album(Category category, String title, String description,
-			int position, boolean published) {
+	public Album(Customer customer, Category category, String title,
+			String description, int ordering, boolean published) {
+		this.customer = customer;
 		this.category = category;
 		this.title = title;
 		this.description = description;
-		this.position = position;
+		this.ordering = ordering;
 		this.published = published;
 	}
 
-	public Album(Category category, File file, String title,
-			String description, int position, boolean published, Date created,
+	public Album(Customer customer, Category category, File file, String title,
+			String description, int ordering, boolean published, Date created,
 			Set<ItemAlbum> itemAlbums) {
+		this.customer = customer;
 		this.category = category;
 		this.file = file;
 		this.title = title;
 		this.description = description;
-		this.position = position;
+		this.ordering = ordering;
 		this.published = published;
 		this.created = created;
 		this.itemAlbums = itemAlbums;
@@ -69,6 +76,16 @@ public class Album implements java.io.Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "customerId", nullable = false)
+	public Customer getCustomer() {
+		return this.customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -109,13 +126,13 @@ public class Album implements java.io.Serializable {
 		this.description = description;
 	}
 
-	@Column(name = "position", nullable = false)
-	public int getPosition() {
-		return this.position;
+	@Column(name = "ordering", nullable = false)
+	public int getOrdering() {
+		return this.ordering;
 	}
 
-	public void setPosition(int position) {
-		this.position = position;
+	public void setOrdering(int ordering) {
+		this.ordering = ordering;
 	}
 
 	@Column(name = "published", nullable = false)
@@ -137,7 +154,7 @@ public class Album implements java.io.Serializable {
 		this.created = created;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "album")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "album", cascade = CascadeType.ALL)
 	public Set<ItemAlbum> getItemAlbums() {
 		return this.itemAlbums;
 	}

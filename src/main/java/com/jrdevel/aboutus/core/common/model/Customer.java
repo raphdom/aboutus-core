@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 2/jun/2014 21:02:16 by Hibernate Tools 3.4.0.CR1
+// Generated 3/jun/2014 19:59:04 by Hibernate Tools 3.4.0.CR1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,15 +25,18 @@ public class Customer implements java.io.Serializable {
 	private Integer id;
 	private Plan plan;
 	private String name;
+	private Set<Video> videos = new HashSet<Video>(0);
 	private Set<Article> articles = new HashSet<Article>(0);
 	private Set<User> users = new HashSet<User>(0);
 	private Set<Event> events = new HashSet<Event>(0);
 	private Set<Group> groups = new HashSet<Group>(0);
 	private Set<Person> persons = new HashSet<Person>(0);
 	private Set<File> files = new HashSet<File>(0);
+	private Set<Banner> banners = new HashSet<Banner>(0);
 	private Set<Church> churches = new HashSet<Church>(0);
 	private Set<Folder> folders = new HashSet<Folder>(0);
 	private Set<Category> categories = new HashSet<Category>(0);
+	private Set<Album> albums = new HashSet<Album>(0);
 
 	public Customer() {
 	}
@@ -43,21 +46,25 @@ public class Customer implements java.io.Serializable {
 		this.name = name;
 	}
 
-	public Customer(Plan plan, String name, Set<Article> articles,
-			Set<User> users, Set<Event> events, Set<Group> groups,
-			Set<Person> persons, Set<File> files, Set<Church> churches,
-			Set<Folder> folders, Set<Category> categories) {
+	public Customer(Plan plan, String name, Set<Video> videos,
+			Set<Article> articles, Set<User> users, Set<Event> events,
+			Set<Group> groups, Set<Person> persons, Set<File> files,
+			Set<Banner> banners, Set<Church> churches, Set<Folder> folders,
+			Set<Category> categories, Set<Album> albums) {
 		this.plan = plan;
 		this.name = name;
+		this.videos = videos;
 		this.articles = articles;
 		this.users = users;
 		this.events = events;
 		this.groups = groups;
 		this.persons = persons;
 		this.files = files;
+		this.banners = banners;
 		this.churches = churches;
 		this.folders = folders;
 		this.categories = categories;
+		this.albums = albums;
 	}
 
 	@Id
@@ -88,6 +95,15 @@ public class Customer implements java.io.Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
+	public Set<Video> getVideos() {
+		return this.videos;
+	}
+
+	public void setVideos(Set<Video> videos) {
+		this.videos = videos;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
@@ -145,6 +161,15 @@ public class Customer implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
+	public Set<Banner> getBanners() {
+		return this.banners;
+	}
+
+	public void setBanners(Set<Banner> banners) {
+		this.banners = banners;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
 	public Set<Church> getChurches() {
 		return this.churches;
 	}
@@ -169,6 +194,15 @@ public class Customer implements java.io.Serializable {
 
 	public void setCategories(Set<Category> categories) {
 		this.categories = categories;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
+	public Set<Album> getAlbums() {
+		return this.albums;
+	}
+
+	public void setAlbums(Set<Album> albums) {
+		this.albums = albums;
 	}
 
 }
