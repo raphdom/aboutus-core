@@ -21,6 +21,7 @@ public interface GenericDAO<T, PK extends Serializable>{
 	public <R> ListResult<R> findAllByView(ListParams params, Class<R> view);
 	public ListResult<T> findAllByCriteria(ListParams params);
 	public T makePersistent(T entity);
+	public T makePersistent(T entity, boolean audit, boolean customer);
 	public T makeTransient(T entity);
 
 }

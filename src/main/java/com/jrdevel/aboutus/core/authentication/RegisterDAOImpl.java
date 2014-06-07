@@ -35,6 +35,14 @@ public class RegisterDAOImpl extends AbstractGenericDAO<Register, Integer> imple
 		Criterion crit = Restrictions.eq("user.id", user.getId());
 		return findUniqueByCriteria(crit);
 	}
+
+	public String getObjectName() {
+		return null;
+	}
+
+	public String getObjectTitle(Register entity) {
+		return null;
+	}
 	
 
 }

@@ -1,13 +1,16 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 3/jun/2014 19:59:04 by Hibernate Tools 3.4.0.CR1
+// Generated 6/jun/2014 23:30:59 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -20,6 +23,7 @@ import javax.persistence.TemporalType;
 public class Audit implements java.io.Serializable {
 
 	private Integer id;
+	private Customer customer;
 	private int userId;
 	private int actionId;
 	private Date actionDate;
@@ -35,8 +39,9 @@ public class Audit implements java.io.Serializable {
 	public Audit() {
 	}
 
-	public Audit(int userId, int actionId, Date actionDate, String tableName,
-			int tableId) {
+	public Audit(Customer customer, int userId, int actionId, Date actionDate,
+			String tableName, int tableId) {
+		this.customer = customer;
 		this.userId = userId;
 		this.actionId = actionId;
 		this.actionDate = actionDate;
@@ -44,10 +49,11 @@ public class Audit implements java.io.Serializable {
 		this.tableId = tableId;
 	}
 
-	public Audit(int userId, int actionId, Date actionDate, String tableName,
-			int tableId, String collumnName, String collumnValue,
-			String collumnNewValue, String objectName, String objectTitle,
-			String userName) {
+	public Audit(Customer customer, int userId, int actionId, Date actionDate,
+			String tableName, int tableId, String collumnName,
+			String collumnValue, String collumnNewValue, String objectName,
+			String objectTitle, String userName) {
+		this.customer = customer;
 		this.userId = userId;
 		this.actionId = actionId;
 		this.actionDate = actionDate;
@@ -72,7 +78,17 @@ public class Audit implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "user_id", nullable = false)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "customerId", nullable = false)
+	public Customer getCustomer() {
+		return this.customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	@Column(name = "userId", nullable = false)
 	public int getUserId() {
 		return this.userId;
 	}
@@ -81,7 +97,7 @@ public class Audit implements java.io.Serializable {
 		this.userId = userId;
 	}
 
-	@Column(name = "action_id", nullable = false)
+	@Column(name = "actionId", nullable = false)
 	public int getActionId() {
 		return this.actionId;
 	}
@@ -100,7 +116,7 @@ public class Audit implements java.io.Serializable {
 		this.actionDate = actionDate;
 	}
 
-	@Column(name = "table_name", nullable = false)
+	@Column(name = "tableName", nullable = false)
 	public String getTableName() {
 		return this.tableName;
 	}
@@ -109,7 +125,7 @@ public class Audit implements java.io.Serializable {
 		this.tableName = tableName;
 	}
 
-	@Column(name = "table_id", nullable = false)
+	@Column(name = "tableId", nullable = false)
 	public int getTableId() {
 		return this.tableId;
 	}
@@ -118,7 +134,7 @@ public class Audit implements java.io.Serializable {
 		this.tableId = tableId;
 	}
 
-	@Column(name = "collumn_name", length = 100)
+	@Column(name = "collumnName", length = 100)
 	public String getCollumnName() {
 		return this.collumnName;
 	}
@@ -127,7 +143,7 @@ public class Audit implements java.io.Serializable {
 		this.collumnName = collumnName;
 	}
 
-	@Column(name = "collumn_value")
+	@Column(name = "collumnValue")
 	public String getCollumnValue() {
 		return this.collumnValue;
 	}
@@ -136,7 +152,7 @@ public class Audit implements java.io.Serializable {
 		this.collumnValue = collumnValue;
 	}
 
-	@Column(name = "collumn_new_value")
+	@Column(name = "collumnNewValue")
 	public String getCollumnNewValue() {
 		return this.collumnNewValue;
 	}

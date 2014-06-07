@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 3/jun/2014 19:59:04 by Hibernate Tools 3.4.0.CR1
+// Generated 6/jun/2014 23:30:59 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import java.util.HashSet;
@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,6 +27,7 @@ import javax.persistence.TemporalType;
 public class Playlist implements java.io.Serializable {
 
 	private Integer id;
+	private Customer customer;
 	private String name;
 	private Date createDate;
 	private Date modificationDate;
@@ -34,14 +36,17 @@ public class Playlist implements java.io.Serializable {
 	public Playlist() {
 	}
 
-	public Playlist(String name, Date createDate, Date modificationDate) {
+	public Playlist(Customer customer, String name, Date createDate,
+			Date modificationDate) {
+		this.customer = customer;
 		this.name = name;
 		this.createDate = createDate;
 		this.modificationDate = modificationDate;
 	}
 
-	public Playlist(String name, Date createDate, Date modificationDate,
-			Set<Music> musics) {
+	public Playlist(Customer customer, String name, Date createDate,
+			Date modificationDate, Set<Music> musics) {
+		this.customer = customer;
 		this.name = name;
 		this.createDate = createDate;
 		this.modificationDate = modificationDate;
@@ -57,6 +62,16 @@ public class Playlist implements java.io.Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "customerId", nullable = false)
+	public Customer getCustomer() {
+		return this.customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 	@Column(name = "name", nullable = false)

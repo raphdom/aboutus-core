@@ -8,6 +8,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.jrdevel.aboutus.core.common.AbstractGenericDAO;
+import com.jrdevel.aboutus.core.common.helper.MessageKeyEnum;
 import com.jrdevel.aboutus.core.common.model.Group;
 
 /**
@@ -35,6 +36,14 @@ public class GroupDAOImpl extends AbstractGenericDAO<Group, Integer> implements 
 		Criteria crit = getSession().createCriteria(getPersistentClass());
 		crit.add(Restrictions.eq("user.id", userId));
 		return crit.list();
+	}
+
+	public String getObjectName() {
+		return MessageKeyEnum.AUDIT_OBJECT_GROUP.getKey();
+	}
+
+	public String getObjectTitle(Group entity) {
+		return entity.getName();
 	}
 
 }

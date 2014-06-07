@@ -24,8 +24,16 @@ public class MessageHelper implements ApplicationContextAware{
 		return getMessage(key,null);
 	}
 	
+	public static String getMessage(String key){
+		return getMessage(key,null);
+	}
+	
 	public static String getMessage(MessageKeyEnum key, Object[] params){
 		return getMessageSource().getMessage(key.getKey(), params, getCurrentLocale());
+	}
+	
+	public static String getMessage(String key, Object[] params){
+		return getMessageSource().getMessage(key, params, getCurrentLocale());
 	}
 	
 	public static Locale getCurrentLocale(){

@@ -18,4 +18,12 @@ public class FolderRoleDAOImpl extends AbstractGenericDAO<FolderRole, Integer> i
 		
 	}
 
+	public String getObjectName() {
+		return null;
+	}
+
+	public String getObjectTitle(FolderRole entity) {
+		return null;
+	}
+
 }

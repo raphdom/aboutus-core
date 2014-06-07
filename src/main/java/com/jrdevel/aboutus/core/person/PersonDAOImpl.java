@@ -14,6 +14,7 @@ import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
 import com.jrdevel.aboutus.core.common.AbstractGenericDAO;
 import com.jrdevel.aboutus.core.common.GenericIdTextView;
 import com.jrdevel.aboutus.core.common.helper.MessageHelper;
+import com.jrdevel.aboutus.core.common.helper.MessageKeyEnum;
 import com.jrdevel.aboutus.core.common.model.Person;
 import com.jrdevel.aboutus.core.common.to.ListResult;
 
@@ -71,6 +72,14 @@ public class PersonDAOImpl extends AbstractGenericDAO<Person, Integer> implement
 		List<GenericIdTextView> list = criteria.list();
 		
 		return new ListResult<GenericIdTextView>(list, list.size());
+	}
+
+	public String getObjectName() {
+		return MessageKeyEnum.AUDIT_OBJECT_PERSON.getKey();
+	}
+
+	public String getObjectTitle(Person entity) {
+		return entity.getName();
 	}
 
 }

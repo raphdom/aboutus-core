@@ -1,19 +1,15 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 3/jun/2014 19:59:04 by Hibernate Tools 3.4.0.CR1
+// Generated 6/jun/2014 23:30:59 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-
 import static javax.persistence.GenerationType.IDENTITY;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -154,7 +150,7 @@ public class Album implements java.io.Serializable {
 		this.created = created;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "album", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "album")
 	public Set<ItemAlbum> getItemAlbums() {
 		return this.itemAlbums;
 	}

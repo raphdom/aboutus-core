@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 3/jun/2014 19:59:04 by Hibernate Tools 3.4.0.CR1
+// Generated 6/jun/2014 23:30:59 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import java.util.HashSet;
@@ -42,6 +42,7 @@ public class File implements java.io.Serializable {
 	private Set<FileData> fileDatas = new HashSet<FileData>(0);
 	private Set<ItemAlbum> itemAlbums = new HashSet<ItemAlbum>(0);
 	private Set<Event> events = new HashSet<Event>(0);
+	private Set<User> users = new HashSet<User>(0);
 	private Set<Video> videos = new HashSet<Video>(0);
 	private Set<Category> categories = new HashSet<Category>(0);
 	private Set<Church> churches = new HashSet<Church>(0);
@@ -70,8 +71,8 @@ public class File implements java.io.Serializable {
 			String fileType, long filesize, String title, String caption,
 			String keywords, boolean published, String path, Date createdDate,
 			Date modifiedDate, Set<Album> albums, Set<FileData> fileDatas,
-			Set<ItemAlbum> itemAlbums, Set<Event> events, Set<Video> videos,
-			Set<Category> categories, Set<Church> churches,
+			Set<ItemAlbum> itemAlbums, Set<Event> events, Set<User> users,
+			Set<Video> videos, Set<Category> categories, Set<Church> churches,
 			Set<Banner> banners, Set<Article> articles) {
 		this.customer = customer;
 		this.folder = folder;
@@ -89,6 +90,7 @@ public class File implements java.io.Serializable {
 		this.fileDatas = fileDatas;
 		this.itemAlbums = itemAlbums;
 		this.events = events;
+		this.users = users;
 		this.videos = videos;
 		this.categories = categories;
 		this.churches = churches;
@@ -253,6 +255,15 @@ public class File implements java.io.Serializable {
 
 	public void setEvents(Set<Event> events) {
 		this.events = events;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "file")
+	public Set<User> getUsers() {
+		return this.users;
+	}
+
+	public void setUsers(Set<User> users) {
+		this.users = users;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "file")

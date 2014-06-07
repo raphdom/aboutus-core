@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
 import com.jrdevel.aboutus.core.common.AbstractGenericDAO;
+import com.jrdevel.aboutus.core.common.helper.MessageKeyEnum;
 import com.jrdevel.aboutus.core.common.model.Folder;
 import com.jrdevel.aboutus.core.common.model.Group;
 import com.jrdevel.aboutus.core.common.model.User;
@@ -43,6 +44,14 @@ public class FolderDAOImpl extends AbstractGenericDAO<Folder, Integer> implement
 	public void setExtraFilters(Criteria criteria) {
 		
 		
+	}
+
+	public String getObjectName() {
+		return MessageKeyEnum.AUDIT_OBJECT_FOLDER.getKey();
+	}
+
+	public String getObjectTitle(Folder entity) {
+		return entity.getName();
 	}
 
 }

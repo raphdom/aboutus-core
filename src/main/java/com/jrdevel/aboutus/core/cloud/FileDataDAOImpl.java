@@ -26,4 +26,12 @@ public class FileDataDAOImpl extends AbstractGenericDAO<FileData, Integer> imple
 		
 	}
 
+	public String getObjectName() {
+		return null;
+	}
+
+	public String getObjectTitle(FileData entity) {
+		return null;
+	}
+
 }

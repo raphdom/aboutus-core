@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 3/jun/2014 19:59:04 by Hibernate Tools 3.4.0.CR1
+// Generated 6/jun/2014 23:30:59 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import java.util.HashSet;
@@ -30,6 +30,7 @@ public class Music implements java.io.Serializable {
 
 	private Integer id;
 	private Integer version;
+	private Customer customer;
 	private Folder folder;
 	private String title;
 	private String liryc;
@@ -50,18 +51,21 @@ public class Music implements java.io.Serializable {
 	public Music() {
 	}
 
-	public Music(String title, String liryc, Date createDate, boolean favorite) {
+	public Music(Customer customer, String title, String liryc,
+			Date createDate, boolean favorite) {
+		this.customer = customer;
 		this.title = title;
 		this.liryc = liryc;
 		this.createDate = createDate;
 		this.favorite = favorite;
 	}
 
-	public Music(Folder folder, String title, String liryc, String seq,
-			String drumsStyle, Integer time, String originalTone,
+	public Music(Customer customer, Folder folder, String title, String liryc,
+			String seq, String drumsStyle, Integer time, String originalTone,
 			String observations, String link, Date createDate,
 			Date modificationDate, String author, String musicNotes,
 			boolean favorite, Set<Playlist> playlists, Set<Tab> tabs) {
+		this.customer = customer;
 		this.folder = folder;
 		this.title = title;
 		this.liryc = liryc;
@@ -99,6 +103,16 @@ public class Music implements java.io.Serializable {
 
 	public void setVersion(Integer version) {
 		this.version = version;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "customerId", nullable = false)
+	public Customer getCustomer() {
+		return this.customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)

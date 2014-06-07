@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
 import com.jrdevel.aboutus.core.common.AbstractGenericDAO;
+import com.jrdevel.aboutus.core.common.helper.MessageKeyEnum;
 import com.jrdevel.aboutus.core.common.model.Event;
 
 /**
@@ -44,6 +45,14 @@ public class EventDAOImpl extends AbstractGenericDAO<Event, Integer> implements 
 		
 		return result;
 		
+	}
+
+	public String getObjectName() {
+		return MessageKeyEnum.AUDIT_OBJECT_EVENT.getKey();
+	}
+
+	public String getObjectTitle(Event entity) {
+		return entity.getWhat();
 	}
 
 }

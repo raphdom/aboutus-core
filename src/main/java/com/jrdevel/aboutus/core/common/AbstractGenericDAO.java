@@ -217,7 +217,7 @@ public abstract class AbstractGenericDAO<T, PK extends Serializable> implements 
 	}
 	
 	public T makePersistent(T entity) {
-    	return makePersistent(entity, false, true);
+    	return makePersistent(entity, true, true);
     }
 	
     public T makePersistent(T entity, boolean audit, boolean customer) {
@@ -238,7 +238,7 @@ public abstract class AbstractGenericDAO<T, PK extends Serializable> implements 
     }
     
     public T makeTransient(T entity) {
-    	return makeTransient(entity, false);
+    	return makeTransient(entity, true);
     }
     
     public T makeTransient(T entity, boolean audit) {
@@ -267,9 +267,9 @@ public abstract class AbstractGenericDAO<T, PK extends Serializable> implements 
 		audit.setTableName(tableName);
 		audit.setActionId(mode);
 		audit.setUserName(UserAuthenticatedManager.getCurrentUser().getPerson().getName());
-//		audit.setObjectName(getObjectName());
-//		audit.setObjectTitle(getObjectTitle(entity));
-		
+		audit.setObjectName(getObjectName());
+		audit.setObjectTitle(getObjectTitle(entity));
+		audit.setCustomer(UserAuthenticatedManager.getCurrentCustomer());
 		audit.setActionDate(new Date());
 		
 		getSession().saveOrUpdate(audit);
@@ -280,6 +280,8 @@ public abstract class AbstractGenericDAO<T, PK extends Serializable> implements 
 	//Abstract methods
 
 	public abstract void setExtraFilters(Criteria criteria);
+	public abstract String getObjectName();
+	public abstract String getObjectTitle(T entity);
 
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;

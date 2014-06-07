@@ -53,6 +53,10 @@ public class UserDetailsAdapter implements UserDetails{
 	public String getUsername() {
 		return user.getEmail();
 	}
+	
+	public String getLocale(){
+		return user.getLocale();
+	}
 
 	public boolean isAccountNonExpired() {
 		return true;

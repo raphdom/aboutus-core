@@ -109,7 +109,7 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 	public void updateLogin(Integer id){
 		User userDB = userDAO.findById(id, false);
 		userDB.setLastvisitDate(new Date());
-		userDAO.makePersistent(userDB);
+		userDAO.makePersistent(userDB,false,true);
 	}
 	
 	private Register getRegister(User user){

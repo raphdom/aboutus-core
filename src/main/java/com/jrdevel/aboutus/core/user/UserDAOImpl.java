@@ -8,6 +8,7 @@ import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 
 import com.jrdevel.aboutus.core.common.AbstractGenericDAO;
+import com.jrdevel.aboutus.core.common.helper.MessageKeyEnum;
 import com.jrdevel.aboutus.core.common.model.User;
 import com.jrdevel.aboutus.core.common.to.ListResult;
 
@@ -78,6 +79,14 @@ public class UserDAOImpl extends AbstractGenericDAO<User, Integer> implements Us
 		
 		criteria.setResultTransformer(Transformers.aliasToBean(UserListView.class));
 		return new ListResult<UserListView>(criteria.list(), 15);
+	}
+
+	public String getObjectName() {
+		return MessageKeyEnum.AUDIT_OBJECT_USER.getKey();
+	}
+
+	public String getObjectTitle(User entity) {
+		return entity.getEmail();
 	}
 
 }

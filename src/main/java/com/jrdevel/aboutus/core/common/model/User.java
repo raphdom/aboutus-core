@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 3/jun/2014 19:59:04 by Hibernate Tools 3.4.0.CR1
+// Generated 6/jun/2014 23:30:59 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import java.util.HashSet;
@@ -28,6 +28,7 @@ import javax.persistence.TemporalType;
 public class User implements java.io.Serializable {
 
 	private Integer id;
+	private File file;
 	private Church church;
 	private Customer customer;
 	private Person person;
@@ -37,6 +38,7 @@ public class User implements java.io.Serializable {
 	private boolean activation;
 	private Date registerDate;
 	private Date lastvisitDate;
+	private String locale;
 	private Set<Permission> permissions = new HashSet<Permission>(0);
 	private Set<Register> registers = new HashSet<Register>(0);
 	private Set<FolderRole> folderRoles = new HashSet<FolderRole>(0);
@@ -47,19 +49,22 @@ public class User implements java.io.Serializable {
 	}
 
 	public User(String email, String password, boolean block,
-			boolean activation, Date registerDate) {
+			boolean activation, Date registerDate, String locale) {
 		this.email = email;
 		this.password = password;
 		this.block = block;
 		this.activation = activation;
 		this.registerDate = registerDate;
+		this.locale = locale;
 	}
 
-	public User(Church church, Customer customer, Person person, String email,
-			String password, boolean block, boolean activation,
-			Date registerDate, Date lastvisitDate, Set<Permission> permissions,
-			Set<Register> registers, Set<FolderRole> folderRoles,
-			Set<Session> sessions, Set<Group> groups) {
+	public User(File file, Church church, Customer customer, Person person,
+			String email, String password, boolean block, boolean activation,
+			Date registerDate, Date lastvisitDate, String locale,
+			Set<Permission> permissions, Set<Register> registers,
+			Set<FolderRole> folderRoles, Set<Session> sessions,
+			Set<Group> groups) {
+		this.file = file;
 		this.church = church;
 		this.customer = customer;
 		this.person = person;
@@ -69,6 +74,7 @@ public class User implements java.io.Serializable {
 		this.activation = activation;
 		this.registerDate = registerDate;
 		this.lastvisitDate = lastvisitDate;
+		this.locale = locale;
 		this.permissions = permissions;
 		this.registers = registers;
 		this.folderRoles = folderRoles;
@@ -85,6 +91,16 @@ public class User implements java.io.Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "avatar")
+	public File getFile() {
+		return this.file;
+	}
+
+	public void setFile(File file) {
+		this.file = file;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -171,6 +187,15 @@ public class User implements java.io.Serializable {
 
 	public void setLastvisitDate(Date lastvisitDate) {
 		this.lastvisitDate = lastvisitDate;
+	}
+
+	@Column(name = "locale", nullable = false, length = 10)
+	public String getLocale() {
+		return this.locale;
+	}
+
+	public void setLocale(String locale) {
+		this.locale = locale;
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY)

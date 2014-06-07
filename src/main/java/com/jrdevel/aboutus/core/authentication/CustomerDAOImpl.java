@@ -16,6 +16,14 @@ public class CustomerDAOImpl extends AbstractGenericDAO<Customer, Integer> imple
 	public void setExtraFilters(Criteria criteria) {
 		
 	}
+
+	public String getObjectName() {
+		return null;
+	}
+
+	public String getObjectTitle(Customer entity) {
+		return null;
+	}
 	
 
 }

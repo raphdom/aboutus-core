@@ -138,6 +138,7 @@ public class UserServiceImpl implements UserService{
 		String password = PasswordGenerator.passGenerator(8);
 		entity.setPassword(password);
 		
+		entity.setLocale("en_GB");
 		entity.setCustomer(UserAuthenticatedManager.getCurrentCustomer());
 
 		userDAO.makePersistent(entity);

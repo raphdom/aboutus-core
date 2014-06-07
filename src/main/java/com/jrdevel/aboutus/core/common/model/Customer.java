@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 3/jun/2014 19:59:04 by Hibernate Tools 3.4.0.CR1
+// Generated 6/jun/2014 23:30:59 by Hibernate Tools 3.4.0.CR1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -27,14 +27,17 @@ public class Customer implements java.io.Serializable {
 	private String name;
 	private Set<Video> videos = new HashSet<Video>(0);
 	private Set<Article> articles = new HashSet<Article>(0);
-	private Set<User> users = new HashSet<User>(0);
 	private Set<Event> events = new HashSet<Event>(0);
 	private Set<Group> groups = new HashSet<Group>(0);
+	private Set<Playlist> playlists = new HashSet<Playlist>(0);
 	private Set<Person> persons = new HashSet<Person>(0);
+	private Set<Folder> folders = new HashSet<Folder>(0);
+	private Set<Music> musics = new HashSet<Music>(0);
+	private Set<Audit> audits = new HashSet<Audit>(0);
+	private Set<User> users = new HashSet<User>(0);
 	private Set<File> files = new HashSet<File>(0);
 	private Set<Banner> banners = new HashSet<Banner>(0);
 	private Set<Church> churches = new HashSet<Church>(0);
-	private Set<Folder> folders = new HashSet<Folder>(0);
 	private Set<Category> categories = new HashSet<Category>(0);
 	private Set<Album> albums = new HashSet<Album>(0);
 
@@ -47,22 +50,26 @@ public class Customer implements java.io.Serializable {
 	}
 
 	public Customer(Plan plan, String name, Set<Video> videos,
-			Set<Article> articles, Set<User> users, Set<Event> events,
-			Set<Group> groups, Set<Person> persons, Set<File> files,
-			Set<Banner> banners, Set<Church> churches, Set<Folder> folders,
+			Set<Article> articles, Set<Event> events, Set<Group> groups,
+			Set<Playlist> playlists, Set<Person> persons, Set<Folder> folders,
+			Set<Music> musics, Set<Audit> audits, Set<User> users,
+			Set<File> files, Set<Banner> banners, Set<Church> churches,
 			Set<Category> categories, Set<Album> albums) {
 		this.plan = plan;
 		this.name = name;
 		this.videos = videos;
 		this.articles = articles;
-		this.users = users;
 		this.events = events;
 		this.groups = groups;
+		this.playlists = playlists;
 		this.persons = persons;
+		this.folders = folders;
+		this.musics = musics;
+		this.audits = audits;
+		this.users = users;
 		this.files = files;
 		this.banners = banners;
 		this.churches = churches;
-		this.folders = folders;
 		this.categories = categories;
 		this.albums = albums;
 	}
@@ -116,15 +123,6 @@ public class Customer implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
-	public Set<User> getUsers() {
-		return this.users;
-	}
-
-	public void setUsers(Set<User> users) {
-		this.users = users;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
 	public Set<Event> getEvents() {
 		return this.events;
 	}
@@ -143,12 +141,57 @@ public class Customer implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
+	public Set<Playlist> getPlaylists() {
+		return this.playlists;
+	}
+
+	public void setPlaylists(Set<Playlist> playlists) {
+		this.playlists = playlists;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
 	public Set<Person> getPersons() {
 		return this.persons;
 	}
 
 	public void setPersons(Set<Person> persons) {
 		this.persons = persons;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
+	public Set<Folder> getFolders() {
+		return this.folders;
+	}
+
+	public void setFolders(Set<Folder> folders) {
+		this.folders = folders;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
+	public Set<Music> getMusics() {
+		return this.musics;
+	}
+
+	public void setMusics(Set<Music> musics) {
+		this.musics = musics;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
+	public Set<Audit> getAudits() {
+		return this.audits;
+	}
+
+	public void setAudits(Set<Audit> audits) {
+		this.audits = audits;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
+	public Set<User> getUsers() {
+		return this.users;
+	}
+
+	public void setUsers(Set<User> users) {
+		this.users = users;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
@@ -176,15 +219,6 @@ public class Customer implements java.io.Serializable {
 
 	public void setChurches(Set<Church> churches) {
 		this.churches = churches;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
-	public Set<Folder> getFolders() {
-		return this.folders;
-	}
-
-	public void setFolders(Set<Folder> folders) {
-		this.folders = folders;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")

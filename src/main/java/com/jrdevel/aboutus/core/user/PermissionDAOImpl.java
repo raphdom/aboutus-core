@@ -19,4 +19,12 @@ public class PermissionDAOImpl extends AbstractGenericDAO<Permission, Integer> i
 		
 	}
 
+	public String getObjectName() {
+		return null;
+	}
+
+	public String getObjectTitle(Permission entity) {
+		return null;
+	}
+
 }

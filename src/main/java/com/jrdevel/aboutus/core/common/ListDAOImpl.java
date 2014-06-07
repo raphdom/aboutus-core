@@ -7,7 +7,6 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.jrdevel.aboutus.core.common.helper.MessageHelper;
@@ -59,6 +58,14 @@ public class ListDAOImpl extends AbstractGenericDAO<GenericValueTextDTO, Integer
 		List<GenericValueTextView> list = criteria.list();
 		
 		return list;
+	}
+
+	public String getObjectName() {
+		return null;
+	}
+
+	public String getObjectTitle(GenericValueTextDTO entity) {
+		return null;
 	}
 
 }
