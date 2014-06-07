@@ -2,8 +2,10 @@ package com.jrdevel.aboutus.core.authentication;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,12 +14,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jrdevel.aboutus.core.church.ChurchServiceImpl;
+import com.jrdevel.aboutus.core.common.PlanExceededException;
 import com.jrdevel.aboutus.core.common.model.Church;
 import com.jrdevel.aboutus.core.common.model.Customer;
 import com.jrdevel.aboutus.core.common.model.Group;
 import com.jrdevel.aboutus.core.common.model.Permission;
 import com.jrdevel.aboutus.core.common.model.Person;
 import com.jrdevel.aboutus.core.common.model.Plan;
+import com.jrdevel.aboutus.core.common.model.PlanParam;
 import com.jrdevel.aboutus.core.common.model.Register;
 import com.jrdevel.aboutus.core.common.model.User;
 import com.jrdevel.aboutus.core.common.to.ResultObject;
@@ -37,6 +41,8 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 	private RegisterDAO registerDAO;
 	@Autowired
 	private CustomerDAO customerDAO;
+	
+	private static final Logger logger = Logger.getLogger(AuthenticationServiceImpl.class);
 
 	private ChurchServiceImpl churchService;
 	
@@ -58,11 +64,19 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 			permissions.addAll(group.getPermissions());
 		}
 		
-		return new UserDetailsAdapter(user,permissions);
+		HashMap<String, Integer> planParams = new HashMap<String, Integer>();
+		for(PlanParam param : user.getCustomer().getPlan().getPlanParams()){
+			planParams.put(param.getParam(),Integer.parseInt(param.getValue()));
+		}
+		
+		UserDetailsAdapter userAdapter = new UserDetailsAdapter(user,permissions);
+		userAdapter.setPlanParams(planParams);
+		
+		return userAdapter;
 	}
 	
 
-	@Transactional
+	/*@Transactional
 	public ResultObject login(User user){
 		ResultObject result = new ResultObject();
 
@@ -102,14 +116,18 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 		}
 
 		return result;
-	}
+	}*/
 	
 	@Secured("ROLE_AUTHENTICATED_USER")
 	@Transactional
 	public void updateLogin(Integer id){
 		User userDB = userDAO.findById(id, false);
 		userDB.setLastvisitDate(new Date());
-		userDAO.makePersistent(userDB,false,true);
+		try {
+			userDAO.makePersistent(userDB,false,true);
+		} catch (PlanExceededException e) {
+			logger.error("PlanExceededException in update method");
+		}
 	}
 	
 	private Register getRegister(User user){
@@ -125,7 +143,12 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 		customer.setName(register.getChurchName());
 		customer.setPlan(plan);
 
-		customerDAO.makePersistent(customer);
+		try {
+			customerDAO.makePersistent(customer);
+		} catch (PlanExceededException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		return customer;
 	}
@@ -176,10 +199,20 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 		}
 
 		register.setRegisterDate(new Date());
-		registerDAO.makePersistent(register);
+		try {
+			registerDAO.makePersistent(register);
+		} catch (PlanExceededException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		User user = registerUser(register);
 		register.setUser(user);
-		registerDAO.makePersistent(register);
+		try {
+			registerDAO.makePersistent(register);
+		} catch (PlanExceededException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		result.setSuccess(true);
 
@@ -192,13 +225,23 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 		user.setEmail(register.getEmail());
 		user.setPassword(register.getPassword());
 		user.setRegisterDate(register.getRegisterDate());
-		userDAO.makePersistent(user);
+		try {
+			userDAO.makePersistent(user);
+		} catch (PlanExceededException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return user;
 	}
 
 
 	public void logout() {
 		
+	}
+
+
+	public ResultObject login(User user) {
+		return null;
 	}
 
 }

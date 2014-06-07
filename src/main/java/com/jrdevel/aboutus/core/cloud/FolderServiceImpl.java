@@ -3,11 +3,13 @@ package com.jrdevel.aboutus.core.cloud;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
+import com.jrdevel.aboutus.core.common.PlanExceededException;
 import com.jrdevel.aboutus.core.common.model.Folder;
 import com.jrdevel.aboutus.core.common.model.FolderRole;
 import com.jrdevel.aboutus.core.common.model.User;
@@ -26,6 +28,8 @@ public class FolderServiceImpl implements FolderService{
 	private FolderDAO folderDAO;
 	@Autowired
 	private FolderRoleDAO folderRoleDAO;
+	
+	private static final Logger logger = Logger.getLogger(FolderServiceImpl.class);
 	
 	/**
 	 * Get all folders
@@ -91,13 +95,23 @@ public class FolderServiceImpl implements FolderService{
 	@Transactional
 	public ResultObject insert(Folder bean) {
 		
+		ResultObject result = new ResultObject();
+		
 		bean.setId(null);
 		bean.setCustomer(UserAuthenticatedManager.getCurrentCustomer());
-		folderDAO.makePersistent(bean);
+		try {
+			folderDAO.makePersistent(bean);
+		} catch (PlanExceededException e) {
+			result.setSuccess(false);
+		}
 		
 		FolderRole roleDefault = new FolderRole();
 		roleDefault.setFolder(bean);
-		folderRoleDAO.makePersistent(roleDefault);
+		try {
+			folderRoleDAO.makePersistent(roleDefault);
+		} catch (PlanExceededException e) {
+			logger.error("PlanExceededException in insert role folder method");
+		}
 		
 		return new ResultObject();
 	}
@@ -107,7 +121,13 @@ public class FolderServiceImpl implements FolderService{
 	public ResultObject update(Folder bean) {
 		
 		bean.setCustomer(UserAuthenticatedManager.getCurrentCustomer());
-		folderDAO.makePersistent(bean);
+		
+		try {
+			folderDAO.makePersistent(bean);
+		} catch (PlanExceededException e) {
+			logger.error("PlanExceededException in update method");
+		}
+		
 		
 		return new ResultObject();
 	}

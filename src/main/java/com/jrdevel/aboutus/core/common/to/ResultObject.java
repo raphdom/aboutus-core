@@ -14,11 +14,12 @@ public class ResultObject {
 	private List<Message> messages = new ArrayList<Message>();
 	private boolean success = true;
 	private List<Object> data;
-	private int total = 0;
+	private long total = 0;
 	
 	public static final int ERROR = 1;
 	public static final int WARNING = 2;
 	public static final int INFO = 3;
+	public static final int PLAN_EXCEEDED = 4;
 	
 	public boolean isSuccess() {
 		return success;
@@ -38,10 +39,10 @@ public class ResultObject {
 		}
 		this.data.add(data);
 	}
-	public int getTotal() {
+	public long getTotal() {
 		return total;
 	}
-	public void setTotal(int total) {
+	public void setTotal(long total) {
 		this.total = total;
 	}
 	public void addInfoMessage(String message){
@@ -52,6 +53,9 @@ public class ResultObject {
 	}
 	public void addErrorMessage(String message){
 		messages.add(new Message(ERROR,message));
+	}
+	public void addPlanExceededMessage(String message){
+		messages.add(new Message(PLAN_EXCEEDED,message));
 	}
 	public Map<String,? extends Object> toMap(){
 		HashMap<String,Object> map = new HashMap<String,Object>();

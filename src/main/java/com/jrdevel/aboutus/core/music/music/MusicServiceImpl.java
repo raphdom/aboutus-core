@@ -2,14 +2,15 @@ package com.jrdevel.aboutus.core.music.music;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
+import com.jrdevel.aboutus.core.common.PlanExceededException;
 import com.jrdevel.aboutus.core.common.model.Music;
-import com.jrdevel.aboutus.core.common.model.Video;
 import com.jrdevel.aboutus.core.common.to.ListParams;
 import com.jrdevel.aboutus.core.common.to.ListResult;
 import com.jrdevel.aboutus.core.common.to.ResultObject;
@@ -23,6 +24,8 @@ public class MusicServiceImpl implements MusicService{
 	
 	@Autowired
 	private MusicDAO musicDAO;
+	
+	private static final Logger logger = Logger.getLogger(MusicServiceImpl.class);
 	
 	@Transactional
 	//@PreAuthorize("hasAuthority('ROLE_LIST_CATEGORY')")
@@ -84,7 +87,11 @@ public class MusicServiceImpl implements MusicService{
 		entity.setId(null);
 		entity.setCustomer(UserAuthenticatedManager.getCurrentCustomer());
 
-		musicDAO.makePersistent(entity);
+		try {
+			musicDAO.makePersistent(entity);
+		} catch (PlanExceededException e) {
+			result.setSuccess(false);
+		}
 		
 		return result;
 		
@@ -102,7 +109,11 @@ public class MusicServiceImpl implements MusicService{
 			
 			music = MusicMappingHelper.DTOToBean(dto, music);
 			
-			musicDAO.makePersistent(music);
+			try {
+				musicDAO.makePersistent(music);
+			} catch (PlanExceededException e) {
+				logger.error("PlanExceededException in update method");
+			}
 			
 		}
 		

@@ -2,14 +2,17 @@ package com.jrdevel.aboutus.core.user;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jrdevel.aboutus.core.common.PlanExceededException;
 import com.jrdevel.aboutus.core.common.model.Group;
 import com.jrdevel.aboutus.core.common.to.ListParams;
 import com.jrdevel.aboutus.core.common.to.ListResult;
 import com.jrdevel.aboutus.core.common.to.ResultObject;
+import com.jrdevel.aboutus.core.person.PersonServiceImpl;
 
 /**
  * @author Raphael Domingues
@@ -20,6 +23,8 @@ public class GroupServiceImpl implements GroupService{
 	
 	@Autowired
 	private GroupDAO groupDAO;
+	
+	private static final Logger logger = Logger.getLogger(PersonServiceImpl.class);
 	
 	@Transactional
 	public ResultObject list(ListParams params) {
@@ -42,7 +47,11 @@ public class GroupServiceImpl implements GroupService{
 		if (!isUpdate){
 		}
 		
-		groupDAO.makePersistent(bean);
+		try {
+			groupDAO.makePersistent(bean);
+		} catch (PlanExceededException e) {
+			logger.error("PlanExceededException in update method");
+		}
 		
 		result.setSuccess(true);
 		

@@ -10,14 +10,14 @@ import java.util.List;
 public class ListResult<T>{
 	
 	private List<T> data;
-	private int total;
+	private long total;
 	
 	public ListResult(List<T> data){
 		this.data=data;
 		this.total=data.size();
 	}
 	
-	public ListResult(List<T> data, int total){
+	public ListResult(List<T> data, long total){
 		this.data=data;
 		this.total=total;
 	}
@@ -28,10 +28,10 @@ public class ListResult<T>{
 	public void setData(List<T> data) {
 		this.data = data;
 	}
-	public int getTotal() {
+	public long getTotal() {
 		return total;
 	}
-	public void setTotal(int total) {
+	public void setTotal(long total) {
 		this.total = total;
 	}
 

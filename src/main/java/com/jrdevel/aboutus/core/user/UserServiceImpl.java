@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
+import com.jrdevel.aboutus.core.common.PlanExceededException;
 import com.jrdevel.aboutus.core.common.helper.EmailHelper;
 import com.jrdevel.aboutus.core.common.helper.MessageHelper;
 import com.jrdevel.aboutus.core.common.helper.MessageKeyEnum;
@@ -32,6 +34,8 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private UserDAO userDAO;
+	
+	private static final Logger logger = Logger.getLogger(UserServiceImpl.class);
 	
 	@Transactional
 	@PreAuthorize("hasAuthority('ROLE_LIST_USERS')")
@@ -141,7 +145,11 @@ public class UserServiceImpl implements UserService{
 		entity.setLocale("en_GB");
 		entity.setCustomer(UserAuthenticatedManager.getCurrentCustomer());
 
-		userDAO.makePersistent(entity);
+		try {
+			userDAO.makePersistent(entity);
+		} catch (PlanExceededException e) {
+			result.setSuccess(false);
+		}
 		
 		EmailHelper.sendEmail("Sua password é: " + password, entity.getEmail());
 
@@ -167,7 +175,11 @@ public class UserServiceImpl implements UserService{
 		entity.setPerson(person);
 		entity.setChurch(church);
 		
-		userDAO.makePersistent(entity);
+		try {
+			userDAO.makePersistent(entity);
+		} catch (PlanExceededException e) {
+			logger.error("PlanExceededException in update method");
+		}
 
 		return result;
 	}

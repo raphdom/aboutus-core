@@ -2,12 +2,14 @@ package com.jrdevel.aboutus.core.site.video;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
+import com.jrdevel.aboutus.core.common.PlanExceededException;
 import com.jrdevel.aboutus.core.common.model.Video;
 import com.jrdevel.aboutus.core.common.to.ListParams;
 import com.jrdevel.aboutus.core.common.to.ListResult;
@@ -22,6 +24,8 @@ public class VideoServiceImpl implements VideoService{
 	
 	@Autowired
 	private VideoDAO videoDAO;
+	
+	private static final Logger logger = Logger.getLogger(VideoServiceImpl.class);
 	
 	@Transactional
 	//@PreAuthorize("hasAuthority('ROLE_LIST_CATEGORY')")
@@ -83,7 +87,11 @@ public class VideoServiceImpl implements VideoService{
 		entity.setId(null);
 		entity.setCustomer(UserAuthenticatedManager.getCurrentCustomer());
 
-		videoDAO.makePersistent(entity);
+		try {
+			videoDAO.makePersistent(entity);
+		} catch (PlanExceededException e) {
+			result.setSuccess(false);
+		}
 		
 		return result;
 		
@@ -101,7 +109,11 @@ public class VideoServiceImpl implements VideoService{
 			
 			video = VideoMappingHelper.DTOToBean(dto, video);
 			
-			videoDAO.makePersistent(video);
+			try {
+				videoDAO.makePersistent(video);
+			} catch (PlanExceededException e) {
+				logger.error("PlanExceededException in update method");
+			}
 			
 		}
 		

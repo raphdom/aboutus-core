@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 6/jun/2014 23:30:59 by Hibernate Tools 3.4.0.CR1
+// Generated 7/jun/2014 21:22:28 by Hibernate Tools 3.4.0.CR1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,6 +22,7 @@ public class Plan implements java.io.Serializable {
 
 	private Integer id;
 	private String name;
+	private Set<PlanParam> planParams = new HashSet<PlanParam>(0);
 	private Set<Customer> customers = new HashSet<Customer>(0);
 
 	public Plan() {
@@ -31,8 +32,9 @@ public class Plan implements java.io.Serializable {
 		this.name = name;
 	}
 
-	public Plan(String name, Set<Customer> customers) {
+	public Plan(String name, Set<PlanParam> planParams, Set<Customer> customers) {
 		this.name = name;
+		this.planParams = planParams;
 		this.customers = customers;
 	}
 
@@ -54,6 +56,15 @@ public class Plan implements java.io.Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "plan")
+	public Set<PlanParam> getPlanParams() {
+		return this.planParams;
+	}
+
+	public void setPlanParams(Set<PlanParam> planParams) {
+		this.planParams = planParams;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "plan")

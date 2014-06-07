@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model.lists;
 
-// Generated 6/jun/2014 23:30:59 by Hibernate Tools 3.4.0.CR1
+// Generated 7/jun/2014 21:22:28 by Hibernate Tools 3.4.0.CR1
 
 import com.jrdevel.aboutus.core.common.model.Person;
 import com.jrdevel.aboutus.core.common.model.lists.translate.MemberTypeTranslate;

@@ -3,12 +3,14 @@ package com.jrdevel.aboutus.core.site.album;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
+import com.jrdevel.aboutus.core.common.PlanExceededException;
 import com.jrdevel.aboutus.core.common.model.Album;
 import com.jrdevel.aboutus.core.common.to.ListParams;
 import com.jrdevel.aboutus.core.common.to.ListResult;
@@ -23,6 +25,8 @@ public class AlbumServiceImpl implements AlbumService{
 	
 	@Autowired
 	private AlbumDAO albumDAO;
+	
+	private static final Logger logger = Logger.getLogger(AlbumServiceImpl.class);
 	
 	@Transactional
 	//@PreAuthorize("hasAuthority('ROLE_LIST_CATEGORY')")
@@ -85,7 +89,12 @@ public class AlbumServiceImpl implements AlbumService{
 		entity.setCreated(new Date());
 		entity.setCustomer(UserAuthenticatedManager.getCurrentCustomer());
 
-		albumDAO.makePersistent(entity);
+		try {
+			albumDAO.makePersistent(entity);
+		} catch (PlanExceededException e) {
+			result.setSuccess(false);
+		}
+		
 		
 		return result;
 		
@@ -103,7 +112,11 @@ public class AlbumServiceImpl implements AlbumService{
 			
 			album = AlbumMappingHelper.DTOToBean(dto, album);
 			
-			albumDAO.makePersistent(album);
+			try {
+				albumDAO.makePersistent(album);
+			} catch (PlanExceededException e) {
+				logger.error("PlanExceededException in update method");
+			}
 			
 			result.addInfoMessage("Album atualizado.");
 			

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
+import com.jrdevel.aboutus.core.common.PlanExceededException;
 import com.jrdevel.aboutus.core.common.configuration.AboutUsConfiguration;
 import com.jrdevel.aboutus.core.common.model.File;
 import com.jrdevel.aboutus.core.common.model.FileData;
@@ -104,7 +105,11 @@ public class CloudServiceImpl implements CloudService{
 		fileBean.setModifiedDate(new Date());
 		fileBean.setCustomer(UserAuthenticatedManager.getCurrentCustomer());
 		
-		fileDAO.makePersistent(fileBean);
+		try {
+			fileDAO.makePersistent(fileBean);
+		} catch (PlanExceededException e) {
+			// TODO for the file send a Result object
+		}
 		
 		if (AboutUsFileHelper.imageResizeSupported(fileType)){
 			
@@ -121,7 +126,11 @@ public class CloudServiceImpl implements CloudService{
 					fileData.setDataType(imgSize.getDataType());
 					fileData.setFile(fileBean);
 					fileData.setData(result.get(imgSize));
-					fileDataDAO.makePersistent(fileData);
+					try {
+						fileDataDAO.makePersistent(fileData);
+					} catch (PlanExceededException e) {
+						// TODO
+					}
 				}
 			}
 			

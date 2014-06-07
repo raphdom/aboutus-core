@@ -3,6 +3,7 @@ package com.jrdevel.aboutus.core.person;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
 import com.jrdevel.aboutus.core.common.GenericIdTextView;
+import com.jrdevel.aboutus.core.common.PlanExceededException;
 import com.jrdevel.aboutus.core.common.model.Person;
 import com.jrdevel.aboutus.core.common.to.ListParams;
 import com.jrdevel.aboutus.core.common.to.ListResult;
@@ -25,6 +27,8 @@ public class PersonServiceImpl implements PersonService{
 	
 	@Autowired
 	private PersonDAO personDAO;
+	
+	private static final Logger logger = Logger.getLogger(PersonServiceImpl.class);
 
 	@Transactional
 	@Secured("ROLE_LIST_PEOPLE")
@@ -101,7 +105,11 @@ public class PersonServiceImpl implements PersonService{
 			
 			person = PersonMappingHelper.DTOToBean(personDTO, person);
 			
-			personDAO.makePersistent(person);
+			try {
+				personDAO.makePersistent(person);
+			} catch (PlanExceededException e) {
+				logger.error("PlanExceededException in update method");
+			}
 			
 		}
 		
@@ -122,7 +130,12 @@ public class PersonServiceImpl implements PersonService{
 		entity.setChurch(UserAuthenticatedManager.getCurrentUser().getChurch());
 		entity.setCustomer(UserAuthenticatedManager.getCurrentCustomer());
 
-		personDAO.makePersistent(entity);
+		try {
+			personDAO.makePersistent(entity);
+		} catch (PlanExceededException e) {
+			result.addPlanExceededMessage("O seu plano não permite adicionar mais pessoas. Faça um update de plano.");
+			result.setSuccess(false);
+		}
 
 		return result;
 		

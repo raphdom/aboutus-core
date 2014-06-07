@@ -2,12 +2,14 @@ package com.jrdevel.aboutus.core.site.category;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
+import com.jrdevel.aboutus.core.common.PlanExceededException;
 import com.jrdevel.aboutus.core.common.model.Category;
 import com.jrdevel.aboutus.core.common.to.ListParams;
 import com.jrdevel.aboutus.core.common.to.ListResult;
@@ -22,6 +24,8 @@ public class CategoryServiceImpl implements CategoryService{
 	
 	@Autowired
 	private CategoryDAO categoryDAO;
+	
+	private static final Logger logger = Logger.getLogger(CategoryServiceImpl.class);
 	
 	@Transactional
 	//@PreAuthorize("hasAuthority('ROLE_LIST_CATEGORY')")
@@ -80,7 +84,11 @@ public class CategoryServiceImpl implements CategoryService{
 		entity.setId(null);
 		entity.setCustomer(UserAuthenticatedManager.getCurrentCustomer());
 
-		categoryDAO.makePersistent(entity);
+		try {
+			categoryDAO.makePersistent(entity);
+		} catch (PlanExceededException e) {
+			result.setSuccess(false);
+		}
 		
 		return result;
 		
@@ -98,7 +106,11 @@ public class CategoryServiceImpl implements CategoryService{
 			
 			category = CategoryMappingHelper.DTOToBean(categoryDTO, category);
 			
-			categoryDAO.makePersistent(category);
+			try {
+				categoryDAO.makePersistent(category);
+			} catch (PlanExceededException e) {
+				logger.error("PlanExceededException in update method");
+			}
 			
 		}
 		

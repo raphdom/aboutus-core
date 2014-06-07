@@ -3,12 +3,14 @@ package com.jrdevel.aboutus.core.site.article;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
+import com.jrdevel.aboutus.core.common.PlanExceededException;
 import com.jrdevel.aboutus.core.common.model.Article;
 import com.jrdevel.aboutus.core.common.to.ListParams;
 import com.jrdevel.aboutus.core.common.to.ListResult;
@@ -23,6 +25,8 @@ public class ArticleServiceImpl implements ArticleService{
 	
 	@Autowired
 	private ArticleDAO articleDAO;
+	
+	private static final Logger logger = Logger.getLogger(ArticleServiceImpl.class);
 	
 	@Transactional
 	//@PreAuthorize("hasAuthority('ROLE_LIST_CATEGORY')")
@@ -85,7 +89,11 @@ public class ArticleServiceImpl implements ArticleService{
 		entity.setCreated(new Date());
 		entity.setCustomer(UserAuthenticatedManager.getCurrentCustomer());
 
-		articleDAO.makePersistent(entity);
+		try {
+			articleDAO.makePersistent(entity);
+		} catch (PlanExceededException e) {
+			result.setSuccess(false);
+		}
 		
 		return result;
 		
@@ -103,7 +111,11 @@ public class ArticleServiceImpl implements ArticleService{
 			
 			article = ArticleMappingHelper.DTOToBean(dto, article);
 			
-			articleDAO.makePersistent(article);
+			try {
+				articleDAO.makePersistent(article);
+			} catch (PlanExceededException e) {
+				logger.error("PlanExceededException in update method");
+			}
 			
 		}
 		

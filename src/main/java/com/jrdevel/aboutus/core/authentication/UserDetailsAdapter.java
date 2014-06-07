@@ -1,6 +1,7 @@
 package com.jrdevel.aboutus.core.authentication;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,6 +24,7 @@ public class UserDetailsAdapter implements UserDetails{
 	
 	private User user;
 	private List<Permission> roles;
+	private HashMap<String, Integer> planParams;
 	
 	public UserDetailsAdapter(User user, List<Permission> roles) { 
 		this.user = user; 
@@ -76,6 +78,14 @@ public class UserDetailsAdapter implements UserDetails{
 	
 	public User getUser(){
 		return user;
+	}
+
+	public HashMap<String, Integer> getPlanParams() {
+		return planParams;
+	}
+
+	public void setPlanParams(HashMap<String, Integer> planParams) {
+		this.planParams = planParams;
 	}
 
 }

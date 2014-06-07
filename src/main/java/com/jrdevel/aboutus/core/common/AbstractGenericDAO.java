@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -101,7 +102,7 @@ public abstract class AbstractGenericDAO<T, PK extends Serializable> implements 
 		setOrder(criteria,params.getSorters());
 		setFilters(criteria, params.getFilter());
 		setExtraFilters(criteria);
-		int count = setPagingInfo(criteria);
+		long count = setPagingInfo(criteria);
 		criteria.setFirstResult(params.getStart());
 		criteria.setMaxResults(params.getLimit());
 		criteria.setProjection(null);
@@ -119,7 +120,7 @@ public abstract class AbstractGenericDAO<T, PK extends Serializable> implements 
 		setOrder(criteria,params.getSorters());
 		setFilters(criteria, params.getFilter());
 		setExtraFilters(criteria);
-		int count = setPagingInfo(criteria);
+		long count = setPagingInfo(criteria);
 		if (params.getLimit()!= -1){
 			criteria.setFirstResult(params.getStart());
 			criteria.setMaxResults(params.getLimit());
@@ -195,11 +196,13 @@ public abstract class AbstractGenericDAO<T, PK extends Serializable> implements 
     	}
     }
 	
-	private int setPagingInfo(Criteria criteria){
+	private long setPagingInfo(Criteria criteria){
     	criteria.setProjection(Projections.rowCount()); 
     	Object result = criteria.list().get(0);
     	if (result instanceof Integer){
     		return (Integer) result;
+    	}else if (result instanceof Long){
+    		return (Long) result;
     	}else{
     		return 0;
     	}
@@ -216,25 +219,56 @@ public abstract class AbstractGenericDAO<T, PK extends Serializable> implements 
 		return entity;
 	}
 	
-	public T makePersistent(T entity) {
+	public T makePersistent(T entity) throws PlanExceededException{
     	return makePersistent(entity, true, true);
     }
 	
-    public T makePersistent(T entity, boolean audit, boolean customer) {
+    public T makePersistent(T entity, boolean audit, boolean customer) throws PlanExceededException{
     	int mode = 0;
-    	if (audit){
-	    	ClassMetadata hibernateMetadata = getSession().getSessionFactory().getClassMetadata(getPersistentClass());
-	        mode = 1;
-	        if (hibernateMetadata.getIdentifier(entity, EntityMode.POJO) == null ||
-	        		hibernateMetadata.getIdentifier(entity, EntityMode.POJO).hashCode()==0){
-	        	mode = 0;
-	        }
-    	}
+    	ClassMetadata hibernateMetadata = getSession().getSessionFactory().getClassMetadata(getPersistentClass());
+        mode = 1;
+        if (hibernateMetadata.getIdentifier(entity, EntityMode.POJO) == null ||
+        		hibernateMetadata.getIdentifier(entity, EntityMode.POJO).hashCode()==0){
+        	mode = 0;
+        }
+        
+        verifyPlan(entity,mode);
+        
         getSession().saveOrUpdate(entity);
         if (audit){
         	audit(entity, mode);
         }
         return entity;
+    }
+    
+    public void verifyPlan(T entity, int mode) throws PlanExceededException{
+    	if (mode == 0){
+    		
+    		ClassMetadata hibernateMetadata = getSession().getSessionFactory().getClassMetadata(getPersistentClass());
+            if (hibernateMetadata == null){
+                return;
+            }
+            AbstractEntityPersister persister = (AbstractEntityPersister) hibernateMetadata;
+            
+            String tableName = persister.getTableName();
+            tableName = tableName.substring(tableName.indexOf('.')+1, tableName.length());
+            
+    		HashMap<String,Integer> params = UserAuthenticatedManager.getPlanParams();
+    		
+    		Integer value = params.get(tableName);
+    		
+    		if (value != null){
+    			
+    			Criteria criteria = getSession().createCriteria(getPersistentClass());
+    			criteria.add(Restrictions.eq("customer.id", UserAuthenticatedManager.getCurrentCustomer().getId()));
+    			long count = setPagingInfo(criteria);
+    			if (count >= value){
+    				throw new PlanExceededException();
+    			}
+    			
+    		}
+    		
+    	}
     }
     
     public T makeTransient(T entity) {

@@ -129,4 +129,7 @@
 	<table name="tbl_plan"
 		class="com.jrdevel.aboutus.core.common.model.Plan">
 	</table>
+	<table name="tbl_plan_params"
+		class="com.jrdevel.aboutus.core.common.model.PlanParam">
+	</table>
 </hibernate-reverse-engineering>

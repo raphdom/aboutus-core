@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
+import com.jrdevel.aboutus.core.common.PlanExceededException;
 import com.jrdevel.aboutus.core.common.model.Event;
 import com.jrdevel.aboutus.core.common.to.ResultObject;
 
@@ -83,7 +84,11 @@ public class EventServiceImpl implements EventService{
 		entity.setId(null);
 		entity.setCustomer(UserAuthenticatedManager.getCurrentCustomer());
 
-		eventDAO.makePersistent(entity);
+		try {
+			eventDAO.makePersistent(entity);
+		} catch (PlanExceededException e) {
+			result.setSuccess(false);
+		}
 		
 		return result;
 		
