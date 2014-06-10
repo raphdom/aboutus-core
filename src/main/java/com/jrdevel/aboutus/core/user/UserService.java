@@ -17,6 +17,8 @@ public interface UserService{
 	public ResultObject insert(UserDTO userDTO);
 	public ResultObject save(UserDTO userDTO);
 	public ResultObject delete(List<Integer> beans);
-	
+	public ResultObject getCurrentProfile();
+	public ResultObject updateProfile(ProfileDTO profileDTO);
+	public ResultObject changePassword(String passActual, String passNew);
 
 }

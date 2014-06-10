@@ -13,6 +13,8 @@ public class UserDTO implements Serializable{
 	private Integer churchId;
 	private List<Integer> permissions;
 	private List<Integer> groups;
+	private String language;
+	private Integer avatarId;
 	
 	public Integer getId() {
 		return id;
@@ -49,6 +51,18 @@ public class UserDTO implements Serializable{
 	}
 	public void setGroups(List<Integer> group) {
 		this.groups = group;
+	}
+	public String getLanguage() {
+		return language;
+	}
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+	public Integer getAvatarId() {
+		return avatarId;
+	}
+	public void setAvatarId(Integer avatarId) {
+		this.avatarId = avatarId;
 	}
 	
 }

@@ -15,6 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.jrdevel.aboutus.core.church.ChurchServiceImpl;
 import com.jrdevel.aboutus.core.common.PlanExceededException;
+import com.jrdevel.aboutus.core.common.helper.EmailHelper;
+import com.jrdevel.aboutus.core.common.helper.MessageHelper;
+import com.jrdevel.aboutus.core.common.helper.MessageKeyEnum;
 import com.jrdevel.aboutus.core.common.model.Church;
 import com.jrdevel.aboutus.core.common.model.Customer;
 import com.jrdevel.aboutus.core.common.model.Group;
@@ -27,6 +30,7 @@ import com.jrdevel.aboutus.core.common.model.User;
 import com.jrdevel.aboutus.core.common.to.ResultObject;
 import com.jrdevel.aboutus.core.person.PersonServiceImpl;
 import com.jrdevel.aboutus.core.user.UserDAO;
+import com.jrdevel.aboutus.core.util.PasswordGenerator;
 
 /**
  * @author Raphael Domingues
@@ -54,7 +58,7 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 		User user = userDAO.getUserByEmail(username);
 		
 		if (user == null) {
-			throw new UsernameNotFoundException("No such user: " + username);
+			throw new UsernameNotFoundException(MessageHelper.getMessage(MessageKeyEnum.AUTHENTICATION_FAILED));
 		}
 		
 		List<Permission> permissions = new ArrayList<Permission>();
@@ -242,6 +246,37 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 
 	public ResultObject login(User user) {
 		return null;
+	}
+
+
+	@Transactional
+	public ResultObject recoverPassword(String email) {
+		
+		ResultObject result = new ResultObject();
+		
+		User user = userDAO.getUserByEmail(email);
+		
+		if (user != null && user.getId()!= null){
+			
+			String password = PasswordGenerator.passGenerator(8);
+			user.setPassword(password);
+			
+			try {
+				userDAO.makePersistent(user,false,false);
+			} catch (PlanExceededException e) {
+				result.setSuccess(false);
+			}
+			
+			EmailHelper.sendEmail("Sua password foi reiniciada e agora é: " + password, user.getEmail());
+			
+			result.addWarningMessage("Foi lhe enviado um email. Verifique sua caixa de entrada.");
+		}else{
+			result.setSuccess(false);
+			result.addErrorMessage("Não existe este email registado no About Church!");
+		}
+		
+		
+		return result;
 	}
 
 }

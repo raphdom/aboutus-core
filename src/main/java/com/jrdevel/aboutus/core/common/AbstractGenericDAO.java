@@ -223,7 +223,7 @@ public abstract class AbstractGenericDAO<T, PK extends Serializable> implements 
     	return makePersistent(entity, true, true);
     }
 	
-    public T makePersistent(T entity, boolean audit, boolean customer) throws PlanExceededException{
+    public T makePersistent(T entity, boolean audit, boolean ignoreVerifyPlan) throws PlanExceededException{
     	int mode = 0;
     	ClassMetadata hibernateMetadata = getSession().getSessionFactory().getClassMetadata(getPersistentClass());
         mode = 1;
@@ -232,7 +232,9 @@ public abstract class AbstractGenericDAO<T, PK extends Serializable> implements 
         	mode = 0;
         }
         
-        verifyPlan(entity,mode);
+        if (!ignoreVerifyPlan){
+        	verifyPlan(entity,mode);
+        }
         
         getSession().saveOrUpdate(entity);
         if (audit){

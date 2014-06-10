@@ -1,7 +1,7 @@
 package com.jrdevel.aboutus.core.user;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -15,14 +15,13 @@ import com.jrdevel.aboutus.core.common.PlanExceededException;
 import com.jrdevel.aboutus.core.common.helper.EmailHelper;
 import com.jrdevel.aboutus.core.common.helper.MessageHelper;
 import com.jrdevel.aboutus.core.common.helper.MessageKeyEnum;
-import com.jrdevel.aboutus.core.common.model.Church;
-import com.jrdevel.aboutus.core.common.model.Group;
-import com.jrdevel.aboutus.core.common.model.Permission;
-import com.jrdevel.aboutus.core.common.model.Person;
 import com.jrdevel.aboutus.core.common.model.User;
 import com.jrdevel.aboutus.core.common.to.ListParams;
 import com.jrdevel.aboutus.core.common.to.ListResult;
 import com.jrdevel.aboutus.core.common.to.ResultObject;
+import com.jrdevel.aboutus.core.person.PersonDTO;
+import com.jrdevel.aboutus.core.person.PersonMappingHelper;
+import com.jrdevel.aboutus.core.person.PersonService;
 import com.jrdevel.aboutus.core.util.PasswordGenerator;
 
 /**
@@ -32,78 +31,54 @@ import com.jrdevel.aboutus.core.util.PasswordGenerator;
 @Service
 public class UserServiceImpl implements UserService{
 	
+	private static final Logger logger = Logger.getLogger(UserServiceImpl.class);
+
 	@Autowired
 	private UserDAO userDAO;
-	
-	private static final Logger logger = Logger.getLogger(UserServiceImpl.class);
-	
+
+	@Autowired
+	private PersonService personService;
+
 	@Transactional
 	@PreAuthorize("hasAuthority('ROLE_LIST_USERS')")
 	public ResultObject list(ListParams params) {
-		
+
 		ResultObject result = new ResultObject();
-		
+
 		ListResult<UserListView> listResult = userDAO.findAllByView(params, UserListView.class);
-		
-		List<UserListDTO> dtos = new ArrayList<UserListDTO>();
-		
-		for(UserListView userBean : listResult.getData()){
-			UserListDTO dto = new UserListDTO();
-			dto.setId(userBean.getId());
-			dto.setEmail(userBean.getEmail());
-			dto.setPersonName(userBean.getPersonName());
-			dto.setChurchName(userBean.getChurchName());
-			dto.setBlock(userBean.isBlock());
-			dto.setActivation(userBean.isActivation());
-			dto.setLastvisitDate(userBean.getLastvisitDate());
-			dtos.add(dto);
-		}
-		
+
+		List<UserListDTO> dtos = UserMappingHelper.listViewTolistDTO(listResult.getData());
+
 		result.setData(dtos);
 		result.setTotal(listResult.getTotal());
-		
+
 		return result;
 	}
-	
+
 	@Transactional
 	public ResultObject get(Integer id) {
-		
+
 		ResultObject result = new ResultObject();
-		
+
 		User userDB = userDAO.getUserById(id);
-		
+
 		if (userDB != null && userDB.getId() != null){
-			
-			UserDTO dto = new UserDTO();
-			dto.setId(userDB.getId());
-			dto.setEmail(userDB.getEmail());
-			if (userDB.getPerson() != null){
-				dto.setPersonId(userDB.getPerson().getId());
-			}
-			dto.setChurchId(userDB.getChurch().getId());
-			List<Integer> groups = new ArrayList<Integer>();
-			for (Group group : userDB.getGroups()){
-				groups.add(group.getId());
-			}
-			dto.setGroups(groups);
-			List<Integer> permissions = new ArrayList<Integer>();
-			for (Permission permission : userDB.getPermissions()){
-				permissions.add(permission.getId());
-			}
-			dto.setPermissions(permissions);
+
+			UserDTO dto = UserMappingHelper.beanToDTO(userDB);
+
 			result.setData(dto);
-			
+
 		}else{
 			result.setSuccess(false);
 			result.addErrorMessage("Utilizador não existe.");
 		}
-		
+
 		return result;
 	}
-	
+
 	@Transactional
 	public ResultObject save(UserDTO userDTO) {
-		
+
 		if (existUserEmail(userDTO)){
 			ResultObject result = new ResultObject();
 			result.setSuccess(false);
@@ -121,27 +96,16 @@ public class UserServiceImpl implements UserService{
 	@Transactional
 	@PreAuthorize("hasAuthority('ROLE_INSERT_USERS')")
 	public ResultObject insert(UserDTO userDTO) {
-		
+
 		ResultObject result = new ResultObject();
-		
-		User entity = new User();
-		
-		if (userDTO.getPersonId() != null){
-			Person person = new Person();
-			person.setId(userDTO.getPersonId());
-			entity.setPerson(person);
-		}
-		
-		Church church = new Church();
-		church.setId(userDTO.getChurchId());
-		entity.setChurch(church);
-		
+
+		User entity = UserMappingHelper.DTOToBean(userDTO);
+
 		entity.setId(null);
-		entity.setEmail(userDTO.getEmail());
 		entity.setRegisterDate(new Date());
 		String password = PasswordGenerator.passGenerator(8);
 		entity.setPassword(password);
-		
+
 		entity.setLocale("en_GB");
 		entity.setCustomer(UserAuthenticatedManager.getCurrentCustomer());
 
@@ -150,31 +114,23 @@ public class UserServiceImpl implements UserService{
 		} catch (PlanExceededException e) {
 			result.setSuccess(false);
 		}
-		
+
 		EmailHelper.sendEmail("Sua password é: " + password, entity.getEmail());
 
 		return result;
-		
+
 	}
-	
+
 	@Transactional
 	@PreAuthorize("hasAuthority('ROLE_UPDATE_USERS')")
 	public ResultObject update(UserDTO userDTO) {
-		
+
 		ResultObject result = new ResultObject();
 
-		Person person = new Person();
-		person.setId(userDTO.getPersonId());
-		
-		Church church = new Church();
-		church.setId(userDTO.getChurchId());
-		
 		User entity = userDAO.findById(userDTO.getId(), false);
-		
-		entity.setEmail(userDTO.getEmail());
-		entity.setPerson(person);
-		entity.setChurch(church);
-		
+
+		UserMappingHelper.DTOToBean(userDTO, entity);
+
 		try {
 			userDAO.makePersistent(entity);
 		} catch (PlanExceededException e) {
@@ -187,28 +143,105 @@ public class UserServiceImpl implements UserService{
 	@Transactional
 	@PreAuthorize("hasAuthority('ROLE_DELETE_USERS')")
 	public ResultObject delete(List<Integer> beans) {
-		
+
 		ResultObject result = new ResultObject();
-		
+
 		for (Integer id: beans){
 			User user = userDAO.findById(id, false);
 			userDAO.makeTransient(user);
 		}
-		
+
 		result.addInfoMessage("Utilizador(es) eliminados com sucesso");
-		
+
 		return result;
-		
+
+	}
+
+	@Transactional
+	public ResultObject getCurrentProfile() {
+
+		ResultObject result = new ResultObject();
+
+		User userDB = userDAO.getUserById(UserAuthenticatedManager.getCurrentUser().getId());
+
+		UserDTO userDTO = UserMappingHelper.beanToDTO(userDB);
+		PersonDTO personDTO = PersonMappingHelper.beanToDTO(userDB.getPerson());
+
+		HashMap<String,Object> objects = new HashMap<String,Object>();
+
+		objects.put("user",userDTO);
+		objects.put("person",personDTO);
+
+		result.setData(objects);
+
+		return result;
 	}
 	
-	
-	//Private methods
 	@Transactional
+	public ResultObject updateProfile(ProfileDTO profileDTO) {
+		ResultObject result = new ResultObject();
+		
+		if (existUserEmail(profileDTO.getUser())){
+			result.setSuccess(false);
+			result.addErrorMessage(
+					MessageHelper.getMessage(MessageKeyEnum.DULICATED_EMAIL));
+		}else{
+			
+			User entity = userDAO.findById(profileDTO.getUser().getId(), false);
+
+			UserMappingHelper.DTOToBean(profileDTO.getUser(), entity);
+
+			try {
+				userDAO.makePersistent(entity);
+			} catch (PlanExceededException e) {
+				logger.error("PlanExceededException in update method");
+			}
+			
+			personService.update(profileDTO.getPerson());
+			
+		}
+		
+		return result;
+	}
+	
+	@Transactional
+	public ResultObject changePassword(String passActual, String passNew) {
+		
+		ResultObject result = new ResultObject();
+		
+		User userDB = userDAO.getUserById(UserAuthenticatedManager.getCurrentUser().getId());
+		
+		if (userDB.getPassword().equals(passActual)){
+			userDB.setPassword(passNew);
+			
+			try {
+				userDAO.makePersistent(userDB,false,false);
+			} catch (PlanExceededException e) {
+				logger.error("PlanExceededException in update method");
+			}
+			
+			result.addInfoMessage("Palavra-chave alterada com sucesso.");
+		}else{
+			result.setSuccess(false);
+			result.addErrorMessage("A Palavra chave actual não está correta");
+		}
+		
+		return result;
+	}
+
+	//Private methods
+	
 	private boolean existUserEmail(UserDTO dto) {
 
-		User bean = userDAO.getUserByEmail(dto.getEmail());
-		
 		boolean isUpdate = dto.getId() != null && dto.getId() != 0;
+		
+		User bean = null;
+		
+		if (isUpdate){
+			bean = userDAO.getUserById(dto.getId());
+		}else{
+			bean = userDAO.getUserByEmail(dto.getEmail());
+		}
 		
 		if (bean == null || 
 				(bean.getEmail().equals(dto.getEmail()) && isUpdate)){
