@@ -89,17 +89,21 @@ public class CloudServiceImpl implements CloudService{
 	}
 	
 	@Transactional
-	public void processFile(InputStream inputStream, String name, Long size, 
+	public ResultObject processFile(InputStream inputStream, String name, Long size, 
 			String filePath, String fileType, Integer folderId){
+		
+		ResultObject result = new ResultObject();
 		
 		File fileBean = new File();
 		fileBean.setFilename(name);
 		fileBean.setFileType(fileType);
 		fileBean.setFilesize(size);
 		fileBean.setTitle(name);
-		Folder folder = new Folder();
-		folder.setId(folderId);
-		fileBean.setFolder(folder);
+		if (folderId != null){
+			Folder folder = new Folder();
+			folder.setId(folderId);
+			fileBean.setFolder(folder);
+		}
 		fileBean.setPath(filePath);
 		fileBean.setCreatedDate(new Date());
 		fileBean.setModifiedDate(new Date());
@@ -107,6 +111,8 @@ public class CloudServiceImpl implements CloudService{
 		
 		try {
 			fileDAO.makePersistent(fileBean);
+			
+			result.addInfoMessage(fileBean.getId() + "");
 		} catch (PlanExceededException e) {
 			// TODO for the file send a Result object
 		}
@@ -114,18 +120,18 @@ public class CloudServiceImpl implements CloudService{
 		if (AboutUsFileHelper.imageResizeSupported(fileType)){
 			
 			ImageTransformHelper imageTransform = new ImageTransformHelper();
-			HashMap<ImageSize,byte[]> result = imageTransform.transformImages(inputStream,
+			HashMap<ImageSize,byte[]> resultImages = imageTransform.transformImages(inputStream,
 					ImageTransformHelper.DATA_TYPE_SMALL_0,
 					ImageTransformHelper.DATA_TYPE_SMALL_1,
 					ImageTransformHelper.DATA_TYPE_SMALL_2,
 					ImageTransformHelper.DATA_TYPE_MEDIUM_1);
 			
-			for (ImageSize imgSize : result.keySet()){
-				if (result.get(imgSize)!= null && result.get(imgSize).length > 0){
+			for (ImageSize imgSize : resultImages.keySet()){
+				if (resultImages.get(imgSize)!= null && resultImages.get(imgSize).length > 0){
 					FileData fileData = new FileData();
 					fileData.setDataType(imgSize.getDataType());
 					fileData.setFile(fileBean);
-					fileData.setData(result.get(imgSize));
+					fileData.setData(resultImages.get(imgSize));
 					try {
 						fileDataDAO.makePersistent(fileData);
 					} catch (PlanExceededException e) {
@@ -135,6 +141,8 @@ public class CloudServiceImpl implements CloudService{
 			}
 			
 		}
+		
+		return result;
 		
 	}
 

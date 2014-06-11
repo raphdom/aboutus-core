@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 7/jun/2014 21:22:28 by Hibernate Tools 3.4.0.CR1
+// Generated 11/jun/2014 23:23:42 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import java.util.HashSet;
@@ -52,11 +52,10 @@ public class File implements java.io.Serializable {
 	public File() {
 	}
 
-	public File(Customer customer, Folder folder, String filename,
-			String fileType, long filesize, String title, boolean published,
-			String path, Date createdDate, Date modifiedDate) {
+	public File(Customer customer, String filename, String fileType,
+			long filesize, String title, boolean published, String path,
+			Date createdDate, Date modifiedDate) {
 		this.customer = customer;
-		this.folder = folder;
 		this.filename = filename;
 		this.fileType = fileType;
 		this.filesize = filesize;
@@ -120,7 +119,7 @@ public class File implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "folderId", nullable = false)
+	@JoinColumn(name = "folderId")
 	public Folder getFolder() {
 		return this.folder;
 	}

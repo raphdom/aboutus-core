@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model.lists.translate;
 
-// Generated 7/jun/2014 21:22:28 by Hibernate Tools 3.4.0.CR1
+// Generated 11/jun/2014 23:23:42 by Hibernate Tools 3.4.0.CR1
 
 import com.jrdevel.aboutus.core.common.model.lists.ContactType;
 import javax.persistence.Column;

@@ -10,7 +10,7 @@ import com.jrdevel.aboutus.core.common.to.ResultObject;
 
 public interface CloudService{
 	
-	public void processFile(InputStream inputStream, String name, Long size, 
+	public ResultObject processFile(InputStream inputStream, String name, Long size, 
 			String filePath, String fileType, Integer folderId);
 	
 	public byte[] getThumb(Integer fileId, Integer dataType);

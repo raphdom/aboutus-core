@@ -1,6 +1,6 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 7/jun/2014 21:22:28 by Hibernate Tools 3.4.0.CR1
+// Generated 11/jun/2014 23:23:42 by Hibernate Tools 3.4.0.CR1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,6 +25,7 @@ public class Customer implements java.io.Serializable {
 	private Integer id;
 	private Plan plan;
 	private String name;
+	private String siteAlias;
 	private Set<Video> videos = new HashSet<Video>(0);
 	private Set<Article> articles = new HashSet<Article>(0);
 	private Set<Event> events = new HashSet<Event>(0);
@@ -49,14 +50,15 @@ public class Customer implements java.io.Serializable {
 		this.name = name;
 	}
 
-	public Customer(Plan plan, String name, Set<Video> videos,
-			Set<Article> articles, Set<Event> events, Set<Group> groups,
-			Set<Playlist> playlists, Set<Person> persons, Set<Folder> folders,
-			Set<Music> musics, Set<Audit> audits, Set<User> users,
-			Set<File> files, Set<Banner> banners, Set<Church> churches,
-			Set<Category> categories, Set<Album> albums) {
+	public Customer(Plan plan, String name, String siteAlias,
+			Set<Video> videos, Set<Article> articles, Set<Event> events,
+			Set<Group> groups, Set<Playlist> playlists, Set<Person> persons,
+			Set<Folder> folders, Set<Music> musics, Set<Audit> audits,
+			Set<User> users, Set<File> files, Set<Banner> banners,
+			Set<Church> churches, Set<Category> categories, Set<Album> albums) {
 		this.plan = plan;
 		this.name = name;
+		this.siteAlias = siteAlias;
 		this.videos = videos;
 		this.articles = articles;
 		this.events = events;
@@ -102,6 +104,15 @@ public class Customer implements java.io.Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Column(name = "siteAlias")
+	public String getSiteAlias() {
+		return this.siteAlias;
+	}
+
+	public void setSiteAlias(String siteAlias) {
+		this.siteAlias = siteAlias;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")

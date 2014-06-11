@@ -9,12 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
 import com.jrdevel.aboutus.core.common.PlanExceededException;
 import com.jrdevel.aboutus.core.common.helper.EmailHelper;
 import com.jrdevel.aboutus.core.common.helper.MessageHelper;
 import com.jrdevel.aboutus.core.common.helper.MessageKeyEnum;
+import com.jrdevel.aboutus.core.common.model.File;
 import com.jrdevel.aboutus.core.common.model.User;
 import com.jrdevel.aboutus.core.common.to.ListParams;
 import com.jrdevel.aboutus.core.common.to.ListResult;
@@ -190,6 +192,15 @@ public class UserServiceImpl implements UserService{
 			User entity = userDAO.findById(profileDTO.getUser().getId(), false);
 
 			UserMappingHelper.DTOToBean(profileDTO.getUser(), entity);
+			
+			if (profileDTO.getUser().getAvatarId()!=null){
+				File file = new File();
+				file.setId(profileDTO.getUser().getAvatarId());
+				entity.setFile(file);
+			}
+			if (!StringUtils.isEmpty(profileDTO.getUser().getLanguage())){
+				entity.setLocale(profileDTO.getUser().getLanguage());
+			}
 
 			try {
 				userDAO.makePersistent(entity);
