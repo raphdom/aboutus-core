@@ -2,10 +2,12 @@ package com.jrdevel.aboutus.core.common.helper;
 
 import java.util.Locale;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.MessageSource;
+import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +22,8 @@ public class MessageHelper implements ApplicationContextAware{
 	
 	private static ApplicationContext applicationContext;
 	
+	private static final Logger logger = Logger.getLogger(MessageHelper.class);
+	
 	public static String getMessage(MessageKeyEnum key){
 		return getMessage(key,null);
 	}
@@ -33,7 +37,13 @@ public class MessageHelper implements ApplicationContextAware{
 	}
 	
 	public static String getMessage(String key, Object[] params){
-		return getMessageSource().getMessage(key, params, getCurrentLocale());
+		try{
+			return getMessageSource().getMessage(key, params, getCurrentLocale());
+		}catch(NoSuchMessageException e){
+			logger.info("An error ocurred when get message for key=" + key);
+		}
+		
+		return null;
 	}
 	
 	public static Locale getCurrentLocale(){
