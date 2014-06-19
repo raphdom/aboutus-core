@@ -124,7 +124,8 @@ public class CloudServiceImpl implements CloudService{
 					ImageTransformHelper.DATA_TYPE_SMALL_0,
 					ImageTransformHelper.DATA_TYPE_SMALL_1,
 					ImageTransformHelper.DATA_TYPE_SMALL_2,
-					ImageTransformHelper.DATA_TYPE_MEDIUM_1);
+					ImageTransformHelper.DATA_TYPE_MEDIUM_1,
+					ImageTransformHelper.DATA_TYPE_LARGE_2);
 			
 			for (ImageSize imgSize : resultImages.keySet()){
 				if (resultImages.get(imgSize)!= null && resultImages.get(imgSize).length > 0){
