@@ -35,6 +35,19 @@ public class AlbumMappingHelper {
 	}
 	
 	/**
+	 * Mapping a view to a dto bean
+	 * @param view
+	 * @return
+	 */
+	public static AlbumListDTO viewToDTO(AlbumListSiteView view){
+		AlbumListDTO dto = new AlbumListDTO();
+		dto.setId(view.getId());
+		dto.setTitle(view.getTitle());
+		dto.setThumbId(view.getThumbId());
+		return dto;
+	}
+	
+	/**
 	 * Mapping a list of view to a dto beans list
 	 * @param views
 	 * @return
@@ -42,6 +55,20 @@ public class AlbumMappingHelper {
 	public static List<AlbumListDTO> listViewTolistDTO(List<AlbumListView> views){
 		List<AlbumListDTO> dtos = new ArrayList<AlbumListDTO>();
 		for(AlbumListView view : views){
+			AlbumListDTO node = viewToDTO(view);
+			dtos.add(node);
+		}
+		return dtos;
+	}
+	
+	/**
+	 * Mapping a list of view to a dto beans list
+	 * @param views
+	 * @return
+	 */
+	public static List<AlbumListDTO> listSiteViewTolistDTO(List<AlbumListSiteView> views){
+		List<AlbumListDTO> dtos = new ArrayList<AlbumListDTO>();
+		for(AlbumListSiteView view : views){
 			AlbumListDTO node = viewToDTO(view);
 			dtos.add(node);
 		}

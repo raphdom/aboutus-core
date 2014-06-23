@@ -3,15 +3,14 @@ package com.jrdevel.aboutus.core.site.article;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.jrdevel.aboutus.core.dto.NodeDTO;
-
 /**
  * @author Raphael Domingues
  *
  */
-public class ArticleListDTO extends NodeDTO implements Serializable{
+public class ArticleListDTO implements Serializable{
 
-	private static final long serialVersionUID = 2513871739789525803L;
+	
+	private static final long serialVersionUID = 7992762888535575509L;
 	
 	private Integer id;
 	private String title;
@@ -22,6 +21,12 @@ public class ArticleListDTO extends NodeDTO implements Serializable{
 	private int hits;
 	private String author;
 	private String categoryName;
+	private String introarticle;
+	private Integer thumbId;
+	
+	public ArticleListDTO(){
+		
+	}
 	
 	public Integer getId() {
 		return id;
@@ -77,5 +82,19 @@ public class ArticleListDTO extends NodeDTO implements Serializable{
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
 	}
+	public String getIntroarticle() {
+		return introarticle;
+	}
+	public void setIntroarticle(String introarticle) {
+		this.introarticle = introarticle;
+	}
+
+	public Integer getThumbId() {
+		return thumbId;
+	}
+	public void setThumbId(Integer thumbId) {
+		this.thumbId = thumbId;
+	}
+	
 	
 }

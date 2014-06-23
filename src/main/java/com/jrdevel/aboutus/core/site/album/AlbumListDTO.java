@@ -17,6 +17,7 @@ public class AlbumListDTO extends NodeDTO implements Serializable{
 	private Integer ordering;
 	private boolean published;
 	private String categoryName;
+	private Integer thumbId;
 	
 	public Integer getId() {
 		return id;
@@ -47,6 +48,12 @@ public class AlbumListDTO extends NodeDTO implements Serializable{
 	}
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
+	}
+	public Integer getThumbId() {
+		return thumbId;
+	}
+	public void setThumbId(Integer thumbId) {
+		this.thumbId = thumbId;
 	}
 	
 }

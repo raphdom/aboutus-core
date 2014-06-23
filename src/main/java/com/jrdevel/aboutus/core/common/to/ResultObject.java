@@ -30,14 +30,15 @@ public class ResultObject {
 	public List<Object> getData() {
 		return data;
 	}
-	public void setData(List<Object> data) {
-		this.data = data;
-	}
+
+	@SuppressWarnings("unchecked")
 	public void setData(Object data) {
-		if (this.data == null){
+		if (data instanceof List){
+			this.data = (List<Object>)data;
+		}else if (this.data == null){
 			this.data = new ArrayList<Object>();
+			this.data.add(data);
 		}
-		this.data.add(data);
 	}
 	public long getTotal() {
 		return total;

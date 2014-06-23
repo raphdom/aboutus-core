@@ -20,6 +20,7 @@ public class BannerListDTO extends NodeDTO implements Serializable{
 	private Date publishUp;
 	private Date publishDown;
 	private Integer ordering;
+	private Integer thumbId;
 	
 	public Integer getId() {
 		return id;
@@ -62,6 +63,12 @@ public class BannerListDTO extends NodeDTO implements Serializable{
 	}
 	public void setOrdering(Integer ordering) {
 		this.ordering = ordering;
+	}
+	public Integer getThumbId() {
+		return thumbId;
+	}
+	public void setThumbId(Integer thumbId) {
+		this.thumbId = thumbId;
 	}
 	
 }

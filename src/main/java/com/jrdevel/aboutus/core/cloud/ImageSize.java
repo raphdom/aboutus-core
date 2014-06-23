@@ -9,9 +9,15 @@ public class ImageSize {
 	private Integer width;
 	private Integer height;
 	private Integer dataType;
+	private boolean exactlySize;
 	
 	public ImageSize(){
 		
+	}
+	
+	public ImageSize(Integer width, Integer height) {
+		this.width = width;
+		this.height = height;
 	}
 	
 	public ImageSize(Integer width, Integer height, Integer dataType) {
@@ -38,7 +44,12 @@ public class ImageSize {
 	public void setDataType(Integer dataType) {
 		this.dataType = dataType;
 	}
-
+	public boolean isExactlySize() {
+		return exactlySize;
+	}
+	public void setExactlySize(boolean exactlySize) {
+		this.exactlySize = exactlySize;
+	}
 	
 	
 }

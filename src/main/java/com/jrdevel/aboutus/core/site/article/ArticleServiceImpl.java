@@ -46,6 +46,22 @@ public class ArticleServiceImpl implements ArticleService{
 	}
 	
 	@Transactional
+	public ResultObject listSite() {
+		
+		ResultObject result = new ResultObject();
+		
+		ListResult<ArticleListSiteView> listResult = articleDAO.getHomePageArticles();
+		
+		List<ArticleListDTO> dtos = ArticleMappingHelper.listSiteViewTolistDTO(listResult.getData());
+		
+		result.setData(dtos);
+		result.setTotal(listResult.getTotal());
+		
+		return result;
+		
+	}
+	
+	@Transactional
 	public ResultObject get(Integer id) {
 		
 		ResultObject result = new ResultObject();

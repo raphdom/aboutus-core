@@ -110,18 +110,27 @@ public abstract class AbstractGenericDAO<T, PK extends Serializable> implements 
 		return new ListResult<T>(criteria.list(), count);
 	}
 	
+	public <R> ListResult<R> findAllByView(Class<R> view){
+		return this.findAllByView(null,view);
+	}
+	
 	@SuppressWarnings("unchecked")
 	public <R> ListResult<R> findAllByView(ListParams params, Class<R> view){
 		
 		Criteria criteria = getSession().createCriteria(getPersistentClass());
 		if (this.getPersistentClass() != Permission.class){
-			criteria.add(Restrictions.eq("customer.id", UserAuthenticatedManager.getCurrentCustomer().getId()));
+			if (UserAuthenticatedManager.getCurrentCustomer()!=null){
+				criteria.add(Restrictions.eq("customer.id", UserAuthenticatedManager.getCurrentCustomer().getId()));
+			}
 		}
-		setOrder(criteria,params.getSorters());
-		setFilters(criteria, params.getFilter());
+		
+		if (params!=null){
+			setOrder(criteria,params.getSorters());
+			setFilters(criteria, params.getFilter());
+		}
 		setExtraFilters(criteria);
 		long count = setPagingInfo(criteria);
-		if (params.getLimit()!= -1){
+		if (params!=null && params.getLimit()!= -1){
 			criteria.setFirstResult(params.getStart());
 			criteria.setMaxResults(params.getLimit());
 		}
@@ -134,7 +143,7 @@ public abstract class AbstractGenericDAO<T, PK extends Serializable> implements 
 		return new  ListResult<R>(criteria.list(),count);
 	}
 	
-	private ProjectionList getProjectionList(Class<?> viewClass){
+	protected ProjectionList getProjectionList(Class<?> viewClass){
 		ProjectionList result = Projections.projectionList();
 		
 		BeanInfo info;

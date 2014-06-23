@@ -18,5 +18,7 @@ public interface EventService{
 	public ResultObject save(EventDTO categoryDTO);
 	public ResultObject delete(List<Integer> beans);
 	
+	public ResultObject listHomePage();
+	
 
 }

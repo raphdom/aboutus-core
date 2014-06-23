@@ -18,6 +18,7 @@ public class EventListDTO implements Serializable{
 	private Date start;
 	private Date end;
 	private boolean ad;
+	private Integer thumbId;
 	
 	public Integer getId() {
 		return id;
@@ -60,6 +61,12 @@ public class EventListDTO implements Serializable{
 	}
 	public void setAd(boolean ad) {
 		this.ad = ad;
+	}
+	public Integer getThumbId() {
+		return thumbId;
+	}
+	public void setThumbId(Integer thumbId) {
+		this.thumbId = thumbId;
 	}
 		
 }

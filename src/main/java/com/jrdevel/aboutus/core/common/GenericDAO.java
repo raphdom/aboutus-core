@@ -18,6 +18,7 @@ public interface GenericDAO<T, PK extends Serializable>{
 	public <R> R findUniqueByViewAndId (PK key, Class<R> view);
 	public List<T> findByCriteria(Criterion... criterion);
 	public T findById(PK id, boolean lock);
+	public <R> ListResult<R> findAllByView(Class<R> view);
 	public <R> ListResult<R> findAllByView(ListParams params, Class<R> view);
 	public ListResult<T> findAllByCriteria(ListParams params);
 	public T makePersistent(T entity) throws PlanExceededException;

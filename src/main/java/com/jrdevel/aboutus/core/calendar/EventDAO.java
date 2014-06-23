@@ -13,5 +13,7 @@ import com.jrdevel.aboutus.core.common.model.Event;
 public interface EventDAO extends GenericDAO<Event, Integer>{
 	
 	public List<EventListView> callProcedure(Date start, Date end);
+	
+	public List<EventListView> getHomePageEvents();
 
 }

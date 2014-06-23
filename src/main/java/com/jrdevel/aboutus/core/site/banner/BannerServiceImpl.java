@@ -45,6 +45,22 @@ public class BannerServiceImpl implements BannerService{
 	}
 	
 	@Transactional
+	public ResultObject listHomePage() {
+		
+		ResultObject result = new ResultObject();
+		
+		ListResult<BannerListSiteView> listResult = bannerDAO.getHomePageBanners();
+		
+		List<BannerListDTO> dtos = BannerMappingHelper.listSiteViewTolistDTO(listResult.getData());
+		
+		result.setData(dtos);
+		result.setTotal(listResult.getTotal());
+		
+		return result;
+		
+	}
+	
+	@Transactional
 	public ResultObject get(Integer id) {
 		
 		ResultObject result = new ResultObject();

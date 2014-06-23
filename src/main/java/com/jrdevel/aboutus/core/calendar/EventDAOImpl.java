@@ -27,6 +27,12 @@ public class EventDAOImpl extends AbstractGenericDAO<Event, Integer> implements 
 	
 	public List<EventListView> callProcedure(Date start, Date end){
 		
+		return callProcedure(start,end,null,UserAuthenticatedManager.getCurrentCustomer().getId());
+		
+	}
+	
+	private List<EventListView> callProcedure(Date start, Date end, Integer count, Integer customerId){
+		
 		//Add one day to end date
 		Calendar c = Calendar.getInstance(); 
 		c.setTime(end); 
@@ -38,8 +44,8 @@ public class EventDAOImpl extends AbstractGenericDAO<Event, Integer> implements 
 				.setResultTransformer(Transformers.aliasToBean(EventListView.class))
 				.setParameter("rangeStart", start)
 				.setParameter("rangeEnd", rangeEnd)
-				.setParameter("count", null)
-				.setParameter("customer", UserAuthenticatedManager.getCurrentCustomer().getId());
+				.setParameter("count", count)
+				.setParameter("customer", customerId);
 
 		List<EventListView> result = query.list();
 		
@@ -53,6 +59,16 @@ public class EventDAOImpl extends AbstractGenericDAO<Event, Integer> implements 
 
 	public String getObjectTitle(Event entity) {
 		return entity.getWhat();
+	}
+
+	public List<EventListView> getHomePageEvents() {
+		
+		Calendar start = Calendar.getInstance();
+		
+		Calendar end = Calendar.getInstance();
+		end.add(Calendar.YEAR, 1);
+		
+		return callProcedure(start.getTime(),end.getTime(),4,null);
 	}
 
 }

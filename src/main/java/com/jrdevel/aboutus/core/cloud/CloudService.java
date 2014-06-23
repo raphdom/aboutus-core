@@ -15,6 +15,8 @@ public interface CloudService{
 	
 	public byte[] getThumb(Integer fileId, Integer dataType);
 	
+	public byte[] getThumb(Integer fileId, Integer width, Integer height, boolean exactlySize);
+	
 	public Map<String,Object> download(Integer fileId);
 
 	public ResultObject list(ListParams input);

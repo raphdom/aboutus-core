@@ -31,6 +31,19 @@ public class BannerMappingHelper {
 	}
 	
 	/**
+	 * Mapping a view to a dto bean
+	 * @param view
+	 * @return
+	 */
+	public static BannerListDTO viewToDTO(BannerListSiteView view){
+		BannerListDTO dto = new BannerListDTO();
+		dto.setId(view.getId());
+		dto.setLink(view.getLink());
+		dto.setThumbId(view.getThumbId());
+		return dto;
+	}
+	
+	/**
 	 * Mapping a list of view to a dto beans list
 	 * @param views
 	 * @return
@@ -38,6 +51,20 @@ public class BannerMappingHelper {
 	public static List<BannerListDTO> listViewTolistDTO(List<BannerListView> views){
 		List<BannerListDTO> dtos = new ArrayList<BannerListDTO>();
 		for(BannerListView view : views){
+			BannerListDTO node = viewToDTO(view);
+			dtos.add(node);
+		}
+		return dtos;
+	}
+	
+	/**
+	 * Mapping a list of view to a dto beans list
+	 * @param views
+	 * @return
+	 */
+	public static List<BannerListDTO> listSiteViewTolistDTO(List<BannerListSiteView> views){
+		List<BannerListDTO> dtos = new ArrayList<BannerListDTO>();
+		for(BannerListSiteView view : views){
 			BannerListDTO node = viewToDTO(view);
 			dtos.add(node);
 		}

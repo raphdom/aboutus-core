@@ -12,6 +12,7 @@ import com.jrdevel.aboutus.core.common.to.ResultObject;
 public interface ArticleService{
 	
 	public ResultObject list(ListParams params);
+	public ResultObject listSite();
 	public ResultObject get(Integer id);
 	public ResultObject update(ArticleDTO dto);
 	public ResultObject insert(ArticleDTO dto);

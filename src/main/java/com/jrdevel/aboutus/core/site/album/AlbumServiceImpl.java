@@ -15,6 +15,9 @@ import com.jrdevel.aboutus.core.common.model.Album;
 import com.jrdevel.aboutus.core.common.to.ListParams;
 import com.jrdevel.aboutus.core.common.to.ListResult;
 import com.jrdevel.aboutus.core.common.to.ResultObject;
+import com.jrdevel.aboutus.core.site.article.ArticleListDTO;
+import com.jrdevel.aboutus.core.site.article.ArticleListSiteView;
+import com.jrdevel.aboutus.core.site.article.ArticleMappingHelper;
 
 /**
  * @author Raphael Domingues
@@ -37,6 +40,22 @@ public class AlbumServiceImpl implements AlbumService{
 		ListResult<AlbumListView> listResult = albumDAO.findAllByView(params, AlbumListView.class);
 		
 		List<AlbumListDTO> dtos = AlbumMappingHelper.listViewTolistDTO(listResult.getData());
+		
+		result.setData(dtos);
+		result.setTotal(listResult.getTotal());
+		
+		return result;
+		
+	}
+	
+	@Transactional
+	public ResultObject listHomePage() {
+		
+		ResultObject result = new ResultObject();
+		
+		ListResult<AlbumListSiteView> listResult = albumDAO.getHomePageAlbuns();
+		
+		List<AlbumListDTO> dtos = AlbumMappingHelper.listSiteViewTolistDTO(listResult.getData());
 		
 		result.setData(dtos);
 		result.setTotal(listResult.getTotal());

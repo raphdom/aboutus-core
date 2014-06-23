@@ -18,5 +18,7 @@ public interface AlbumService{
 	public ResultObject save(AlbumDTO dto);
 	public ResultObject delete(List<Integer> beans);
 	
+	//Public site methods
+	public ResultObject listHomePage();
 
 }

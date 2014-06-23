@@ -34,6 +34,20 @@ public class ArticleMappingHelper {
 	}
 	
 	/**
+	 * Mapping a view to a dto bean
+	 * @param view
+	 * @return
+	 */
+	public static ArticleListDTO viewToDTO(ArticleListSiteView view){
+		ArticleListDTO dto = new ArticleListDTO();
+		dto.setId(view.getId());
+		dto.setTitle(view.getTitle());
+		dto.setIntroarticle(view.getIntroarticle());
+		dto.setThumbId(view.getThumbId());
+		return dto;
+	}
+	
+	/**
 	 * Mapping a list of view to a dto beans list
 	 * @param views
 	 * @return
@@ -41,6 +55,20 @@ public class ArticleMappingHelper {
 	public static List<ArticleListDTO> listViewTolistDTO(List<ArticleListView> views){
 		List<ArticleListDTO> dtos = new ArrayList<ArticleListDTO>();
 		for(ArticleListView view : views){
+			ArticleListDTO node = viewToDTO(view);
+			dtos.add(node);
+		}
+		return dtos;
+	}
+	
+	/**
+	 * Mapping a list of view to a dto beans list
+	 * @param views
+	 * @return
+	 */
+	public static List<ArticleListDTO> listSiteViewTolistDTO(List<ArticleListSiteView> views){
+		List<ArticleListDTO> dtos = new ArrayList<ArticleListDTO>();
+		for(ArticleListSiteView view : views){
 			ArticleListDTO node = viewToDTO(view);
 			dtos.add(node);
 		}

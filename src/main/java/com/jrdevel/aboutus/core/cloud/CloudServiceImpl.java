@@ -1,5 +1,7 @@
 package com.jrdevel.aboutus.core.cloud;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
@@ -165,6 +167,34 @@ public class CloudServiceImpl implements CloudService{
 
 	public ResultObject get(File bean) {
 		return null;
+	}
+	
+	@Transactional
+	public byte[] getThumb(Integer fileId, Integer width, Integer height, boolean exactlySize) {
+		
+		File file = fileDAO.findById(fileId, false);
+		
+		java.io.File fileDisk = new java.io.File(file.getPath());
+		
+		byte[] resultImage = null;
+		
+		try {
+			FileInputStream inputStream = new FileInputStream(fileDisk);
+			
+			ImageTransformHelper imageTransform = new ImageTransformHelper();
+			
+			ImageSize imageSize = new ImageSize(width,height);
+			imageSize.setExactlySize(exactlySize);
+			
+			resultImage = imageTransform.transformImage(inputStream, imageSize);
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return resultImage;
+		
 	}
 	
 	@Transactional

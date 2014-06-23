@@ -122,5 +122,24 @@ public class ImageTransformHelper {
 
 	}
 	
+	public byte[] transformImage(InputStream stream, ImageSize imageSize){
+		
+		BufferedImage bufferImage;
+		
+		byte[] resultData = null;
+		
+		try {
+			bufferImage = ImageIO.read(stream);
+			resultData = resizeImage(bufferImage, imageSize.getWidth(), 
+					imageSize.getHeight(),imageSize.isExactlySize());
+		} catch (IOException e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return resultData;
+		
+	}
+	
 
 }

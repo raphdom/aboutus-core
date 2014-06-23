@@ -14,16 +14,31 @@ import com.jrdevel.aboutus.core.common.model.User;
 public class UserAuthenticatedManager {
 	
 	private static UserDetailsAdapter getUserAdapter(){
-		UserDetailsAdapter userAdapter = (UserDetailsAdapter) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		UserDetailsAdapter userAdapter = null;
+		
+		if (SecurityContextHolder.getContext().getAuthentication() != null &&
+				SecurityContextHolder.getContext().getAuthentication().getPrincipal() != null){
+			userAdapter = (UserDetailsAdapter) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		}
+		
 		return userAdapter;
 	}
 	
 	public static User getCurrentUser(){
-		return getUserAdapter().getUser();
+		if (getUserAdapter()!= null){
+			return getUserAdapter().getUser();
+		}else{
+			return null;
+		}
 	}
 	
 	public static Customer getCurrentCustomer(){
-		return getCurrentUser().getCustomer();
+		if (getCurrentUser()!=null){
+			return getCurrentUser().getCustomer();
+		}else{
+			return null;
+		}
 	}
 	
 	public static HashMap<String, Integer> getPlanParams(){

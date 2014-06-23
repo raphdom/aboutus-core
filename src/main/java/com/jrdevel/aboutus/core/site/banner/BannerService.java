@@ -18,5 +18,8 @@ public interface BannerService{
 	public ResultObject save(BannerDTO dto);
 	public ResultObject delete(List<Integer> beans);
 	
+	//Public site methods
+	public ResultObject listHomePage();
+	
 
 }

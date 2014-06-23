@@ -42,6 +42,22 @@ public class EventServiceImpl implements EventService{
 	}
 	
 	@Transactional
+	//@PreAuthorize("hasAuthority('ROLE_LIST_CATEGORY')")
+	public ResultObject listHomePage() {
+		
+		ResultObject result = new ResultObject();
+		
+		List<EventListView> events = eventDAO.getHomePageEvents();
+		
+		List<EventListDTO> dtos = EventMappingHelper.listViewTolistDTO(events);
+		
+		result.setData(dtos);
+		
+		return result;
+		
+	}
+	
+	@Transactional
 	public ResultObject get(Integer id) {
 		
 		ResultObject result = new ResultObject();
