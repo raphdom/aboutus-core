@@ -22,17 +22,20 @@ import com.jrdevel.aboutus.core.util.images.ImageResizeService;
  */
 public class ImageTransformHelper {
 
-	public static final ImageSize DATA_TYPE_SMALL_0 = new ImageSize(50,40,0);
-	public static final ImageSize DATA_TYPE_SMALL_1 = new ImageSize(80,60,1);
-	public static final ImageSize DATA_TYPE_SMALL_2 = new ImageSize(150,120,2);
-	public static final ImageSize DATA_TYPE_MEDIUM_1 = new ImageSize(600,480,3);
-	public static final ImageSize DATA_TYPE_MEDIUM_2 = new ImageSize(1050,800,4);
-	public static final ImageSize DATA_TYPE_LARGE_1 = new ImageSize(1650,1200,5);
-	public static final ImageSize DATA_TYPE_LARGE_2 = new ImageSize(1920,1080,6);
+	/*public static final ImageSize DATA_TYPE_1  = new ImageSize(50,50,1);
+	public static final ImageSize DATA_TYPE_2  = new ImageSize(80,80,2);
+	public static final ImageSize DATA_TYPE_3  = new ImageSize(100,100,3);
+	public static final ImageSize DATA_TYPE_4  = new ImageSize(150,150,4);
+	public static final ImageSize DATA_TYPE_5  = new ImageSize(280,200,5);
+	public static final ImageSize DATA_TYPE_6  = new ImageSize(300,300,6);
+	public static final ImageSize DATA_TYPE_7  = new ImageSize(400,400,7);
+	public static final ImageSize DATA_TYPE_8  = new ImageSize(500,500,8);
+	public static final ImageSize DATA_TYPE_9  = new ImageSize(720,480,9);
+	public static final ImageSize DATA_TYPE_10 = new ImageSize(1920,1080,10);*/
 	
 	private static final Logger logger = Logger.getLogger(ImageTransformHelper.class);
 	
-	private HashMap<ImageSize,byte[]> result = new HashMap<ImageSize,byte[]>();
+	private HashMap<ImageSizeEnum,byte[]> result = new HashMap<ImageSizeEnum,byte[]>();
 	
 	private byte[] resizeImage(BufferedImage bufferImage, int width, int height, boolean exactlySize){
 		ImageResizeRequest request;
@@ -44,7 +47,7 @@ public class ImageTransformHelper {
 			request.setSourceImage(bufferImage);
 			request.setTargetWidth(width);
 			request.setTargetHeight(height);
-			request.setResizeAction(ImageResizeAction.ALWAYS);
+			request.setResizeAction(ImageResizeAction.IF_LARGER);
 			request.setCropToAspect(exactlySize);
 			handler.resize(request);
 			return request.getDestinationByteArrayOutputStream().toByteArray();
@@ -58,11 +61,11 @@ public class ImageTransformHelper {
 	private class ScaleImage extends Thread {
 
 		BufferedImage bufferImage;
-		ImageSize imageSize;
+		ImageSizeEnum imageSize;
 		boolean exactlySize;
 		byte[] resultData;
 
-		public ScaleImage(BufferedImage bufferImage, ImageSize dataType, boolean exactlySize){
+		public ScaleImage(BufferedImage bufferImage, ImageSizeEnum dataType, boolean exactlySize){
 			this.bufferImage=bufferImage;
 			this.imageSize=dataType;
 			this.exactlySize=exactlySize;
@@ -85,7 +88,7 @@ public class ImageTransformHelper {
 
 	}
 	
-	public HashMap<ImageSize,byte[]> transformImages(InputStream stream, ImageSize... dataTypes){
+	public HashMap<ImageSizeEnum,byte[]> transformImages(InputStream stream, ImageSizeEnum... dataTypes){
 
 		long start = System.currentTimeMillis();
 
@@ -95,7 +98,7 @@ public class ImageTransformHelper {
 		try {
 			
 			bufferImage = ImageIO.read(stream);
-			for (ImageSize dataType : dataTypes){
+			for (ImageSizeEnum dataType : dataTypes){
 				Thread thread0 = new Thread(new ScaleImage(bufferImage, dataType, true));
 				thread0.start();
 				threads.add(thread0);
@@ -122,7 +125,7 @@ public class ImageTransformHelper {
 
 	}
 	
-	public byte[] transformImage(InputStream stream, ImageSize imageSize){
+	public byte[] transformImage(InputStream stream, ImageSizeEnum imageSize, boolean exactlySize){
 		
 		BufferedImage bufferImage;
 		
@@ -131,7 +134,25 @@ public class ImageTransformHelper {
 		try {
 			bufferImage = ImageIO.read(stream);
 			resultData = resizeImage(bufferImage, imageSize.getWidth(), 
-					imageSize.getHeight(),imageSize.isExactlySize());
+					imageSize.getHeight(),exactlySize);
+		} catch (IOException e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return resultData;
+		
+	}
+	
+	public byte[] transformImage(InputStream stream, Integer width, Integer height, boolean exactlySize){
+		
+		BufferedImage bufferImage;
+		
+		byte[] resultData = null;
+		
+		try {
+			bufferImage = ImageIO.read(stream);
+			resultData = resizeImage(bufferImage, width,height,exactlySize);
 		} catch (IOException e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();

@@ -40,6 +40,7 @@ public class EventMappingHelper {
 			dto.setAd(true);
 		}
 		dto.setTitle(view.getWhat());
+		dto.setThumbId(view.getThbId());
 		return dto;
 	}
 	

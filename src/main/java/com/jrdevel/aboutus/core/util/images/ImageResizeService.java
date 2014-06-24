@@ -165,7 +165,7 @@ public class ImageResizeService {
 		} else {
 			// No resize necessary so skip that step and just return existing
 			// image after optionally saving it
-			result = source;
+			result = null;
 		}
 
 		try {

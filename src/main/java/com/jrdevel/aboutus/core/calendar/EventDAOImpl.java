@@ -27,11 +27,11 @@ public class EventDAOImpl extends AbstractGenericDAO<Event, Integer> implements 
 	
 	public List<EventListView> callProcedure(Date start, Date end){
 		
-		return callProcedure(start,end,null,UserAuthenticatedManager.getCurrentCustomer().getId());
+		return callProcedure(start,end,null,UserAuthenticatedManager.getCurrentCustomer().getId(),null);
 		
 	}
 	
-	private List<EventListView> callProcedure(Date start, Date end, Integer count, Integer customerId){
+	private List<EventListView> callProcedure(Date start, Date end, Integer count, Integer customerId, Integer calendarId){
 		
 		//Add one day to end date
 		Calendar c = Calendar.getInstance(); 
@@ -40,12 +40,13 @@ public class EventDAOImpl extends AbstractGenericDAO<Event, Integer> implements 
 		Date rangeEnd = c.getTime();
 		
 		Query query = getSession().createSQLQuery(
-				"CALL get_events_between(:rangeStart, :rangeEnd, :count, :customer)")
+				"CALL get_events_between(:rangeStart, :rangeEnd, :count, :customer, :calendar)")
 				.setResultTransformer(Transformers.aliasToBean(EventListView.class))
 				.setParameter("rangeStart", start)
 				.setParameter("rangeEnd", rangeEnd)
 				.setParameter("count", count)
-				.setParameter("customer", customerId);
+				.setParameter("customer", customerId)
+				.setParameter("calendar", calendarId);
 
 		List<EventListView> result = query.list();
 		
@@ -68,7 +69,7 @@ public class EventDAOImpl extends AbstractGenericDAO<Event, Integer> implements 
 		Calendar end = Calendar.getInstance();
 		end.add(Calendar.YEAR, 1);
 		
-		return callProcedure(start.getTime(),end.getTime(),4,null);
+		return callProcedure(start.getTime(),end.getTime(),4,null,1);
 	}
 
 }

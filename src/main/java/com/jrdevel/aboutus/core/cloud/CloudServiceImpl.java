@@ -122,17 +122,16 @@ public class CloudServiceImpl implements CloudService{
 		if (AboutUsFileHelper.imageResizeSupported(fileType)){
 			
 			ImageTransformHelper imageTransform = new ImageTransformHelper();
-			HashMap<ImageSize,byte[]> resultImages = imageTransform.transformImages(inputStream,
-					ImageTransformHelper.DATA_TYPE_SMALL_0,
-					ImageTransformHelper.DATA_TYPE_SMALL_1,
-					ImageTransformHelper.DATA_TYPE_SMALL_2,
-					ImageTransformHelper.DATA_TYPE_MEDIUM_1,
-					ImageTransformHelper.DATA_TYPE_LARGE_2);
+			HashMap<ImageSizeEnum,byte[]> resultImages = imageTransform.transformImages(inputStream,
+					ImageSizeEnum.DATA_TYPE_1,
+					ImageSizeEnum.DATA_TYPE_2,
+					ImageSizeEnum.DATA_TYPE_4,
+					ImageSizeEnum.DATA_TYPE_10);
 			
-			for (ImageSize imgSize : resultImages.keySet()){
+			for (ImageSizeEnum imgSize : resultImages.keySet()){
 				if (resultImages.get(imgSize)!= null && resultImages.get(imgSize).length > 0){
 					FileData fileData = new FileData();
-					fileData.setDataType(imgSize.getDataType());
+					fileData.setDataType(imgSize.getDatatype());
 					fileData.setFile(fileBean);
 					fileData.setData(resultImages.get(imgSize));
 					try {
@@ -183,10 +182,7 @@ public class CloudServiceImpl implements CloudService{
 			
 			ImageTransformHelper imageTransform = new ImageTransformHelper();
 			
-			ImageSize imageSize = new ImageSize(width,height);
-			imageSize.setExactlySize(exactlySize);
-			
-			resultImage = imageTransform.transformImage(inputStream, imageSize);
+			resultImage = imageTransform.transformImage(inputStream, width, height, exactlySize);
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -205,10 +201,57 @@ public class CloudServiceImpl implements CloudService{
 		if (data != null && data.getData().length > 0){
 			return data.getData();
 		}else{
-			logger.info(String.format("The image thumb imageId = %s with dataType = %s does not exist.",
-					fileId,dataType));
-			return null;
+			
+			if (dataType == 10){
+			
+				File file = fileDAO.findById(fileId, false);
+				
+				java.io.File fileDisk = new java.io.File(file.getPath());
+				
+				try {
+					return AboutUsFileHelper.getBytesFromFile(fileDisk);
+					
+				} catch (IOException e) {
+					logger.error("erro reading bytes from file");
+				}
+			
+			}else{
+				
+				File file = fileDAO.findById(fileId, false);
+				
+				java.io.File fileDisk = new java.io.File(file.getPath());
+				
+				byte[] resultImage = null;
+				
+				try {
+					FileInputStream inputStream = new FileInputStream(fileDisk);
+					
+					ImageTransformHelper imageTransform = new ImageTransformHelper();
+					
+					resultImage = imageTransform.transformImage(inputStream, 
+							ImageSizeEnum.getImageSizeByDatatype(dataType), true);
+					
+					FileData fileData = new FileData();
+					fileData.setDataType(dataType);
+					fileData.setFile(file);
+					fileData.setData(resultImage);
+					try {
+						fileDataDAO.makePersistent(fileData, false, true);
+					} catch (PlanExceededException e) {
+						// TODO
+					}
+					
+					return resultImage;
+					
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+				
+			}
+			
 		}
+		
+		return null;
 		
 	}
 	
