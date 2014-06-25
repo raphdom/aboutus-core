@@ -17,6 +17,8 @@ public interface CategoryService{
 	public ResultObject insert(CategoryDTO categoryDTO);
 	public ResultObject save(CategoryDTO categoryDTO);
 	public ResultObject delete(List<Integer> beans);
+
+	public List<CategoryListDTO> listCategoryByParent(int parent, boolean publishedAlbuns, boolean publishedVideos);
 	
 
 }

@@ -22,17 +22,6 @@ import com.jrdevel.aboutus.core.util.images.ImageResizeService;
  */
 public class ImageTransformHelper {
 
-	/*public static final ImageSize DATA_TYPE_1  = new ImageSize(50,50,1);
-	public static final ImageSize DATA_TYPE_2  = new ImageSize(80,80,2);
-	public static final ImageSize DATA_TYPE_3  = new ImageSize(100,100,3);
-	public static final ImageSize DATA_TYPE_4  = new ImageSize(150,150,4);
-	public static final ImageSize DATA_TYPE_5  = new ImageSize(280,200,5);
-	public static final ImageSize DATA_TYPE_6  = new ImageSize(300,300,6);
-	public static final ImageSize DATA_TYPE_7  = new ImageSize(400,400,7);
-	public static final ImageSize DATA_TYPE_8  = new ImageSize(500,500,8);
-	public static final ImageSize DATA_TYPE_9  = new ImageSize(720,480,9);
-	public static final ImageSize DATA_TYPE_10 = new ImageSize(1920,1080,10);*/
-	
 	private static final Logger logger = Logger.getLogger(ImageTransformHelper.class);
 	
 	private HashMap<ImageSizeEnum,byte[]> result = new HashMap<ImageSizeEnum,byte[]>();

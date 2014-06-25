@@ -16,6 +16,7 @@ public class CategoryListDTO extends NodeDTO implements Serializable{
 	private int position;
 	private boolean publishedAlbuns;
 	private boolean publishedVideos;
+	private Integer thumbId;
 	
 	public String getDescription() {
 		return description;
@@ -40,6 +41,12 @@ public class CategoryListDTO extends NodeDTO implements Serializable{
 	}
 	public void setPublishedVideos(boolean publishedVideos) {
 		this.publishedVideos = publishedVideos;
+	}
+	public Integer getThumbId() {
+		return thumbId;
+	}
+	public void setThumbId(Integer thumbId) {
+		this.thumbId = thumbId;
 	}
 	
 }

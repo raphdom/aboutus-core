@@ -65,6 +65,22 @@ public class AlbumServiceImpl implements AlbumService{
 	}
 	
 	@Transactional
+	public ResultObject listByCategory(int categoryId) {
+		
+		ResultObject result = new ResultObject();
+		
+		ListResult<AlbumListSiteView> listResult = albumDAO.getAlbunsByCategory(categoryId);
+		
+		List<AlbumListDTO> dtos = AlbumMappingHelper.listSiteViewTolistDTO(listResult.getData());
+		
+		result.setData(dtos);
+		result.setTotal(listResult.getTotal());
+		
+		return result;
+		
+	}
+	
+	@Transactional
 	public ResultObject get(Integer id) {
 		
 		ResultObject result = new ResultObject();

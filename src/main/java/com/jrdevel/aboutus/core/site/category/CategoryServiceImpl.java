@@ -42,6 +42,16 @@ public class CategoryServiceImpl implements CategoryService{
 	}
 	
 	@Transactional
+	public List<CategoryListDTO> listCategoryByParent(int parent, boolean publishedAlbuns, boolean publishedVideos) {
+		
+		ListResult<CategoryListSiteView> listResult = categoryDAO.getCategoryByParent(parent, publishedAlbuns, publishedVideos);
+		
+		List<CategoryListDTO> dtos = CategoryMappingHelper.listViewSiteTolistDTO(listResult.getData());
+		
+		return dtos;
+	}
+	
+	@Transactional
 	public ResultObject get(Integer id) {
 		
 		ResultObject result = new ResultObject();
@@ -133,6 +143,6 @@ public class CategoryServiceImpl implements CategoryService{
 		return result;
 		
 	}
-	
+
 
 }

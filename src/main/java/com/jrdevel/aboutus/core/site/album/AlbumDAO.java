@@ -11,5 +11,6 @@ import com.jrdevel.aboutus.core.common.to.ListResult;
 public interface AlbumDAO extends GenericDAO<Album, Integer>{
 	
 	public ListResult<AlbumListSiteView> getHomePageAlbuns();
+	public ListResult<AlbumListSiteView> getAlbunsByCategory(int categoryId);
 
 }

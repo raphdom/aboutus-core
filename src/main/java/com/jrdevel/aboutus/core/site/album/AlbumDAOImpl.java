@@ -47,5 +47,22 @@ public class AlbumDAOImpl extends AbstractGenericDAO<Album, Integer> implements 
 		return new ListResult<AlbumListSiteView>(result,result.size());
 		
 	}
+	
+	public ListResult<AlbumListSiteView> getAlbunsByCategory(int categoryId) {
+
+		Criteria criteria = getSession().createCriteria(getPersistentClass());
+		criteria.add(Restrictions.eq("published", true));
+		criteria.add(Restrictions.eq("category.id", categoryId));
+		criteria.addOrder(Order.asc("ordering"));
+		
+		criteria.setProjection(getProjectionList(AlbumListSiteView.class));
+		
+		criteria.setResultTransformer(Transformers.aliasToBean(AlbumListSiteView.class));
+		
+		List<AlbumListSiteView> result = criteria.list();
+		
+		return new ListResult<AlbumListSiteView>(result,result.size());
+		
+	}
 
 }

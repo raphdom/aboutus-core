@@ -20,5 +20,6 @@ public interface AlbumService{
 	
 	//Public site methods
 	public ResultObject listHomePage();
+	public ResultObject listByCategory(int categoryId);
 
 }
