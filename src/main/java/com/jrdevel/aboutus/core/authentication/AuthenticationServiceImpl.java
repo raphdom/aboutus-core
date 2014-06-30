@@ -29,6 +29,7 @@ import com.jrdevel.aboutus.core.common.model.Register;
 import com.jrdevel.aboutus.core.common.model.User;
 import com.jrdevel.aboutus.core.common.to.ResultObject;
 import com.jrdevel.aboutus.core.person.PersonServiceImpl;
+import com.jrdevel.aboutus.core.user.PermissionDAO;
 import com.jrdevel.aboutus.core.user.UserDAO;
 import com.jrdevel.aboutus.core.util.PasswordGenerator;
 
@@ -45,6 +46,8 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 	private RegisterDAO registerDAO;
 	@Autowired
 	private CustomerDAO customerDAO;
+	@Autowired
+	private PermissionDAO permissionDAO;
 	
 	private static final Logger logger = Logger.getLogger(AuthenticationServiceImpl.class);
 
@@ -277,6 +280,28 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 		
 		
 		return result;
+	}
+	
+	@Transactional
+	public ResultObject listPermissions() {
+		
+		ResultObject result = new ResultObject();
+		
+		List<Permission> permissions = permissionDAO.findByCriteria();
+		
+		List<PermissionDTO> list = new ArrayList<PermissionDTO>();
+		
+		for(Permission permission : permissions){
+			PermissionDTO value = new PermissionDTO();
+			value.setId(permission.getId());
+			value.setName(MessageHelper.getMessage(permission.getName()));
+			list.add(value);
+		}
+		
+		result.setData(list);
+		
+		return result;
+		
 	}
 
 }

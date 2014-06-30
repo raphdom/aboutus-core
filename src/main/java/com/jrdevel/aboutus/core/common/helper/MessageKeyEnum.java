@@ -26,7 +26,6 @@ public enum MessageKeyEnum {
 	AUDIT_ACTION_UPDATE("audit.action.update"),
 	AUDIT_ACTION_DELETE("audit.action.delete"),
 	
-	
 	DULICATED_EMAIL ("user.message.emailDuplicated"),
 	AUTHENTICATION_FAILED ("authentication.message.error");
 	
