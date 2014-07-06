@@ -295,5 +295,31 @@ public class CloudServiceImpl implements CloudService{
 		return null;
 	}
 
+	@Transactional
+	public ResultObject moveFiles(Integer folderIdDest, List<Integer> files) {
+
+		ResultObject result = new ResultObject();
+
+		Folder folderDest = folderDAO.findById(folderIdDest, false);
+		if (folderDest != null){
+
+			for (Integer fileId : files){
+				File beanDB = fileDAO.findById(fileId, false);
+
+				beanDB.setFolder(folderDest);
+
+				try {
+					fileDAO.makePersistent(beanDB);
+				} catch (PlanExceededException e) {
+					e.printStackTrace();
+				}
+			}
+		}else{
+			result.addErrorMessage("Pasta de destino não existe.");
+		}
+
+		return result;
+	}
+
 
 }

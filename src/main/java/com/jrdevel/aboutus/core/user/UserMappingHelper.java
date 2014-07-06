@@ -1,7 +1,11 @@
 package com.jrdevel.aboutus.core.user;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import org.apache.commons.collections.CollectionUtils;
 
 import com.jrdevel.aboutus.core.common.model.Church;
 import com.jrdevel.aboutus.core.common.model.Group;
@@ -91,6 +95,26 @@ public class UserMappingHelper {
 			church.setId(dto.getChurchId());
 			bean.setChurch(church);
 		}
+		
+		Set<Group> groups = new HashSet<Group>();
+		if (CollectionUtils.isNotEmpty(dto.getGroups())){
+			for(Integer groupId : dto.getGroups()){
+				Group group = new Group();
+				group.setId(groupId);
+				groups.add(group);
+			}
+		}
+		bean.setGroups(groups);
+		
+		Set<Permission> permissions = new HashSet<Permission>();
+		if (CollectionUtils.isNotEmpty(dto.getPermissions())){
+			for(Integer permissionId : dto.getPermissions()){
+				Permission permission = new Permission();
+				permission.setId(permissionId);
+				permissions.add(permission);
+			}
+		}
+		bean.setPermissions(permissions);
 		
 		bean.setEmail(dto.getEmail());
 		

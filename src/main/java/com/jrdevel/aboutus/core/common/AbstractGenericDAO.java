@@ -307,7 +307,7 @@ public abstract class AbstractGenericDAO<T, PK extends Serializable> implements 
         Integer tableId = hibernateMetadata.getIdentifier(entity, EntityMode.POJO).hashCode();
         
 		Audit audit = new Audit();
-		audit.setUserId(1);
+		audit.setUserId(UserAuthenticatedManager.getCurrentUser().getId());
 		audit.setTableId(tableId);
 		audit.setTableName(tableName);
 		audit.setActionId(mode);

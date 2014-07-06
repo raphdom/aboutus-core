@@ -91,7 +91,7 @@ public class PersonServiceImpl implements PersonService{
 	}
 
 	@Transactional
-	@Secured("ROLE_UPDATE_PEOPLE")
+	@Secured("ROLE_EDIT_PEOPLE")
 	public ResultObject update(PersonDTO personDTO) {
 		
 		ResultObject result = new ResultObject();
@@ -117,7 +117,7 @@ public class PersonServiceImpl implements PersonService{
 	}
 
 	@Transactional
-	@Secured("ROLE_INSERT_PEOPLE")
+	@Secured("ROLE_ADD_PEOPLE")
 	public ResultObject insert(PersonDTO personDTO) {
 		
 		ResultObject result = new ResultObject();

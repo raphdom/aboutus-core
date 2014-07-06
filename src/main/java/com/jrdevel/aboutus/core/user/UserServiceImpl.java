@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
+import com.jrdevel.aboutus.core.cloud.FileDAO;
 import com.jrdevel.aboutus.core.common.PlanExceededException;
 import com.jrdevel.aboutus.core.common.helper.EmailHelper;
 import com.jrdevel.aboutus.core.common.helper.MessageHelper;
@@ -37,9 +38,13 @@ public class UserServiceImpl implements UserService{
 
 	@Autowired
 	private UserDAO userDAO;
+	
+	@Autowired
+	private FileDAO fileDAO;
 
 	@Autowired
 	private PersonService personService;
+	
 
 	@Transactional
 	@PreAuthorize("hasAuthority('ROLE_LIST_USERS')")
@@ -96,7 +101,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Transactional
-	@PreAuthorize("hasAuthority('ROLE_INSERT_USERS')")
+	@PreAuthorize("hasAuthority('ROLE_ADD_USERS')")
 	public ResultObject insert(UserDTO userDTO) {
 
 		ResultObject result = new ResultObject();
@@ -108,7 +113,7 @@ public class UserServiceImpl implements UserService{
 		String password = PasswordGenerator.passGenerator(8);
 		entity.setPassword(password);
 
-		entity.setLocale("en_GB");
+		entity.setLocale("pt_PT");
 		entity.setCustomer(UserAuthenticatedManager.getCurrentCustomer());
 
 		try {
@@ -124,7 +129,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Transactional
-	@PreAuthorize("hasAuthority('ROLE_UPDATE_USERS')")
+	@PreAuthorize("hasAuthority('ROLE_EDIT_USERS')")
 	public ResultObject update(UserDTO userDTO) {
 
 		ResultObject result = new ResultObject();
@@ -143,7 +148,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Transactional
-	@PreAuthorize("hasAuthority('ROLE_DELETE_USERS')")
+	@PreAuthorize("hasAuthority('ROLE_DEL_USERS')")
 	public ResultObject delete(List<Integer> beans) {
 
 		ResultObject result = new ResultObject();
@@ -191,11 +196,11 @@ public class UserServiceImpl implements UserService{
 			
 			User entity = userDAO.findById(profileDTO.getUser().getId(), false);
 
-			UserMappingHelper.DTOToBean(profileDTO.getUser(), entity);
+			//UserMappingHelper.DTOToBean(profileDTO.getUser(), entity);
+			entity.setEmail(profileDTO.getUser().getEmail());
 			
 			if (profileDTO.getUser().getAvatarId()!=null){
-				File file = new File();
-				file.setId(profileDTO.getUser().getAvatarId());
+				File file = fileDAO.findById(profileDTO.getUser().getAvatarId(), false);
 				entity.setFile(file);
 			}
 			if (!StringUtils.isEmpty(profileDTO.getUser().getLanguage())){

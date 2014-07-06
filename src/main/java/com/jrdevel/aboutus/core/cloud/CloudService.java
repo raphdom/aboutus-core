@@ -23,4 +23,6 @@ public interface CloudService{
 
 	public ResultObject delete(List<File> data);
 	
+	public ResultObject moveFiles(Integer folderIdDest, List<Integer> files);
+	
 }
