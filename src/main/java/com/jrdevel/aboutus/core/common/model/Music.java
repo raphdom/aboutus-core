@@ -5,11 +5,15 @@ package com.jrdevel.aboutus.core.common.model;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+
 import static javax.persistence.GenerationType.IDENTITY;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -254,7 +258,7 @@ public class Music implements java.io.Serializable {
 		this.playlists = playlists;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "music")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "music", cascade = CascadeType.ALL)
 	public Set<Tab> getTabs() {
 		return this.tabs;
 	}

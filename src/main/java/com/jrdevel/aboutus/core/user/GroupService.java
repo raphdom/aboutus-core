@@ -13,12 +13,13 @@ import com.jrdevel.aboutus.core.common.to.ResultObject;
  */
 public interface GroupService{
 
-	public ResultObject list(ListParams input);
-
-	public ResultObject get(Group input);
-
 	public ResultObject update(Group input);
 
-	public ResultObject delete(List<Group> input);
+	public ResultObject list(ListParams params);
+	public ResultObject get(Integer id);
+	public ResultObject update(GroupDTO userDTO);
+	public ResultObject insert(GroupDTO userDTO);
+	public ResultObject save(GroupDTO userDTO);
+	public ResultObject delete(List<Integer> beans);
 
 }

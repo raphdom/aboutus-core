@@ -1,5 +1,6 @@
 package com.jrdevel.aboutus.core.music.music;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -66,17 +67,17 @@ public class MusicServiceImpl implements MusicService{
 	}
 	
 	@Transactional
-	public ResultObject save(MusicDTO videoDTO) {
+	public ResultObject save(MusicDTO dto) {
 		
-		if (videoDTO.getId() != null && videoDTO.getId() != 0){
-			return update(videoDTO);
+		if (dto.getId() != null && dto.getId() != 0){
+			return update(dto);
 		}else{
-			return insert(videoDTO);
+			return insert(dto);
 		}
 	}
 
 	@Transactional
-	@PreAuthorize("hasAuthority('ROLE_INSERT_CATEGORY')")
+	@PreAuthorize("hasAuthority('ROLE_INSERT_MUSICS')")
 	public ResultObject insert(MusicDTO dto) {
 		
 		ResultObject result = new ResultObject();
@@ -85,6 +86,7 @@ public class MusicServiceImpl implements MusicService{
 		
 		//Insert data
 		entity.setId(null);
+		entity.setCreateDate(new Date());
 		entity.setCustomer(UserAuthenticatedManager.getCurrentCustomer());
 
 		try {
@@ -98,7 +100,7 @@ public class MusicServiceImpl implements MusicService{
 	}
 	
 	@Transactional
-	@PreAuthorize("hasAuthority('ROLE_UPDATE_CATEGORY')")
+	@PreAuthorize("hasAuthority('ROLE_UPDATE_MUSICS')")
 	public ResultObject update(MusicDTO dto) {
 		
 		ResultObject result = new ResultObject();
@@ -121,7 +123,7 @@ public class MusicServiceImpl implements MusicService{
 	}
 
 	@Transactional
-	//@PreAuthorize("hasAuthority('ROLE_DELETE_CATEGORY')")
+	@PreAuthorize("hasAuthority('ROLE_DEL_MUSICS')")
 	public ResultObject delete(List<Integer> beans) {
 		
 		ResultObject result = new ResultObject();
