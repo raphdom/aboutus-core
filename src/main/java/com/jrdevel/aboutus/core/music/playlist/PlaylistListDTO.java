@@ -1,6 +1,7 @@
 package com.jrdevel.aboutus.core.music.playlist;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import com.jrdevel.aboutus.core.dto.NodeDTO;
 
@@ -13,9 +14,8 @@ public class PlaylistListDTO extends NodeDTO implements Serializable{
 	private static final long serialVersionUID = 2513871739789525803L;
 	
 	private Integer id;
-	private String title;
-	private String author;
-	private String liryc;
+	private String name;
+	private Date createDate;
 	
 	public Integer getId() {
 		return id;
@@ -23,23 +23,17 @@ public class PlaylistListDTO extends NodeDTO implements Serializable{
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getTitle() {
-		return title;
+	public String getName() {
+		return name;
 	}
-	public void setTitle(String title) {
-		this.title = title;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getAuthor() {
-		return author;
+	public Date getCreateDate() {
+		return createDate;
 	}
-	public void setAuthor(String author) {
-		this.author = author;
-	}
-	public String getLiryc() {
-		return liryc;
-	}
-	public void setLiryc(String liryc) {
-		this.liryc = liryc;
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 	
 }

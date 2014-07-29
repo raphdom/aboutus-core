@@ -1,6 +1,7 @@
 package com.jrdevel.aboutus.core.music.playlist;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import com.jrdevel.aboutus.core.common.view.Projection;
 
@@ -12,9 +13,8 @@ public class PlaylistListView implements Serializable{
 	
 	private static final long serialVersionUID = -5329692834378102889L;
 	private Integer id;
-	private String title;
-	private String author;
-	private String liryc;
+	private String name;
+	private Date createDate;
 	
 	@Projection
 	public Integer getId() {
@@ -24,25 +24,18 @@ public class PlaylistListView implements Serializable{
 		this.id = id;
 	}
 	@Projection
-	public String getTitle() {
-		return title;
+	public String getName() {
+		return name;
 	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	@Projection
-	public String getAuthor() {
-		return author;
-	}
-	public void setAuthor(String author) {
-		this.author = author;
+	public void setName(String name) {
+		this.name = name;
 	}
 	@Projection
-	public String getLiryc() {
-		return liryc;
+	public Date getCreateDate() {
+		return createDate;
 	}
-	public void setLiryc(String liryc) {
-		this.liryc = liryc;
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 		
 }

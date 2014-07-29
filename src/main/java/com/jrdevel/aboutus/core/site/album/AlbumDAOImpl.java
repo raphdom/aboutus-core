@@ -32,6 +32,22 @@ public class AlbumDAOImpl extends AbstractGenericDAO<Album, Integer> implements 
 		return entity.getTitle();
 	}
 	
+	public Album findAlbumById(Integer id){
+		
+		Criteria criteria = getSession().createCriteria(getPersistentClass());
+		criteria.createAlias("itemAlbums", "items", Criteria.INNER_JOIN);
+		criteria.addOrder(Order.asc("items.position"));
+		
+		Album album = (Album) criteria.uniqueResult();
+		
+		if (album == null || album.getId() == null){
+			album = findById(id, false);
+		}
+		
+		return album;
+		
+	}
+	
 	public ListResult<AlbumListSiteView> getHomePageAlbuns() {
 
 		Criteria criteria = getSession().createCriteria(getPersistentClass());

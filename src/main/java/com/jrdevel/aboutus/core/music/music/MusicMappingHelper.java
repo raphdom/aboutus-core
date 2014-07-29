@@ -93,9 +93,7 @@ public class MusicMappingHelper {
 		tab.setContent(dto.getContent().getBytes());
 		tab.setInstrument(instrument);
 		tab.setMusic(bean);
-		HashSet<Tab> tabs = new HashSet<Tab>();
-		tabs.add(tab);
-		bean.setTabs(tabs);
+		bean.getTabs().add(tab);
 		
 		bean.setObservations(dto.getObservations());
 		

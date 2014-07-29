@@ -258,7 +258,7 @@ public class Music implements java.io.Serializable {
 		this.playlists = playlists;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "music", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "music", cascade = CascadeType.ALL, orphanRemoval = true)
 	public Set<Tab> getTabs() {
 		return this.tabs;
 	}

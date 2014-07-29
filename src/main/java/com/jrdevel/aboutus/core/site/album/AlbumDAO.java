@@ -12,5 +12,6 @@ public interface AlbumDAO extends GenericDAO<Album, Integer>{
 	
 	public ListResult<AlbumListSiteView> getHomePageAlbuns();
 	public ListResult<AlbumListSiteView> getAlbunsByCategory(int categoryId);
+	public Album findAlbumById(Integer id);
 
 }

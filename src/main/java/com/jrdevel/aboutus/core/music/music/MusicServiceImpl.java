@@ -109,10 +109,14 @@ public class MusicServiceImpl implements MusicService{
 		
 		if (music != null && music.getId() != null){
 			
-			music = MusicMappingHelper.DTOToBean(dto, music);
-			
 			try {
+				
+				music.getTabs().clear();
+				
+				music = MusicMappingHelper.DTOToBean(dto, music);
+			
 				musicDAO.makePersistent(music);
+				
 			} catch (PlanExceededException e) {
 				logger.error("PlanExceededException in update method");
 			}

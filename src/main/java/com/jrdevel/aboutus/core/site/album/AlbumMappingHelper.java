@@ -2,6 +2,7 @@ package com.jrdevel.aboutus.core.site.album;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -91,7 +92,7 @@ public class AlbumMappingHelper {
 		}
 		//Album items
 		if (CollectionUtils.isNotEmpty(bean.getItemAlbums())){
-			List<ItemAlbumDTO> items = new ArrayList<ItemAlbumDTO>();
+			List<ItemAlbumDTO> items = new LinkedList<ItemAlbumDTO>();
 			for(ItemAlbum it : bean.getItemAlbums()){
 				ItemAlbumDTO itdto = new ItemAlbumDTO();
 				itdto.setId(it.getFile().getId());
@@ -129,20 +130,21 @@ public class AlbumMappingHelper {
 		bean.setFile(file);
 		
 		//Album items
+		bean.getItemAlbums().clear();
 		if(CollectionUtils.isNotEmpty(dto.getItems())){
-			Set<ItemAlbum> itemsBean = new HashSet<ItemAlbum>();
+			int i = 1;
 			for (ItemAlbumDTO itemDTO : dto.getItems()){
 				ItemAlbum item = new ItemAlbum();
 				item.setAlbum(bean);
 				File itemFile = new File();
 				itemFile.setId(itemDTO.getId());
 				item.setFile(itemFile);
-				item.setPosition(itemDTO.getOrdering());
+				item.setPosition(i);
 				item.setTitle(itemDTO.getTitle());
 				item.setDescription(itemDTO.getDescription());
-				itemsBean.add(item);
+				bean.getItemAlbums().add(item);
+				i++;
 			}
-			bean.setItemAlbums(itemsBean);
 		}
 		
 		return bean;
