@@ -9,5 +9,6 @@ import com.jrdevel.aboutus.core.common.model.User;
 public interface FolderDAO extends GenericDAO<Folder, Integer>{
 	
 	public List<Folder> getFoldersPermited(User user);
+	public List<Folder> getFoldersByParent(Integer folderId);
 
 }

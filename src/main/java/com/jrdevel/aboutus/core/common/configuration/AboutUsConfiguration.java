@@ -13,7 +13,14 @@ public class AboutUsConfiguration {
 	@Value("#{applicationProperties.emailUser}")
 	private String emailUser; 
 	@Value("#{applicationProperties.emailPass}")
-	private String emailPass; 
+	private String emailPass;
+	
+	@Value("#{applicationProperties.refreshToken}")
+	private String refreshToken; 
+	@Value("#{applicationProperties.clientId}")
+	private String clientId; 
+	@Value("#{applicationProperties.clientSecret}")
+	private String clientSecret; 
 	
 	private AboutUsConfiguration() {
 	}
@@ -27,5 +34,15 @@ public class AboutUsConfiguration {
 	public String getEmailPass() {
 		return emailPass;
 	}
+	public String getRefreshToken() {
+		return refreshToken;
+	}
+	public String getClientId() {
+		return clientId;
+	}
+	public String getClientSecret() {
+		return clientSecret;
+	}
+	
 
 }

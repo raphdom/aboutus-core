@@ -1,8 +1,6 @@
 package com.jrdevel.aboutus.core.cloud;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.HashMap;
@@ -39,6 +37,9 @@ public class CloudServiceImpl implements CloudService{
 
 	@Autowired
 	private AboutUsConfiguration configuration;
+	
+	@Autowired
+	private GoogleDriveService googleDriveService;
 
 	/**
 	 * Spring use - DI
@@ -93,9 +94,16 @@ public class CloudServiceImpl implements CloudService{
 	@Transactional
 	public ResultObject processFile(InputStream inputStream, String name, Long size, 
 			String filePath, String fileType, Integer folderId){
-
+		
+		
+		byte[] originalBytes = AboutUsFileHelper.getBytesFromInputStream(inputStream);
+		
+		ByteArrayInputStream byteArrayStream = new ByteArrayInputStream(originalBytes);
+		
 		ResultObject result = new ResultObject();
-
+		
+		String googlefileId = googleDriveService.insert(name, fileType, byteArrayStream);
+		
 		File fileBean = new File();
 		fileBean.setFilename(name);
 		fileBean.setFileType(fileType);
@@ -106,7 +114,7 @@ public class CloudServiceImpl implements CloudService{
 			folder.setId(folderId);
 			fileBean.setFolder(folder);
 		}
-		fileBean.setPath(filePath);
+		fileBean.setPath("googleDrive-fileId:" + googlefileId);
 		fileBean.setCreatedDate(new Date());
 		fileBean.setModifiedDate(new Date());
 		fileBean.setCustomer(UserAuthenticatedManager.getCurrentCustomer());
@@ -122,7 +130,12 @@ public class CloudServiceImpl implements CloudService{
 		if (AboutUsFileHelper.imageResizeSupported(fileType)){
 
 			ImageTransformHelper imageTransform = new ImageTransformHelper();
-			HashMap<ImageSizeEnum,byte[]> resultImages = imageTransform.transformImages(inputStream,
+			//Data type 1 to thumbnail of view list
+			//Data type 2 to thumbnail of thumb list
+			//Data type 4 to thumbnail of detail panel
+			//Data type 10 to preview image when the user double clicke over image, even use of website
+			byteArrayStream.reset();
+			HashMap<ImageSizeEnum,byte[]> resultImages = imageTransform.transformImages(byteArrayStream,
 					ImageSizeEnum.DATA_TYPE_1,
 					ImageSizeEnum.DATA_TYPE_2,
 					ImageSizeEnum.DATA_TYPE_4);
@@ -142,7 +155,7 @@ public class CloudServiceImpl implements CloudService{
 			}
 
 		}
-
+		
 		return result;
 
 	}
@@ -172,21 +185,13 @@ public class CloudServiceImpl implements CloudService{
 
 		File file = fileDAO.findById(fileId, false);
 
-		java.io.File fileDisk = new java.io.File(file.getPath());
-
 		byte[] resultImage = null;
 
-		try {
-			FileInputStream inputStream = new FileInputStream(fileDisk);
+		InputStream inputStream = getOriginalFileFromGoogleDrive(file);
 
-			ImageTransformHelper imageTransform = new ImageTransformHelper();
+		ImageTransformHelper imageTransform = new ImageTransformHelper();
 
-			resultImage = imageTransform.transformImage(inputStream, width, height, exactlySize);
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-
+		resultImage = imageTransform.transformImage(inputStream, width, height, exactlySize);
 
 		return resultImage;
 
@@ -203,47 +208,36 @@ public class CloudServiceImpl implements CloudService{
 
 			File file = fileDAO.findById(fileId, false);
 
-			java.io.File fileDisk = new java.io.File(file.getPath());
-
+			InputStream inputStream = getOriginalFileFromGoogleDrive(file);
+			
+			byte[] originalBytes = AboutUsFileHelper.getBytesFromInputStream(inputStream);
+			
 			byte[] resultImage = null;
+			
+			ImageTransformHelper imageTransform = new ImageTransformHelper();
 
-			try {
-				FileInputStream inputStream = new FileInputStream(fileDisk);
+			resultImage = imageTransform.transformImage(new ByteArrayInputStream(originalBytes), 
+					ImageSizeEnum.getImageSizeByDatatype(dataType), true);
 
-				ImageTransformHelper imageTransform = new ImageTransformHelper();
+			if (resultImage != null && resultImage.length > 0){
 
-				resultImage = imageTransform.transformImage(inputStream, 
-						ImageSizeEnum.getImageSizeByDatatype(dataType), true);
-
-				if (resultImage != null && resultImage.length > 0){
-				
-					FileData fileData = new FileData();
-					fileData.setDataType(dataType);
-					fileData.setFile(file);
-					fileData.setData(resultImage);
-					try {
-						fileDataDAO.makePersistent(fileData, false, true);
-					} catch (PlanExceededException e) {
-						// TODO
-					}
-				
-				}else{
-					try {
-						resultImage = AboutUsFileHelper.getBytesFromFile(fileDisk);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+				FileData fileData = new FileData();
+				fileData.setDataType(dataType);
+				fileData.setFile(file);
+				fileData.setData(resultImage);
+				try {
+					fileDataDAO.makePersistent(fileData, false, true);
+				} catch (PlanExceededException e) {
+					// TODO
 				}
 
-				return resultImage;
-
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
+			}else{
+				resultImage = originalBytes;
 			}
 
-		}
+			return resultImage;
 
-		return null;
+		}
 
 	}
 
@@ -254,22 +248,17 @@ public class CloudServiceImpl implements CloudService{
 
 		File file = fileDAO.findById(fileId, false);
 
-		java.io.File fileDisk = new java.io.File(file.getPath());
+		//java.io.File fileDisk = new java.io.File(file.getPath());
+		String googleFileId = file.getPath().split(":")[1];
+		InputStream fileGoogleDrive = googleDriveService.get(googleFileId);
 
-		try {
+		result.put("file_byte", AboutUsFileHelper.getBytesFromInputStream(fileGoogleDrive));
 
-			result.put("file_byte", AboutUsFileHelper.getBytesFromFile(fileDisk));
+		result.put("file_name", file.getFilename());
 
-			result.put("file_name", file.getFilename());
+		result.put("file_type", file.getFileType());
 
-			result.put("file_type", file.getFileType());
-
-			return result;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return null;
+		return result;
 
 	}
 
@@ -280,10 +269,10 @@ public class CloudServiceImpl implements CloudService{
 
 		for (File file : beans){
 			File beanDB = fileDAO.findById(file.getId(), false);
-			java.io.File fileHD = new java.io.File(beanDB.getPath());
+			String googleFileId = beanDB.getPath().split(":")[1];
 			fileDAO.makeTransient(beanDB);
-			//Remove original FileSystem
-			fileHD.delete();
+			//Remove original file in google drive
+			googleDriveService.delete(googleFileId);
 		}
 
 		result.addInfoMessage(beans.size() + " ficheiro(s) eliminados.");
@@ -319,6 +308,17 @@ public class CloudServiceImpl implements CloudService{
 		}
 
 		return result;
+	}
+	
+	@Transactional
+	private InputStream getOriginalFileFromGoogleDrive(File bean){
+		String googleFileId = bean.getPath().split(":")[1];
+		return getOriginalFileFromGoogleDrive(googleFileId);
+	}
+	@Transactional
+	private InputStream getOriginalFileFromGoogleDrive(String googleFileId){
+		InputStream fileGoogleDrive = googleDriveService.get(googleFileId);
+		return fileGoogleDrive;
 	}
 
 

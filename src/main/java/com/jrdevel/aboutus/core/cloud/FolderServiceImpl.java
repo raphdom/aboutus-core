@@ -3,8 +3,10 @@ package com.jrdevel.aboutus.core.cloud;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -137,9 +139,29 @@ public class FolderServiceImpl implements FolderService{
 		return null;
 	}
 
+	
+	@Transactional
+	@PreAuthorize("hasAuthority('ROLE_DEL_FOLDERS')")
+	public ResultObject delete(List<Integer> beans) {
 
-	public ResultObject delete(List<Folder> beans) {
-		return null;
+		ResultObject result = new ResultObject();
+
+		for (Integer id: beans){
+			Folder folder = folderDAO.findById(id, false);
+			
+			if (CollectionUtils.isNotEmpty(folderDAO.getFoldersByParent(folder.getId()))){
+				result.setSuccess(false);
+				result.addErrorMessage("Impossível eliminar pasta com sub-pastas");
+				break;
+			}else{
+				folderDAO.makeTransient(folder);
+				result.addInfoMessage("Pasta(s) eliminadas com sucesso");
+			}
+			
+		}
+
+		return result;
+
 	}
 	
 

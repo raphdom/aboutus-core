@@ -41,6 +41,13 @@ public class FolderDAOImpl extends AbstractGenericDAO<Folder, Integer> implement
 		return crit.list();
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<Folder> getFoldersByParent(Integer folderId){
+		Criteria crit = getSession().createCriteria(getPersistentClass());
+		crit.add(Restrictions.eq("parent", folderId));
+		return crit.list();
+	}
+	
 	public void setExtraFilters(Criteria criteria) {
 		
 		

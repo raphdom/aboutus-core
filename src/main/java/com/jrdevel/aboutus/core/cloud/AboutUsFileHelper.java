@@ -1,5 +1,7 @@
 package com.jrdevel.aboutus.core.cloud;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -52,7 +54,7 @@ public class AboutUsFileHelper {
 	public static String generateUniqueFileName(String prefix, String suffix){
 		return (prefix != null ? prefix : "" ) + System.nanoTime() + (suffix != null ? suffix : "" ) ;
 	}
-	
+
 	public static byte[] getBytesFromFile(File file) throws IOException {
 		InputStream is = new FileInputStream(file);
 
@@ -78,5 +80,32 @@ public class AboutUsFileHelper {
 		is.close();
 		return bytes;
 	}
+
+
+
+	public static byte[] getBytesFromInputStream(InputStream is){
+		try (ByteArrayOutputStream os = new ByteArrayOutputStream();)
+		{
+			byte[] buffer = new byte[0xFFFF];
+
+			for (int len; (len = is.read(buffer)) != -1;)
+				os.write(buffer, 0, len);
+
+			os.flush();
+
+			return os.toByteArray();
+		}
+		catch (IOException e)
+		{
+			return null;
+		}
+	}
+	
+	public static ByteArrayInputStream getByteArrayInputStreamFromInputStream(InputStream inputStream){
+		byte [] b = getBytesFromInputStream(inputStream);
+        return new ByteArrayInputStream(b);  
+	}
+
+
 
 }
