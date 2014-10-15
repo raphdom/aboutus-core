@@ -30,6 +30,19 @@ public class VideoMappingHelper {
 	}
 	
 	/**
+	 * Mapping a view to a dto bean
+	 * @param view
+	 * @return
+	 */
+	public static VideoListDTO viewToDTO(VideoListSiteView view){
+		VideoListDTO dto = new VideoListDTO();
+		dto.setId(view.getId());
+		dto.setTitle(view.getTitle());
+		dto.setUrl(view.getUrl());
+		return dto;
+	}
+	
+	/**
 	 * Mapping a list of view to a dto beans list
 	 * @param views
 	 * @return
@@ -37,6 +50,20 @@ public class VideoMappingHelper {
 	public static List<VideoListDTO> listViewTolistDTO(List<VideoListView> views){
 		List<VideoListDTO> dtos = new ArrayList<VideoListDTO>();
 		for(VideoListView view : views){
+			VideoListDTO node = viewToDTO(view);
+			dtos.add(node);
+		}
+		return dtos;
+	}
+	
+	/**
+	 * Mapping a list of view to a dto beans list
+	 * @param views
+	 * @return
+	 */
+	public static List<VideoListDTO> listSiteViewTolistDTO(List<VideoListSiteView> views){
+		List<VideoListDTO> dtos = new ArrayList<VideoListDTO>();
+		for(VideoListSiteView view : views){
 			VideoListDTO node = viewToDTO(view);
 			dtos.add(node);
 		}

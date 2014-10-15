@@ -14,6 +14,9 @@ import com.jrdevel.aboutus.core.common.model.Video;
 import com.jrdevel.aboutus.core.common.to.ListParams;
 import com.jrdevel.aboutus.core.common.to.ListResult;
 import com.jrdevel.aboutus.core.common.to.ResultObject;
+import com.jrdevel.aboutus.core.site.album.AlbumListDTO;
+import com.jrdevel.aboutus.core.site.album.AlbumListSiteView;
+import com.jrdevel.aboutus.core.site.album.AlbumMappingHelper;
 
 /**
  * @author Raphael Domingues
@@ -132,6 +135,22 @@ public class VideoServiceImpl implements VideoService{
 		}
 		
 		result.addInfoMessage("Artigo(s) eliminados com sucesso");
+		
+		return result;
+		
+	}
+	
+	@Transactional
+	public ResultObject listHomePage() {
+		
+		ResultObject result = new ResultObject();
+		
+		ListResult<VideoListSiteView> listResult = videoDAO.getHomePageVideos();
+		
+		List<VideoListDTO> dtos = VideoMappingHelper.listSiteViewTolistDTO(listResult.getData());
+		
+		result.setData(dtos);
+		result.setTotal(listResult.getTotal());
 		
 		return result;
 		
