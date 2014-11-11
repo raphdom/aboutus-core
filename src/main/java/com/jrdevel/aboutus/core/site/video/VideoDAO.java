@@ -10,6 +10,7 @@ import com.jrdevel.aboutus.core.common.to.ListResult;
  */
 public interface VideoDAO extends GenericDAO<Video, Integer>{
 	
-	public ListResult<VideoListSiteView> getHomePageVideos();
+	public ListResult<VideoListSiteView> getHomePageVideos(Integer limit);
+	public ListResult<VideoListSiteView> getVideosByCategory(int categoryId);
 
 }

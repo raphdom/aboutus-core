@@ -10,13 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
 import com.jrdevel.aboutus.core.common.PlanExceededException;
+import com.jrdevel.aboutus.core.common.helper.MessageHelper;
+import com.jrdevel.aboutus.core.common.helper.MessageKeyEnum;
 import com.jrdevel.aboutus.core.common.model.Video;
 import com.jrdevel.aboutus.core.common.to.ListParams;
 import com.jrdevel.aboutus.core.common.to.ListResult;
 import com.jrdevel.aboutus.core.common.to.ResultObject;
-import com.jrdevel.aboutus.core.site.album.AlbumListDTO;
-import com.jrdevel.aboutus.core.site.album.AlbumListSiteView;
-import com.jrdevel.aboutus.core.site.album.AlbumMappingHelper;
 
 /**
  * @author Raphael Domingues
@@ -92,6 +91,9 @@ public class VideoServiceImpl implements VideoService{
 
 		try {
 			videoDAO.makePersistent(entity);
+			
+			result.addInfoMessage(MessageHelper.getMessage(MessageKeyEnum.VIDEO_INSERTED));
+			
 		} catch (PlanExceededException e) {
 			result.setSuccess(false);
 		}
@@ -114,6 +116,8 @@ public class VideoServiceImpl implements VideoService{
 			
 			try {
 				videoDAO.makePersistent(video);
+				
+				result.addInfoMessage(MessageHelper.getMessage(MessageKeyEnum.VIDEO_UPDATED));
 			} catch (PlanExceededException e) {
 				logger.error("PlanExceededException in update method");
 			}
@@ -134,18 +138,34 @@ public class VideoServiceImpl implements VideoService{
 			videoDAO.makeTransient(video);
 		}
 		
-		result.addInfoMessage("Artigo(s) eliminados com sucesso");
+		result.addInfoMessage(MessageHelper.getMessage(MessageKeyEnum.VIDEO_DELETED));
 		
 		return result;
 		
 	}
 	
 	@Transactional
-	public ResultObject listHomePage() {
+	public ResultObject listHomePage(Integer limit) {
 		
 		ResultObject result = new ResultObject();
 		
-		ListResult<VideoListSiteView> listResult = videoDAO.getHomePageVideos();
+		ListResult<VideoListSiteView> listResult = videoDAO.getHomePageVideos(limit);
+		
+		List<VideoListDTO> dtos = VideoMappingHelper.listSiteViewTolistDTO(listResult.getData());
+		
+		result.setData(dtos);
+		result.setTotal(listResult.getTotal());
+		
+		return result;
+		
+	}
+	
+	@Transactional
+	public ResultObject listByCategory(int categoryId) {
+		
+		ResultObject result = new ResultObject();
+		
+		ListResult<VideoListSiteView> listResult = videoDAO.getVideosByCategory(categoryId);
 		
 		List<VideoListDTO> dtos = VideoMappingHelper.listSiteViewTolistDTO(listResult.getData());
 		

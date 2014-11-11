@@ -34,7 +34,7 @@ public class ArticleDAOImpl extends AbstractGenericDAO<Article, Integer> impleme
 		return entity.getTitle();
 	}
 
-	public ListResult<ArticleListSiteView> getHomePageArticles() {
+	public ListResult<ArticleListSiteView> getHomePageArticles(Integer limit) {
 
 		Date actualDate = new Date();
 		
@@ -43,6 +43,10 @@ public class ArticleDAOImpl extends AbstractGenericDAO<Article, Integer> impleme
 		criteria.add(criteriaPublishDown(actualDate));
 		criteria.add(Restrictions.eq("homepage", true));
 		criteria.addOrder(Order.asc("ordering"));
+		
+		if (limit != null){
+			criteria.setMaxResults(limit);
+		}
 		
 		criteria.setProjection(getProjectionList(ArticleListSiteView.class));
 		
@@ -56,6 +60,26 @@ public class ArticleDAOImpl extends AbstractGenericDAO<Article, Integer> impleme
 	
 	private Criterion criteriaPublishDown(Date date){
 		return Restrictions.or(Restrictions.ge("publishDown", date), Restrictions.isNull("publishDown"));
+	}
+	
+	public ListResult<ArticleListSiteView> getArticlesByCategory(int categoryId) {
+		
+		Date actualDate = new Date();
+
+		Criteria criteria = getSession().createCriteria(getPersistentClass());
+		criteria.add(Restrictions.le("publishUp", new Date()));
+		criteria.add(criteriaPublishDown(actualDate));
+		criteria.add(Restrictions.eq("category.id", categoryId));
+		criteria.addOrder(Order.asc("ordering"));
+		
+		criteria.setProjection(getProjectionList(ArticleListSiteView.class));
+		
+		criteria.setResultTransformer(Transformers.aliasToBean(ArticleListSiteView.class));
+		
+		List<ArticleListSiteView> result = criteria.list();
+		
+		return new ListResult<ArticleListSiteView>(result,result.size());
+		
 	}
 
 }

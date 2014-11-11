@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
 import com.jrdevel.aboutus.core.common.PlanExceededException;
+import com.jrdevel.aboutus.core.common.helper.MessageHelper;
+import com.jrdevel.aboutus.core.common.helper.MessageKeyEnum;
 import com.jrdevel.aboutus.core.common.model.Article;
 import com.jrdevel.aboutus.core.common.to.ListParams;
 import com.jrdevel.aboutus.core.common.to.ListResult;
@@ -46,11 +48,27 @@ public class ArticleServiceImpl implements ArticleService{
 	}
 	
 	@Transactional
-	public ResultObject listSite() {
+	public ResultObject listSite(Integer limit) {
 		
 		ResultObject result = new ResultObject();
 		
-		ListResult<ArticleListSiteView> listResult = articleDAO.getHomePageArticles();
+		ListResult<ArticleListSiteView> listResult = articleDAO.getHomePageArticles(limit);
+		
+		List<ArticleListDTO> dtos = ArticleMappingHelper.listSiteViewTolistDTO(listResult.getData());
+		
+		result.setData(dtos);
+		result.setTotal(listResult.getTotal());
+		
+		return result;
+		
+	}
+	
+	@Transactional
+	public ResultObject listByCategory(int categoryId) {
+		
+		ResultObject result = new ResultObject();
+		
+		ListResult<ArticleListSiteView> listResult = articleDAO.getArticlesByCategory(categoryId);
 		
 		List<ArticleListDTO> dtos = ArticleMappingHelper.listSiteViewTolistDTO(listResult.getData());
 		
@@ -107,6 +125,9 @@ public class ArticleServiceImpl implements ArticleService{
 
 		try {
 			articleDAO.makePersistent(entity);
+			
+			result.addInfoMessage(MessageHelper.getMessage(MessageKeyEnum.ARTICLE_INSERTED));
+			
 		} catch (PlanExceededException e) {
 			result.setSuccess(false);
 		}
@@ -129,6 +150,9 @@ public class ArticleServiceImpl implements ArticleService{
 			
 			try {
 				articleDAO.makePersistent(article);
+				
+				result.addInfoMessage(MessageHelper.getMessage(MessageKeyEnum.ARTICLE_UPDATED));
+				
 			} catch (PlanExceededException e) {
 				logger.error("PlanExceededException in update method");
 			}
@@ -149,7 +173,7 @@ public class ArticleServiceImpl implements ArticleService{
 			articleDAO.makeTransient(article);
 		}
 		
-		result.addInfoMessage("Artigo(s) eliminados com sucesso");
+		result.addInfoMessage(MessageHelper.getMessage(MessageKeyEnum.ARTICLE_DELETED));
 		
 		return result;
 		

@@ -105,9 +105,11 @@ public class BannerMappingHelper {
 		bean.setOrdering(dto.getOrdering());
 		
 		//Banner
-		File file = new File();
-		file.setId(dto.getBannerId());
-		bean.setFile(file);
+		if (dto.getBannerId()!=null && dto.getBannerId() > 0){
+			File file = new File();
+			file.setId(dto.getBannerId());
+			bean.setFile(file);
+		}
 		
 		return bean;
 	}

@@ -27,7 +27,27 @@ public enum MessageKeyEnum {
 	AUDIT_ACTION_DELETE("audit.action.delete"),
 	
 	DULICATED_EMAIL ("user.message.emailDuplicated"),
-	AUTHENTICATION_FAILED ("authentication.message.error");
+	AUTHENTICATION_FAILED ("authentication.message.error"),
+	
+	ARTICLE_INSERTED ("article.message.inserted"),
+	ARTICLE_UPDATED ("article.message.updated"),
+	ARTICLE_DELETED ("article.message.deleted"),
+	
+	CATEGORY_INSERTED ("category.message.inserted"),
+	CATEGORY_UPDATED ("category.message.updated"),
+	CATEGORY_DELETED ("category.message.deleted"),
+	
+	VIDEO_INSERTED ("video.message.inserted"),
+	VIDEO_UPDATED ("video.message.updated"),
+	VIDEO_DELETED ("video.message.deleted"),
+	
+	ALBUM_INSERTED ("album.message.inserted"),
+	ALBUM_UPDATED ("album.message.updated"),
+	ALBUM_DELETED ("album.message.deleted"),
+	
+	BANNER_INSERTED ("banner.message.inserted"),
+	BANNER_UPDATED ("banner.message.updated"),
+	BANNER_DELETED ("banner.message.deleted");
 	
 	private String key = null;
 	

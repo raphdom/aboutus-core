@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
 import com.jrdevel.aboutus.core.common.PlanExceededException;
+import com.jrdevel.aboutus.core.common.helper.MessageHelper;
+import com.jrdevel.aboutus.core.common.helper.MessageKeyEnum;
 import com.jrdevel.aboutus.core.common.model.Category;
 import com.jrdevel.aboutus.core.common.to.ListParams;
 import com.jrdevel.aboutus.core.common.to.ListResult;
@@ -96,6 +98,9 @@ public class CategoryServiceImpl implements CategoryService{
 
 		try {
 			categoryDAO.makePersistent(entity);
+			
+			result.addInfoMessage(MessageHelper.getMessage(MessageKeyEnum.CATEGORY_INSERTED));
+			
 		} catch (PlanExceededException e) {
 			result.setSuccess(false);
 		}
@@ -118,6 +123,9 @@ public class CategoryServiceImpl implements CategoryService{
 			
 			try {
 				categoryDAO.makePersistent(category);
+				
+				result.addInfoMessage(MessageHelper.getMessage(MessageKeyEnum.CATEGORY_UPDATED));
+				
 			} catch (PlanExceededException e) {
 				logger.error("PlanExceededException in update method");
 			}
@@ -138,7 +146,7 @@ public class CategoryServiceImpl implements CategoryService{
 			categoryDAO.makeTransient(category);
 		}
 		
-		result.addInfoMessage("Categoria(s) eliminadas com sucesso");
+		result.addInfoMessage(MessageHelper.getMessage(MessageKeyEnum.CATEGORY_DELETED));
 		
 		return result;
 		

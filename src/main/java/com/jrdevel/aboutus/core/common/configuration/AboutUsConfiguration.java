@@ -14,6 +14,8 @@ public class AboutUsConfiguration {
 	private String emailUser; 
 	@Value("#{applicationProperties.emailPass}")
 	private String emailPass;
+	@Value("#{applicationProperties.sender}")
+	private String sender;
 	
 	@Value("#{applicationProperties.refreshToken}")
 	private String refreshToken; 
@@ -43,6 +45,11 @@ public class AboutUsConfiguration {
 	public String getClientSecret() {
 		return clientSecret;
 	}
-	
+	public String getSender() {
+		return sender;
+	}
+	public void setSender(String sender) {
+		this.sender = sender;
+	}
 
 }

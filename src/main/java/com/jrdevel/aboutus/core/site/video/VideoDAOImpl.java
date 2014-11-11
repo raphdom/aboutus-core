@@ -32,10 +32,31 @@ public class VideoDAOImpl extends AbstractGenericDAO<Video, Integer> implements 
 		return entity.getTitle();
 	}
 	
-	public ListResult<VideoListSiteView> getHomePageVideos() {
+	public ListResult<VideoListSiteView> getHomePageVideos(Integer limit) {
 
 		Criteria criteria = getSession().createCriteria(getPersistentClass());
 		criteria.add(Restrictions.eq("published", true));
+		criteria.addOrder(Order.asc("ordering"));
+		
+		if (limit != null){
+			criteria.setMaxResults(limit);
+		}
+		
+		criteria.setProjection(getProjectionList(VideoListSiteView.class));
+		
+		criteria.setResultTransformer(Transformers.aliasToBean(VideoListSiteView.class));
+		
+		List<VideoListSiteView> result = criteria.list();
+		
+		return new ListResult<VideoListSiteView>(result,result.size());
+		
+	}
+	
+	public ListResult<VideoListSiteView> getVideosByCategory(int categoryId) {
+
+		Criteria criteria = getSession().createCriteria(getPersistentClass());
+		criteria.add(Restrictions.eq("published", true));
+		criteria.add(Restrictions.eq("category.id", categoryId));
 		criteria.addOrder(Order.asc("ordering"));
 		
 		criteria.setProjection(getProjectionList(VideoListSiteView.class));

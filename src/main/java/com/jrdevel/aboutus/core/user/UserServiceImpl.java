@@ -122,7 +122,12 @@ public class UserServiceImpl implements UserService{
 			result.setSuccess(false);
 		}
 
-		EmailHelper.sendEmail("Sua password é: " + password, entity.getEmail());
+		EmailHelper.sendEmail("Bem-vindo ao ::AboutChurch::",
+				"Bem-vindo ao ::AboutChurch:: \n " + 
+				"Sua palavra-passe é: " + password + "\n" +
+				"A Equipe do AboutChurch aradece o seu registo" + "\n" +
+				"Atenciosamente"
+				, entity.getEmail());
 
 		return result;
 

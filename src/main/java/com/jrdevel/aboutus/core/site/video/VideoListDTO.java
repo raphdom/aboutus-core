@@ -1,7 +1,6 @@
 package com.jrdevel.aboutus.core.site.video;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import com.jrdevel.aboutus.core.dto.NodeDTO;
 
@@ -19,6 +18,7 @@ public class VideoListDTO extends NodeDTO implements Serializable{
 	private String url;
 	private boolean published;
 	private String categoryName;
+	private String youtubeId;
 	
 	public Integer getId() {
 		return id;
@@ -55,6 +55,12 @@ public class VideoListDTO extends NodeDTO implements Serializable{
 	}
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
+	}
+	public String getYoutubeId() {
+		return youtubeId;
+	}
+	public void setYoutubeId(String youtubeId) {
+		this.youtubeId = youtubeId;
 	}
 	
 }

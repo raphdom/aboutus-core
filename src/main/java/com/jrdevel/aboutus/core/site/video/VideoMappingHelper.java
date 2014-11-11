@@ -2,6 +2,8 @@ package com.jrdevel.aboutus.core.site.video;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.jrdevel.aboutus.core.common.model.Category;
 import com.jrdevel.aboutus.core.common.model.Video;
@@ -39,7 +41,21 @@ public class VideoMappingHelper {
 		dto.setId(view.getId());
 		dto.setTitle(view.getTitle());
 		dto.setUrl(view.getUrl());
+		dto.setYoutubeId(getYoutubeIdFromUrl(view.getUrl()));
 		return dto;
+	}
+	
+	public static String getYoutubeIdFromUrl(String url){
+		String pattern = "(?<=watch\\?v=|/videos/|embed\\/)[^#\\&\\?]*";
+
+	    Pattern compiledPattern = Pattern.compile(pattern);
+	    Matcher matcher = compiledPattern.matcher(url);
+
+	    if(matcher.find()){
+	        return matcher.group();
+	    }
+	    
+	    return null;
 	}
 	
 	/**

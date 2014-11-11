@@ -19,7 +19,7 @@ public interface AlbumService{
 	public ResultObject delete(List<Integer> beans);
 	
 	//Public site methods
-	public ResultObject listHomePage();
+	public ResultObject listHomePage(Integer limit);
 	public ResultObject listByCategory(int categoryId);
 
 }

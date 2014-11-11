@@ -13,7 +13,7 @@ public class CategoryListSiteView implements Serializable{
 	private static final long serialVersionUID = -5329692834378102889L;
 	private Integer id;
 	private String name;
-	private int thumbId;
+	private Integer thumbId;
 	
 	@Projection
 	public Integer getId() {
@@ -30,10 +30,10 @@ public class CategoryListSiteView implements Serializable{
 		this.name = name;
 	}
 	@Projection(entityName="file.id")
-	public int getThumbId() {
+	public Integer getThumbId() {
 		return thumbId;
 	}
-	public void setThumbId(int thumbId) {
+	public void setThumbId(Integer thumbId) {
 		this.thumbId = thumbId;
 	}
 	

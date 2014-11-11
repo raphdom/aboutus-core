@@ -122,9 +122,11 @@ public class ArticleMappingHelper {
 		bean.setCategory(category);
 		
 		//Thumb
-		File file = new File();
-		file.setId(dto.getThumbId());
-		bean.setFile(file);
+		if (dto.getThumbId()!= null && dto.getThumbId()>0){
+			File file = new File();
+			file.setId(dto.getThumbId());
+			bean.setFile(file);
+		}
 		
 		return bean;
 	}

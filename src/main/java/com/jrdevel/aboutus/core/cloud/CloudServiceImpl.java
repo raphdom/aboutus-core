@@ -1,6 +1,7 @@
 package com.jrdevel.aboutus.core.cloud;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.HashMap;
@@ -133,12 +134,15 @@ public class CloudServiceImpl implements CloudService{
 			//Data type 1 to thumbnail of view list
 			//Data type 2 to thumbnail of thumb list
 			//Data type 4 to thumbnail of detail panel
+			//Data type 5 to thumbnail of site album page
 			//Data type 10 to preview image when the user double clicke over image, even use of website
 			byteArrayStream.reset();
 			HashMap<ImageSizeEnum,byte[]> resultImages = imageTransform.transformImages(byteArrayStream,
+					fileType,
 					ImageSizeEnum.DATA_TYPE_1,
 					ImageSizeEnum.DATA_TYPE_2,
-					ImageSizeEnum.DATA_TYPE_4);
+					ImageSizeEnum.DATA_TYPE_4,
+					ImageSizeEnum.DATA_TYPE_5);
 
 			for (ImageSizeEnum imgSize : resultImages.keySet()){
 				if (resultImages.get(imgSize)!= null && resultImages.get(imgSize).length > 0){
@@ -152,6 +156,12 @@ public class CloudServiceImpl implements CloudService{
 						// TODO
 					}
 				}
+			}
+			
+			try {
+				byteArrayStream.close();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 
 		}
@@ -183,6 +193,10 @@ public class CloudServiceImpl implements CloudService{
 	@Transactional
 	public byte[] getThumb(Integer fileId, Integer width, Integer height, boolean exactlySize) {
 
+		if (fileId == null || fileId == 0){
+			return null;
+		}
+		
 		File file = fileDAO.findById(fileId, false);
 
 		byte[] resultImage = null;
@@ -191,7 +205,14 @@ public class CloudServiceImpl implements CloudService{
 
 		ImageTransformHelper imageTransform = new ImageTransformHelper();
 
-		resultImage = imageTransform.transformImage(inputStream, width, height, exactlySize);
+		resultImage = imageTransform.transformImage(inputStream, width, height, 
+				exactlySize, file.getFileType());
+		
+		try {
+			inputStream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		return resultImage;
 
@@ -199,6 +220,10 @@ public class CloudServiceImpl implements CloudService{
 
 	@Transactional
 	public byte[] getThumb(Integer fileId, Integer dataType) {
+		
+		if (fileId == null || fileId == 0){
+			return null;
+		}
 
 		FileData data = fileDataDAO.getFileDataByFileAndDataType(fileId,dataType);
 
@@ -217,7 +242,8 @@ public class CloudServiceImpl implements CloudService{
 			ImageTransformHelper imageTransform = new ImageTransformHelper();
 
 			resultImage = imageTransform.transformImage(new ByteArrayInputStream(originalBytes), 
-					ImageSizeEnum.getImageSizeByDatatype(dataType), true);
+					ImageSizeEnum.getImageSizeByDatatype(dataType), true,
+					file.getFileType());
 
 			if (resultImage != null && resultImage.length > 0){
 
@@ -233,6 +259,12 @@ public class CloudServiceImpl implements CloudService{
 
 			}else{
 				resultImage = originalBytes;
+			}
+			
+			try {
+				inputStream.close();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 
 			return resultImage;

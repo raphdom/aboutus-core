@@ -17,7 +17,8 @@ public interface VideoService{
 	public ResultObject insert(VideoDTO dto);
 	public ResultObject save(VideoDTO dto);
 	public ResultObject delete(List<Integer> beans);
-	public ResultObject listHomePage();
+	public ResultObject listHomePage(Integer limit);
+	public ResultObject listByCategory(int categoryId);
 	
 
 }

@@ -123,7 +123,7 @@ public class Article implements java.io.Serializable {
 		this.introarticle = introarticle;
 	}
 
-	@Column(name = "article", nullable = false, length = 16777215)
+	@Column(name = "article", length = 16777215)
 	public String getArticle() {
 		return this.article;
 	}

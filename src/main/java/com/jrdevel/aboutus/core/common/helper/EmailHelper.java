@@ -28,7 +28,7 @@ public class EmailHelper implements ApplicationContextAware{
 
 	private static AboutUsConfiguration config;
 
-	public static void sendEmail(String message, String destinatary){
+	public static void sendEmail(String subject, String message, String destinatary){
 		
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
@@ -45,10 +45,10 @@ public class EmailHelper implements ApplicationContextAware{
 		try {
 
 			Message msg = new MimeMessage(session);
-			msg.setFrom(new InternetAddress("raphdom@gmail.com"));
+			msg.setFrom(new InternetAddress(getConfig().getSender()));
 			msg.setRecipients(Message.RecipientType.TO,
 					InternetAddress.parse(destinatary));
-			msg.setSubject("Testing Subject");
+			msg.setSubject(subject);
 			msg.setText(message);
 
 			Transport.send(msg);

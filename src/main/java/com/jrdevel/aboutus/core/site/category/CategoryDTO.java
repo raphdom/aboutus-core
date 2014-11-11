@@ -13,7 +13,7 @@ public class CategoryDTO implements Serializable{
 	private String description;
 	private boolean publishedAlbuns;
 	private boolean publishedVideos;
-	private int thumbId;
+	private Integer thumbId;
 	
 	public Integer getId() {
 		return id;
@@ -57,10 +57,10 @@ public class CategoryDTO implements Serializable{
 	public void setParentId(int parentId) {
 		this.parentId = parentId;
 	}
-	public int getThumbId() {
+	public Integer getThumbId() {
 		return thumbId;
 	}
-	public void setThumbId(int thumbId) {
+	public void setThumbId(Integer thumbId) {
 		this.thumbId = thumbId;
 	}
 	

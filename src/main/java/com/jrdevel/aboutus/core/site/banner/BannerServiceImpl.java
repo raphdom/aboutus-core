@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
 import com.jrdevel.aboutus.core.common.PlanExceededException;
+import com.jrdevel.aboutus.core.common.helper.MessageHelper;
+import com.jrdevel.aboutus.core.common.helper.MessageKeyEnum;
 import com.jrdevel.aboutus.core.common.model.Banner;
 import com.jrdevel.aboutus.core.common.to.ListParams;
 import com.jrdevel.aboutus.core.common.to.ListResult;
@@ -105,6 +107,9 @@ public class BannerServiceImpl implements BannerService{
 
 		try {
 			bannerDAO.makePersistent(entity);
+			
+			result.addInfoMessage(MessageHelper.getMessage(MessageKeyEnum.BANNER_INSERTED));
+			
 		} catch (PlanExceededException e) {
 			result.setSuccess(false);
 		}
@@ -127,6 +132,8 @@ public class BannerServiceImpl implements BannerService{
 			
 			try {
 				bannerDAO.makePersistent(banner);
+				
+				result.addInfoMessage(MessageHelper.getMessage(MessageKeyEnum.BANNER_UPDATED));
 			} catch (PlanExceededException e) {
 				logger.error("PlanExceededException in update method");
 			}
@@ -148,7 +155,7 @@ public class BannerServiceImpl implements BannerService{
 			bannerDAO.makeTransient(banner);
 		}
 		
-		result.addInfoMessage("Artigo(s) eliminados com sucesso");
+		result.addInfoMessage(MessageHelper.getMessage(MessageKeyEnum.BANNER_DELETED));
 		
 		return result;
 		

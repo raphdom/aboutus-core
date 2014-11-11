@@ -11,13 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
 import com.jrdevel.aboutus.core.common.PlanExceededException;
+import com.jrdevel.aboutus.core.common.helper.MessageHelper;
+import com.jrdevel.aboutus.core.common.helper.MessageKeyEnum;
 import com.jrdevel.aboutus.core.common.model.Album;
 import com.jrdevel.aboutus.core.common.to.ListParams;
 import com.jrdevel.aboutus.core.common.to.ListResult;
 import com.jrdevel.aboutus.core.common.to.ResultObject;
-import com.jrdevel.aboutus.core.site.article.ArticleListDTO;
-import com.jrdevel.aboutus.core.site.article.ArticleListSiteView;
-import com.jrdevel.aboutus.core.site.article.ArticleMappingHelper;
 
 /**
  * @author Raphael Domingues
@@ -49,11 +48,11 @@ public class AlbumServiceImpl implements AlbumService{
 	}
 	
 	@Transactional
-	public ResultObject listHomePage() {
+	public ResultObject listHomePage(Integer limit) {
 		
 		ResultObject result = new ResultObject();
 		
-		ListResult<AlbumListSiteView> listResult = albumDAO.getHomePageAlbuns();
+		ListResult<AlbumListSiteView> listResult = albumDAO.getHomePageAlbuns(limit);
 		
 		List<AlbumListDTO> dtos = AlbumMappingHelper.listSiteViewTolistDTO(listResult.getData());
 		
@@ -126,6 +125,8 @@ public class AlbumServiceImpl implements AlbumService{
 
 		try {
 			albumDAO.makePersistent(entity);
+			
+			result.addInfoMessage(MessageHelper.getMessage(MessageKeyEnum.ALBUM_INSERTED));
 		} catch (PlanExceededException e) {
 			result.setSuccess(false);
 		}
@@ -149,11 +150,11 @@ public class AlbumServiceImpl implements AlbumService{
 			
 			try {
 				albumDAO.makePersistent(album);
+				
+				result.addInfoMessage(MessageHelper.getMessage(MessageKeyEnum.ALBUM_UPDATED));
 			} catch (PlanExceededException e) {
 				logger.error("PlanExceededException in update method");
 			}
-			
-			result.addInfoMessage("Album atualizado.");
 			
 		}
 		
@@ -171,7 +172,7 @@ public class AlbumServiceImpl implements AlbumService{
 			albumDAO.makeTransient(album);
 		}
 		
-		result.addInfoMessage("Artigo(s) eliminados com sucesso");
+		result.addInfoMessage(MessageHelper.getMessage(MessageKeyEnum.ALBUM_DELETED));
 		
 		return result;
 		

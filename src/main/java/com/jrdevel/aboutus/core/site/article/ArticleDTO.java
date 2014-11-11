@@ -16,7 +16,7 @@ public class ArticleDTO implements Serializable{
 	private int hits;
 	private String author;
 	private Integer categoryId;
-	private int thumbId;
+	private Integer thumbId;
 	private String introarticle;
 	private String article; 
 	private boolean homepage;
@@ -69,10 +69,10 @@ public class ArticleDTO implements Serializable{
 	public void setAuthor(String author) {
 		this.author = author;
 	}
-	public int getThumbId() {
+	public Integer getThumbId() {
 		return thumbId;
 	}
-	public void setThumbId(int thumbId) {
+	public void setThumbId(Integer thumbId) {
 		this.thumbId = thumbId;
 	}
 	public String getIntroarticle() {

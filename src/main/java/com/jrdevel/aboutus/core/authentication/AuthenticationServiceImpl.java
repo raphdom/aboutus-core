@@ -270,7 +270,7 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 				result.setSuccess(false);
 			}
 			
-			EmailHelper.sendEmail("Sua password foi reiniciada e agora é: " + password, user.getEmail());
+			EmailHelper.sendEmail("Sua Palavra-passe","Sua password foi reiniciada e agora é: " + password, user.getEmail());
 			
 			result.addWarningMessage("Foi lhe enviado um email. Verifique sua caixa de entrada.");
 		}else{

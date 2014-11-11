@@ -48,11 +48,15 @@ public class AlbumDAOImpl extends AbstractGenericDAO<Album, Integer> implements 
 		
 	}
 	
-	public ListResult<AlbumListSiteView> getHomePageAlbuns() {
+	public ListResult<AlbumListSiteView> getHomePageAlbuns(Integer limit) {
 
 		Criteria criteria = getSession().createCriteria(getPersistentClass());
 		criteria.add(Restrictions.eq("published", true));
-		criteria.addOrder(Order.asc("ordering"));
+		criteria.addOrder(Order.desc("created"));
+		
+		if (limit != null){
+			criteria.setMaxResults(limit);
+		}
 		
 		criteria.setProjection(getProjectionList(AlbumListSiteView.class));
 		

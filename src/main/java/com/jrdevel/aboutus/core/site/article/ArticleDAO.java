@@ -10,6 +10,7 @@ import com.jrdevel.aboutus.core.common.to.ListResult;
  */
 public interface ArticleDAO extends GenericDAO<Article, Integer>{
 	
-	public ListResult<ArticleListSiteView> getHomePageArticles();
+	public ListResult<ArticleListSiteView> getHomePageArticles(Integer limit);
+	public ListResult<ArticleListSiteView> getArticlesByCategory(int categoryId);
 
 }
