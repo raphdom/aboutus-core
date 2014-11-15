@@ -1,0 +1,5 @@
+Version 1.0 - Initial Version
+
+Version 1.0.1 - Minor version
+-Correção de erros
+-Alteração de mimetypes para o disco

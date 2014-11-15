@@ -1,6 +1,5 @@
 package com.jrdevel.aboutus.core.cloud;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -120,12 +119,12 @@ public class GoogleDriveService {
 		.setClientSecrets(conf.getClientId(), conf.getClientSecret())
 		.addRefreshListener(new CredentialRefreshListener() {
 			public void onTokenResponse(Credential credential, TokenResponse tokenResponse) {
-				System.out.println("Credential was refreshed successfully.");
+				logger.info("Credential was refreshed successfully.");
 			}
 
 			public void onTokenErrorResponse(Credential credential,
 					TokenErrorResponse tokenErrorResponse) {
-				System.err.println("Credential was not refreshed successfully. "
+				logger.error("Credential was not refreshed successfully. "
 						+ "Redirect to error page or login screen.");
 			}
 		}).build();
