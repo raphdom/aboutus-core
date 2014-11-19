@@ -1,6 +1,7 @@
 package com.jrdevel.aboutus.core.calendar;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
@@ -86,6 +87,17 @@ public class EventMappingHelper {
 		
 		dto.setFrequency(bean.getFrequency());
 		dto.setSeparation(bean.getSeparation());
+		
+		if (bean.getEventRecurrences()!=null && bean.getEventRecurrences().size()>0){
+			Integer[] weekDays = new Integer[bean.getEventRecurrences().size()];
+			int i = 0;
+			for(EventRecurrence recurrence : bean.getEventRecurrences()){
+				weekDays[i] = recurrence.getDay();
+				i++;
+			}
+			Arrays.sort(weekDays);
+			dto.setWeekDays(weekDays);
+		}
 		
 		
 		return dto;
