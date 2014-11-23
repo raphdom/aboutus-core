@@ -138,16 +138,17 @@ public class EventMappingHelper {
 			bean.setFile(file);
 		}
 		
+		Set<EventRecurrence> recurrences = bean.getEventRecurrences();
+		recurrences.clear();
 		if (dto.getWeekDays()!=null && dto.getWeekDays().length > 0){
-			Set<EventRecurrence> recurrences = new HashSet<EventRecurrence>();
 			for(Integer day : dto.getWeekDays()){
 				EventRecurrence recurrence = new EventRecurrence();
 				recurrence.setEvent(bean);
 				recurrence.setDay(day);
 				recurrences.add(recurrence);
 			}
-			bean.setEventRecurrences(recurrences);
 		}
+		bean.setEventRecurrences(recurrences);
 		
 		bean.setPublished(dto.isPublished());
 		return bean;

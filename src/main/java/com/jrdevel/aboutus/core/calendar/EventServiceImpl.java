@@ -3,6 +3,7 @@ package com.jrdevel.aboutus.core.calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,8 @@ import com.jrdevel.aboutus.core.common.to.ResultObject;
  */
 @Service
 public class EventServiceImpl implements EventService{
+	
+	private static final Logger logger = Logger.getLogger(EventServiceImpl.class);
 	
 	@Autowired
 	private EventDAO eventDAO;
@@ -89,7 +92,7 @@ public class EventServiceImpl implements EventService{
 	}
 
 	@Transactional
-	@PreAuthorize("hasAuthority('ROLE_INSERT_CATEGORY')")
+	@PreAuthorize("hasAuthority('ROLE_INSERT_EVENTS')")
 	public ResultObject insert(EventDTO eventDTO) {
 		
 		ResultObject result = new ResultObject();
@@ -111,12 +114,21 @@ public class EventServiceImpl implements EventService{
 	}
 	
 	@Transactional
-	@PreAuthorize("hasAuthority('ROLE_UPDATE_CATEGORY')")
-	public ResultObject update(EventDTO categoryDTO) {
+	@PreAuthorize("hasAuthority('ROLE_UPDATE_EVENTS')")
+	public ResultObject update(EventDTO eventDTO) {
 		
 		ResultObject result = new ResultObject();
-		
-		
+
+		Event entity = eventDAO.findById(eventDTO.getEid(), false);
+
+		EventMappingHelper.DTOToBean(eventDTO, entity);
+
+		try {
+			eventDAO.makePersistent(entity);
+		} catch (PlanExceededException e) {
+			logger.error("PlanExceededException in update method");
+		}
+
 		return result;
 	}
 
