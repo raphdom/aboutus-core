@@ -25,4 +25,6 @@ public interface CloudService{
 	
 	public ResultObject moveFiles(Integer folderIdDest, List<Integer> files);
 	
+	public ResultObject getDriveInfo();
+	
 }

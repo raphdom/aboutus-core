@@ -352,6 +352,16 @@ public class CloudServiceImpl implements CloudService{
 		InputStream fileGoogleDrive = googleDriveService.get(googleFileId);
 		return fileGoogleDrive;
 	}
+	
+	public ResultObject getDriveInfo(){
+		
+		ResultObject result = new ResultObject();
+		
+		result.setData(googleDriveService.getDriveInfo());
+		
+		return result;
+		
+	}
 
 
 }

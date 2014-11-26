@@ -69,7 +69,7 @@ public class EventDAOImpl extends AbstractGenericDAO<Event, Integer> implements 
 		Calendar end = Calendar.getInstance();
 		end.add(Calendar.YEAR, 1);
 		
-		return callProcedure(start.getTime(),end.getTime(),4,null,1);
+		return callProcedure(start.getTime(),end.getTime(),4,null,2);
 	}
 
 }

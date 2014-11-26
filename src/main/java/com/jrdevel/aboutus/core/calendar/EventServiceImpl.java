@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
 import com.jrdevel.aboutus.core.common.PlanExceededException;
 import com.jrdevel.aboutus.core.common.model.Event;
+import com.jrdevel.aboutus.core.common.model.User;
 import com.jrdevel.aboutus.core.common.to.ResultObject;
 
 /**
@@ -133,11 +134,15 @@ public class EventServiceImpl implements EventService{
 	}
 
 	@Transactional
-	//@PreAuthorize("hasAuthority('ROLE_DELETE_CATEGORY')")
-	public ResultObject delete(List<Integer> beans) {
+	@PreAuthorize("hasAuthority('ROLE_DEL_EVENTS')")
+	public ResultObject delete(Integer eventId) {
 		
 		ResultObject result = new ResultObject();
 		
+		Event event = eventDAO.findById(eventId, false);
+		eventDAO.makeTransient(event);
+
+		result.addInfoMessage("Evento eliminado com sucesso");
 		
 		return result;
 		

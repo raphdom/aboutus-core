@@ -2,6 +2,8 @@ package com.jrdevel.aboutus.core.cloud;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import com.google.api.client.http.apache.ApacheHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.drive.Drive;
+import com.google.api.services.drive.model.About;
 import com.google.api.services.drive.model.File;
 import com.jrdevel.aboutus.core.common.configuration.AboutUsConfiguration;
 
@@ -51,6 +54,31 @@ public class GoogleDriveService {
 		}
 		long end = System.currentTimeMillis();
 		logger.info("Took " + ((end - start) / 1000) + " seconds to initialize credential");
+	}
+	
+	public Map<String,Object> getDriveInfo() {
+		try {
+			logger.info("entering info drive");
+			manageCredential();
+			
+			Drive service = new Drive.Builder(new ApacheHttpTransport(), new JacksonFactory(), credential).
+					setApplicationName("AboutChurch").build();
+			
+			About about = service.about().get().execute();
+
+			HashMap<String,Object> result = new HashMap<String,Object>();
+			result.put("name",about.getName());
+			result.put("rootFolder",about.getRootFolderId());
+			result.put("qoutaBytesTotal",about.getQuotaBytesTotal());
+			result.put("quotaBytesUsed",about.getQuotaBytesUsed());
+			
+			return result;
+			
+		} catch (IOException e) {
+			System.out.println("An error occurred: " + e);
+		}
+		
+		return null;
 	}
 
 	public String insert(String title, String type, InputStream inputStream){
