@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -99,7 +98,7 @@ public class EventMappingHelper {
 			dto.setWeekDays(weekDays);
 		}
 		
-		
+		dto.setNotes(bean.getDescription());
 		return dto;
 	}
 	
@@ -149,8 +148,9 @@ public class EventMappingHelper {
 			}
 		}
 		bean.setEventRecurrences(recurrences);
-		
+
 		bean.setPublished(dto.isPublished());
+		bean.setDescription(dto.getNotes());
 		return bean;
 	}
 	

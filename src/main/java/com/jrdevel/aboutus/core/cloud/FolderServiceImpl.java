@@ -1,6 +1,5 @@
 package com.jrdevel.aboutus.core.cloud;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -49,41 +48,32 @@ public class FolderServiceImpl implements FolderService{
 		List<Folder> foldersDatabase = folderDAO.getFoldersPermited(userSession);
 		
 		
-		List<FolderWrapper> foldersWrapper = new ArrayList<FolderWrapper>();
-		
-		for (Folder folderDB : foldersDatabase){
-			FolderWrapper child = new FolderWrapper();
-			child.setId(folderDB.getId());
-			child.setText(folderDB.getName());
-			child.setParent(folderDB.getParent());
-			foldersWrapper.add(child); 
-		}
-		
-		FolderWrapper rootNode = new FolderWrapper();
-		rootNode.setPath("/");
-		rootNode.setText("");
-		rootNode.setId(0);
-		generateFolderTree(foldersWrapper,rootNode);
+		FolderWrapper rootNode = new FolderWrapper(0,"/","");
+		generateFolderTree(foldersDatabase,rootNode);
 		
 		return rootNode;
 		
 	}
 	
-	public void generateFolderTree(List<FolderWrapper> folders, FolderWrapper item){
-		for (FolderWrapper folder : folders){
+	public void generateFolderTree(List<Folder> folders, FolderWrapper item){
+		for (Folder folder : folders){
 			if (folder.getParent()==item.getId()){
+				FolderWrapper innerItem = new FolderWrapper();
+				innerItem.setId(folder.getId());
+				innerItem.setParent(item.getId());
+				innerItem.setText(folder.getName());
 				item.setLeaf(false);
 				if (folder.getParent()==0){
-					folder.setPath("/");
+					innerItem.setPath("/");
 				}else{
 					if (!item.getPath().equals("/")){
-						folder.setPath(item.getPath()+"/"+item.getText());
+						innerItem.setPath(item.getPath()+"/"+item.getText());
 					}else{
-						folder.setPath("/"+item.getText());
+						innerItem.setPath("/"+item.getText());
 					}
 				}
-				item.addChild(folder);
-				generateFolderTree(folders,folder);
+				item.addChild(innerItem);
+				generateFolderTree(folders,innerItem);
 			}
 		}
 	}
@@ -107,6 +97,14 @@ public class FolderServiceImpl implements FolderService{
 			result.setSuccess(false);
 		}
 		
+		FolderWrapper folder = new FolderWrapper();
+		folder.setId(bean.getId());
+		folder.setText(bean.getName());
+		folder.setPath(bean.getName());
+		folder.setParent(bean.getParent());
+		
+		result.setData(folder);
+		
 		FolderRole roleDefault = new FolderRole();
 		roleDefault.setFolder(bean);
 		try {
@@ -115,7 +113,7 @@ public class FolderServiceImpl implements FolderService{
 			logger.error("PlanExceededException in insert role folder method");
 		}
 		
-		return new ResultObject();
+		return result;
 	}
 
 

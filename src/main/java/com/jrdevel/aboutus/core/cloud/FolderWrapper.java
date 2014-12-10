@@ -23,6 +23,12 @@ public class FolderWrapper implements Serializable{
 	public FolderWrapper(){
 		
 	}
+	
+	public FolderWrapper(Integer id, String path, String text){
+		this.id=id;
+		this.path=path;
+		this.text=text;
+	}
 
 	public Integer getId() {
 		return id;
