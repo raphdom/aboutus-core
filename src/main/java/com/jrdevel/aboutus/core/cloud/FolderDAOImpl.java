@@ -32,11 +32,12 @@ public class FolderDAOImpl extends AbstractGenericDAO<Folder, Integer> implement
 		Criterion crit3 = Restrictions.eq("customer.id", UserAuthenticatedManager.getCurrentCustomer().getId());
 		or.add(crit1);
 		or.add(crit2);
-		or.add(crit3);
+		
 		for (Group group : user.getGroups()){
 			or.add(Restrictions.eq("role.group.id", group.getId()));
 		}
 		crit.add(or);
+		crit.add(crit3);
 		crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		return crit.list();
 	}
