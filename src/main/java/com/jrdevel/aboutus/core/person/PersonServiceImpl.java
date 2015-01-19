@@ -3,6 +3,11 @@ package com.jrdevel.aboutus.core.person;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.aboutchurch.common.dto.GenericIdTextDTO;
+import net.aboutchurch.common.to.ListParams;
+import net.aboutchurch.common.to.ListResult;
+import net.aboutchurch.common.to.ResultObject;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -13,10 +18,6 @@ import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
 import com.jrdevel.aboutus.core.common.GenericIdTextView;
 import com.jrdevel.aboutus.core.common.PlanExceededException;
 import com.jrdevel.aboutus.core.common.model.Person;
-import com.jrdevel.aboutus.core.common.to.ListParams;
-import com.jrdevel.aboutus.core.common.to.ListResult;
-import com.jrdevel.aboutus.core.common.to.ResultObject;
-import com.jrdevel.aboutus.core.dto.GenericIdTextDTO;
 
 /**
  * @author Raphael Domingues

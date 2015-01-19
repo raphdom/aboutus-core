@@ -3,6 +3,9 @@ package com.jrdevel.aboutus.core.site.banner;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.aboutchurch.common.dto.BannerDTO;
+import net.aboutchurch.common.dto.BannerListDTO;
+
 import com.jrdevel.aboutus.core.common.model.Banner;
 import com.jrdevel.aboutus.core.common.model.File;
 

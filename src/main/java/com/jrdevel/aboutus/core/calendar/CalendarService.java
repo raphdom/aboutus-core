@@ -2,8 +2,9 @@ package com.jrdevel.aboutus.core.calendar;
 
 import java.util.List;
 
-import com.jrdevel.aboutus.core.common.to.ListParams;
-import com.jrdevel.aboutus.core.common.to.ResultObject;
+import net.aboutchurch.common.dto.EventDTO;
+import net.aboutchurch.common.to.ListParams;
+import net.aboutchurch.common.to.ResultObject;
 
 /**
  * @author Raphael Domingues

@@ -8,6 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.aboutchurch.common.to.ListParams;
+import net.aboutchurch.common.to.ListResult;
+import net.aboutchurch.common.to.ResultObject;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,9 +23,6 @@ import com.jrdevel.aboutus.core.common.configuration.AboutUsConfiguration;
 import com.jrdevel.aboutus.core.common.model.File;
 import com.jrdevel.aboutus.core.common.model.FileData;
 import com.jrdevel.aboutus.core.common.model.Folder;
-import com.jrdevel.aboutus.core.common.to.ListParams;
-import com.jrdevel.aboutus.core.common.to.ListResult;
-import com.jrdevel.aboutus.core.common.to.ResultObject;
 
 /**
  * @author Raphael Domingues

@@ -7,6 +7,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import net.aboutchurch.common.dto.EventDTO;
+import net.aboutchurch.common.dto.EventListDTO;
+
 import org.springframework.util.StringUtils;
 
 import com.jrdevel.aboutus.core.common.model.Category;

@@ -19,7 +19,7 @@ public enum ImageSizeEnum {
 	
 	public static ImageSizeEnum getImageSizeByDatatype(Integer datatype){
 	    for(ImageSizeEnum imageSize : ImageSizeEnum.values()){
-	        if(imageSize.getDatatype() == datatype)
+	        if(Integer.compare(imageSize.getDatatype(),datatype)==0)
 	            return imageSize;
 	    }
 	    return null;

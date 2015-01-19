@@ -3,6 +3,12 @@ package com.jrdevel.aboutus.core.site.album;
 import java.util.Date;
 import java.util.List;
 
+import net.aboutchurch.common.dto.AlbumDTO;
+import net.aboutchurch.common.dto.AlbumListDTO;
+import net.aboutchurch.common.to.ListParams;
+import net.aboutchurch.common.to.ListResult;
+import net.aboutchurch.common.to.ResultObject;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,9 +20,6 @@ import com.jrdevel.aboutus.core.common.PlanExceededException;
 import com.jrdevel.aboutus.core.common.helper.MessageHelper;
 import com.jrdevel.aboutus.core.common.helper.MessageKeyEnum;
 import com.jrdevel.aboutus.core.common.model.Album;
-import com.jrdevel.aboutus.core.common.to.ListParams;
-import com.jrdevel.aboutus.core.common.to.ListResult;
-import com.jrdevel.aboutus.core.common.to.ResultObject;
 
 /**
  * @author Raphael Domingues
@@ -39,38 +42,6 @@ public class AlbumServiceImpl implements AlbumService{
 		ListResult<AlbumListView> listResult = albumDAO.findAllByView(params, AlbumListView.class);
 		
 		List<AlbumListDTO> dtos = AlbumMappingHelper.listViewTolistDTO(listResult.getData());
-		
-		result.setData(dtos);
-		result.setTotal(listResult.getTotal());
-		
-		return result;
-		
-	}
-	
-	@Transactional
-	public ResultObject listHomePage(Integer limit) {
-		
-		ResultObject result = new ResultObject();
-		
-		ListResult<AlbumListSiteView> listResult = albumDAO.getHomePageAlbuns(limit);
-		
-		List<AlbumListDTO> dtos = AlbumMappingHelper.listSiteViewTolistDTO(listResult.getData());
-		
-		result.setData(dtos);
-		result.setTotal(listResult.getTotal());
-		
-		return result;
-		
-	}
-	
-	@Transactional
-	public ResultObject listByCategory(int categoryId) {
-		
-		ResultObject result = new ResultObject();
-		
-		ListResult<AlbumListSiteView> listResult = albumDAO.getAlbunsByCategory(categoryId);
-		
-		List<AlbumListDTO> dtos = AlbumMappingHelper.listSiteViewTolistDTO(listResult.getData());
 		
 		result.setData(dtos);
 		result.setTotal(listResult.getTotal());

@@ -2,6 +2,8 @@ package com.jrdevel.aboutus.core.common;
 
 import java.util.List;
 
+import net.aboutchurch.common.dto.GenericValueTextDTO;
+
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
@@ -14,7 +16,6 @@ import com.jrdevel.aboutus.core.common.model.lists.translate.CivilStatusTranslat
 import com.jrdevel.aboutus.core.common.model.lists.translate.ContactTypeTranslate;
 import com.jrdevel.aboutus.core.common.model.lists.translate.CountryTranslate;
 import com.jrdevel.aboutus.core.common.model.lists.translate.MemberTypeTranslate;
-import com.jrdevel.aboutus.core.dto.GenericValueTextDTO;
 
 /**
  * @author Raphael Domingues

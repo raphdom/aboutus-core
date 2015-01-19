@@ -6,3 +6,11 @@ Version 1.0.1 - Minor version
 
 Version 1.0.2 - Minor version
 -Correções no calendário (alterada tabela eventRecurrence, colocar cascade no relacionamento com a tabela event)
+
+Version 1.0.3 - Minor version
+-A arquitetura mudou para o site remote call's
+-Já é possivel eliminar itens nos albuns
+
+Version 1.0.4 - Minor version
+-Correção de problemas nas pessoas
+-Na pesquisa enter funcionando

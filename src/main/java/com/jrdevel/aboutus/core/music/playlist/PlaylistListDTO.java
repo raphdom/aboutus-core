@@ -3,7 +3,7 @@ package com.jrdevel.aboutus.core.music.playlist;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.jrdevel.aboutus.core.dto.NodeDTO;
+import net.aboutchurch.common.dto.NodeDTO;
 
 /**
  * @author Raphael Domingues

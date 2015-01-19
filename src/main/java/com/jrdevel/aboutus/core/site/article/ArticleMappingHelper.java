@@ -3,6 +3,9 @@ package com.jrdevel.aboutus.core.site.article;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.aboutchurch.common.dto.ArticleDTO;
+import net.aboutchurch.common.dto.ArticleListDTO;
+
 import com.jrdevel.aboutus.core.common.model.Article;
 import com.jrdevel.aboutus.core.common.model.Category;
 import com.jrdevel.aboutus.core.common.model.File;

@@ -2,6 +2,10 @@ package com.jrdevel.aboutus.core.calendar;
 
 import java.util.List;
 
+import net.aboutchurch.common.dto.EventDTO;
+import net.aboutchurch.common.to.ListParams;
+import net.aboutchurch.common.to.ResultObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -9,8 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.jrdevel.aboutus.core.common.PlanExceededException;
 import com.jrdevel.aboutus.core.common.model.Event;
-import com.jrdevel.aboutus.core.common.to.ListParams;
-import com.jrdevel.aboutus.core.common.to.ResultObject;
 
 /**
  * @author Raphael Domingues

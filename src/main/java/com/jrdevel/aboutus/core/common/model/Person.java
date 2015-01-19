@@ -297,7 +297,7 @@ public class Person implements java.io.Serializable {
 		this.memberFunctions = memberFunctions;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "person", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
 	public Set<PersonContacts> getPersonContactses() {
 		return this.personContactses;
 	}
@@ -306,7 +306,7 @@ public class Person implements java.io.Serializable {
 		this.personContactses = personContactses;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "person", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
 	public Set<Address> getAddresses() {
 		return this.addresses;
 	}

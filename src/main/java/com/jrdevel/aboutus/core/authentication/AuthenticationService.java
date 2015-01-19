@@ -1,10 +1,11 @@
 package com.jrdevel.aboutus.core.authentication;
 
+import net.aboutchurch.common.to.ResultObject;
+
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.jrdevel.aboutus.core.common.model.Register;
 import com.jrdevel.aboutus.core.common.model.User;
-import com.jrdevel.aboutus.core.common.to.ResultObject;
 
 /**
  * @author Raphael Domingues

@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import net.aboutchurch.common.to.ResultObject;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -27,7 +29,6 @@ import com.jrdevel.aboutus.core.common.model.Plan;
 import com.jrdevel.aboutus.core.common.model.PlanParam;
 import com.jrdevel.aboutus.core.common.model.Register;
 import com.jrdevel.aboutus.core.common.model.User;
-import com.jrdevel.aboutus.core.common.to.ResultObject;
 import com.jrdevel.aboutus.core.person.PersonServiceImpl;
 import com.jrdevel.aboutus.core.user.PermissionDAO;
 import com.jrdevel.aboutus.core.user.UserDAO;

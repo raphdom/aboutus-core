@@ -3,6 +3,10 @@ package com.jrdevel.aboutus.core.calendar;
 import java.util.Date;
 import java.util.List;
 
+import net.aboutchurch.common.dto.EventDTO;
+import net.aboutchurch.common.dto.EventListDTO;
+import net.aboutchurch.common.to.ResultObject;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
 import com.jrdevel.aboutus.core.common.PlanExceededException;
 import com.jrdevel.aboutus.core.common.model.Event;
-import com.jrdevel.aboutus.core.common.to.ResultObject;
 
 /**
  * @author Raphael Domingues
@@ -35,22 +38,6 @@ public class EventServiceImpl implements EventService{
 		//params.setLimit(-1);
 		
 		List<EventListView> events = eventDAO.callProcedure(start,end);
-		
-		List<EventListDTO> dtos = EventMappingHelper.listViewTolistDTO(events);
-		
-		result.setData(dtos);
-		
-		return result;
-		
-	}
-	
-	@Transactional
-	//@PreAuthorize("hasAuthority('ROLE_LIST_CATEGORY')")
-	public ResultObject listHomePage() {
-		
-		ResultObject result = new ResultObject();
-		
-		List<EventListView> events = eventDAO.getHomePageEvents();
 		
 		List<EventListDTO> dtos = EventMappingHelper.listViewTolistDTO(events);
 		

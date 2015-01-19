@@ -2,14 +2,15 @@ package com.jrdevel.aboutus.core.church;
 
 import java.util.List;
 
+import net.aboutchurch.common.to.ListParams;
+import net.aboutchurch.common.to.ListResult;
+import net.aboutchurch.common.to.ResultObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jrdevel.aboutus.core.common.model.Church;
-import com.jrdevel.aboutus.core.common.to.ListParams;
-import com.jrdevel.aboutus.core.common.to.ListResult;
-import com.jrdevel.aboutus.core.common.to.ResultObject;
 
 /**
  * @author Raphael Domingues

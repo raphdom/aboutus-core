@@ -2,6 +2,10 @@ package com.jrdevel.aboutus.core.user;
 
 import java.util.List;
 
+import net.aboutchurch.common.to.ListParams;
+import net.aboutchurch.common.to.ListResult;
+import net.aboutchurch.common.to.ResultObject;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,10 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
 import com.jrdevel.aboutus.core.common.PlanExceededException;
 import com.jrdevel.aboutus.core.common.model.Group;
-import com.jrdevel.aboutus.core.common.model.User;
-import com.jrdevel.aboutus.core.common.to.ListParams;
-import com.jrdevel.aboutus.core.common.to.ListResult;
-import com.jrdevel.aboutus.core.common.to.ResultObject;
 import com.jrdevel.aboutus.core.person.PersonServiceImpl;
 
 /**

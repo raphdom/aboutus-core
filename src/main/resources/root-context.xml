@@ -22,4 +22,58 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 		<property name="basename" value="classpath:messages/messages" />
 	</bean>
 	
+	<!-- PUBLIC SERVICES -->
+	
+	<bean id="articlePublicService" class="com.jrdevel.aboutus.core.site.article.ArticlePublicServiceImpl" />  
+	<bean id="bannerPublicService" class="com.jrdevel.aboutus.core.site.banner.BannerPublicServiceImpl" />
+	<bean id="albumPublicService" class="com.jrdevel.aboutus.core.site.album.AlbumPublicServiceImpl" />
+	<bean id="eventPublicService" class="com.jrdevel.aboutus.core.calendar.EventPublicServiceImpl" />
+	<bean id="categoryPublicService" class="com.jrdevel.aboutus.core.site.category.CategoryPublicServiceImpl" />
+	<bean id="videoPublicService" class="com.jrdevel.aboutus.core.site.video.VideoPublicServiceImpl" />
+	<bean id="cloudPublicService" class="com.jrdevel.aboutus.core.cloud.CloudPublicServiceImpl" />
+	
+	<bean name="articlePublicService.http" class="com.jrdevel.aboutus.core.util.AboutChurchHttpInvokerServiceExporter">  
+    	<property name="service" ref="articlePublicService"></property>  
+    	<property name="serviceInterface" value="net.aboutchurch.common.services.ArticlePublicService"></property>  
+	</bean>
+	<bean name="bannerPublicService.http" class="com.jrdevel.aboutus.core.util.AboutChurchHttpInvokerServiceExporter">  
+    	<property name="service" ref="bannerPublicService"></property>  
+    	<property name="serviceInterface" value="net.aboutchurch.common.services.BannerPublicService"></property>  
+	</bean>  
+	<bean name="albumPublicService.http" class="com.jrdevel.aboutus.core.util.AboutChurchHttpInvokerServiceExporter">  
+    	<property name="service" ref="albumPublicService"></property>  
+    	<property name="serviceInterface" value="net.aboutchurch.common.services.AlbumPublicService"></property>  
+	</bean>  
+	<bean name="eventPublicService.http" class="com.jrdevel.aboutus.core.util.AboutChurchHttpInvokerServiceExporter">  
+    	<property name="service" ref="eventPublicService"></property>  
+    	<property name="serviceInterface" value="net.aboutchurch.common.services.EventPublicService"></property>  
+	</bean>  
+	<bean name="categoryPublicService.http" class="com.jrdevel.aboutus.core.util.AboutChurchHttpInvokerServiceExporter">  
+    	<property name="service" ref="categoryPublicService"></property>  
+    	<property name="serviceInterface" value="net.aboutchurch.common.services.CategoryPublicService"></property>  
+	</bean>  
+	<bean name="videoPublicService.http" class="com.jrdevel.aboutus.core.util.AboutChurchHttpInvokerServiceExporter">  
+    	<property name="service" ref="videoPublicService"></property>  
+    	<property name="serviceInterface" value="net.aboutchurch.common.services.VideoPublicService"></property>  
+	</bean>  
+	<bean name="cloudPublicService.http" class="com.jrdevel.aboutus.core.util.AboutChurchHttpInvokerServiceExporter">  
+    	<property name="service" ref="cloudPublicService"></property>  
+    	<property name="serviceInterface" value="net.aboutchurch.common.services.CloudPublicService"></property>  
+	</bean>  
+  
+	<bean id="urlMapping"
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name = "mappings">
+			<value>
+				/articlePublicService.http=articlePublicService.http
+				/bannerPublicService.http=bannerPublicService.http
+				/albumPublicService.http=albumPublicService.http
+				/eventPublicService.http=eventPublicService.http
+				/categoryPublicService.http=categoryPublicService.http
+				/videoPublicService.http=videoPublicService.http
+				/cloudPublicService.http=cloudPublicService.http
+			</value>
+		</property>
+	</bean>
+	
 </beans>

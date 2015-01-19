@@ -18,7 +18,8 @@ public class UserAuthenticatedManager {
 		UserDetailsAdapter userAdapter = null;
 		
 		if (SecurityContextHolder.getContext().getAuthentication() != null &&
-				SecurityContextHolder.getContext().getAuthentication().getPrincipal() != null){
+				SecurityContextHolder.getContext().getAuthentication().getPrincipal() != null &&
+				!SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser")){
 			userAdapter = (UserDetailsAdapter) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		}
 		
@@ -36,13 +37,13 @@ public class UserAuthenticatedManager {
 	public static Customer getCurrentCustomer(){
 		if (getCurrentUser()!=null){
 			return getCurrentUser().getCustomer();
-		}else{
-			return null;
 		}
+		return null;
 	}
 	
 	public static HashMap<String, Integer> getPlanParams(){
 		return getUserAdapter().getPlanParams();
 	}
+	
 
 }

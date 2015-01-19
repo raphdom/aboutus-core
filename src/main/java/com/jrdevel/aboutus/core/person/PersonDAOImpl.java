@@ -2,6 +2,8 @@ package com.jrdevel.aboutus.core.person;
 
 import java.util.List;
 
+import net.aboutchurch.common.to.ListResult;
+
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.LogicalExpression;
@@ -16,7 +18,6 @@ import com.jrdevel.aboutus.core.common.GenericIdTextView;
 import com.jrdevel.aboutus.core.common.helper.MessageHelper;
 import com.jrdevel.aboutus.core.common.helper.MessageKeyEnum;
 import com.jrdevel.aboutus.core.common.model.Person;
-import com.jrdevel.aboutus.core.common.to.ListResult;
 
 /**
  * @author Raphael Domingues

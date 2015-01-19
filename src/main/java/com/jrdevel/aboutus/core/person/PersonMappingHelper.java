@@ -144,6 +144,7 @@ public class PersonMappingHelper {
 		bean.setPrecedingChurch(dto.getPrecedingChurch());
 		
 		//Addresses
+		bean.getAddresses().clear();
 		if (CollectionUtils.isNotEmpty(dto.getAddresses())){
 			for (AddressDTO addressDTO : dto.getAddresses()){
 				Address address = new Address();
@@ -157,6 +158,7 @@ public class PersonMappingHelper {
 		}
 		
 		//Contacts
+		bean.getPersonContactses().clear();
 		if (CollectionUtils.isNotEmpty(dto.getContacts())){
 			for (ContactDTO contactDTO : dto.getContacts()){
 				PersonContacts contact = new PersonContacts();

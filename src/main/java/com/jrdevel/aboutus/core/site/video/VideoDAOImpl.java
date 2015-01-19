@@ -2,6 +2,8 @@ package com.jrdevel.aboutus.core.site.video;
 
 import java.util.List;
 
+import net.aboutchurch.common.to.ListResult;
+
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -11,7 +13,6 @@ import org.springframework.stereotype.Repository;
 import com.jrdevel.aboutus.core.common.AbstractGenericDAO;
 import com.jrdevel.aboutus.core.common.helper.MessageKeyEnum;
 import com.jrdevel.aboutus.core.common.model.Video;
-import com.jrdevel.aboutus.core.common.to.ListResult;
 
 /**
  * @author Raphael Domingues

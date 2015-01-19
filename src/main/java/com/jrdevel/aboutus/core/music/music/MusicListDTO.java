@@ -2,7 +2,7 @@ package com.jrdevel.aboutus.core.music.music;
 
 import java.io.Serializable;
 
-import com.jrdevel.aboutus.core.dto.NodeDTO;
+import net.aboutchurch.common.dto.NodeDTO;
 
 /**
  * @author Raphael Domingues

@@ -2,8 +2,10 @@ package com.jrdevel.aboutus.core.site.category;
 
 import java.util.List;
 
-import com.jrdevel.aboutus.core.common.to.ListParams;
-import com.jrdevel.aboutus.core.common.to.ResultObject;
+import net.aboutchurch.common.dto.CategoryDTO;
+import net.aboutchurch.common.dto.CategoryListDTO;
+import net.aboutchurch.common.to.ListParams;
+import net.aboutchurch.common.to.ResultObject;
 
 /**
  * @author Raphael Domingues
@@ -17,8 +19,6 @@ public interface CategoryService{
 	public ResultObject insert(CategoryDTO categoryDTO);
 	public ResultObject save(CategoryDTO categoryDTO);
 	public ResultObject delete(List<Integer> beans);
-
-	public List<CategoryListDTO> listCategoryByParent(int parent, boolean publishedAlbuns, boolean publishedVideos);
 	
 
 }

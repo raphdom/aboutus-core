@@ -2,7 +2,7 @@ package com.jrdevel.aboutus.core.common;
 
 import java.util.List;
 
-import com.jrdevel.aboutus.core.dto.GenericValueTextDTO;
+import net.aboutchurch.common.dto.GenericValueTextDTO;
 
 /**
  * @author Raphael Domingues

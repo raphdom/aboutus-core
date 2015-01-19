@@ -11,6 +11,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import net.aboutchurch.common.to.Filter;
+import net.aboutchurch.common.to.ListParams;
+import net.aboutchurch.common.to.ListResult;
+import net.aboutchurch.common.to.Sort;
+
 import org.hibernate.Criteria;
 import org.hibernate.EntityMode;
 import org.hibernate.LockMode;
@@ -25,14 +30,16 @@ import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.persister.entity.AbstractEntityPersister;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.jrdevel.aboutus.core.authentication.CustomerDAOImpl;
 import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
+import com.jrdevel.aboutus.core.common.configuration.AboutUsConfiguration;
 import com.jrdevel.aboutus.core.common.model.Audit;
+import com.jrdevel.aboutus.core.common.model.Customer;
 import com.jrdevel.aboutus.core.common.model.Permission;
-import com.jrdevel.aboutus.core.common.to.Filter;
-import com.jrdevel.aboutus.core.common.to.ListParams;
-import com.jrdevel.aboutus.core.common.to.ListResult;
-import com.jrdevel.aboutus.core.common.to.Sort;
 import com.jrdevel.aboutus.core.common.view.Projection;
 
 
@@ -43,6 +50,9 @@ import com.jrdevel.aboutus.core.common.view.Projection;
 public abstract class AbstractGenericDAO<T, PK extends Serializable> implements GenericDAO<T, PK>{
 
 	private Class<T> persistentClass;
+	
+	@Autowired
+	private ApplicationContext appContext;
 	
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -97,7 +107,7 @@ public abstract class AbstractGenericDAO<T, PK extends Serializable> implements 
 
 		Criteria criteria = getSession().createCriteria(getPersistentClass());
 		if (this.getPersistentClass() != Permission.class){
-			criteria.add(Restrictions.eq("customer.id", UserAuthenticatedManager.getCurrentCustomer().getId()));
+			criteria.add(Restrictions.eq("customer.id", getCustomer().getId()));
 		}
 		setOrder(criteria,params.getSorters());
 		setFilters(criteria, params.getFilter());
@@ -119,9 +129,7 @@ public abstract class AbstractGenericDAO<T, PK extends Serializable> implements 
 		
 		Criteria criteria = getSession().createCriteria(getPersistentClass());
 		if (this.getPersistentClass() != Permission.class){
-			if (UserAuthenticatedManager.getCurrentCustomer()!=null){
-				criteria.add(Restrictions.eq("customer.id", UserAuthenticatedManager.getCurrentCustomer().getId()));
-			}
+			criteria.add(Restrictions.eq("customer.id", getCustomer().getId()));
 		}
 		
 		if (params!=null){
@@ -271,7 +279,7 @@ public abstract class AbstractGenericDAO<T, PK extends Serializable> implements 
     		if (value != null){
     			
     			Criteria criteria = getSession().createCriteria(getPersistentClass());
-    			criteria.add(Restrictions.eq("customer.id", UserAuthenticatedManager.getCurrentCustomer().getId()));
+    			criteria.add(Restrictions.eq("customer.id", getCustomer().getId()));
     			long count = setPagingInfo(criteria);
     			if (count >= value){
     				throw new PlanExceededException();
@@ -284,6 +292,22 @@ public abstract class AbstractGenericDAO<T, PK extends Serializable> implements 
     
     public T makeTransient(T entity) {
     	return makeTransient(entity, true);
+    }
+    
+    public Customer getCustomer(){
+    	Customer customer = null;
+    	if (!appContext.getBean(AboutUsConfiguration.class).isUniqueCustomer()){
+	    	customer = UserAuthenticatedManager.getCurrentCustomer();
+	    	if (customer == null){
+	    		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+	   		    String domain = (String) attr.getRequest().getSession(true).getAttribute("domain");
+	   		    customer = appContext.getBean(CustomerDAOImpl.class).findUniqueByCriteria(Restrictions.eq("siteAlias", domain));
+	    	}
+    	}else{
+    		customer = new Customer();
+    		customer.setId(1);
+    	}
+		return customer;
     }
     
     public T makeTransient(T entity, boolean audit) {
@@ -314,7 +338,7 @@ public abstract class AbstractGenericDAO<T, PK extends Serializable> implements 
 		audit.setUserName(UserAuthenticatedManager.getCurrentUser().getPerson().getName());
 		audit.setObjectName(getObjectName());
 		audit.setObjectTitle(getObjectTitle(entity));
-		audit.setCustomer(UserAuthenticatedManager.getCurrentCustomer());
+		audit.setCustomer(getCustomer());
 		audit.setActionDate(new Date());
 		
 		getSession().saveOrUpdate(audit);

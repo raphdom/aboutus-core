@@ -2,9 +2,10 @@ package com.jrdevel.aboutus.core.user;
 
 import java.util.List;
 
+import net.aboutchurch.common.to.ListParams;
+import net.aboutchurch.common.to.ResultObject;
+
 import com.jrdevel.aboutus.core.common.model.Group;
-import com.jrdevel.aboutus.core.common.to.ListParams;
-import com.jrdevel.aboutus.core.common.to.ResultObject;
 
 
 /**

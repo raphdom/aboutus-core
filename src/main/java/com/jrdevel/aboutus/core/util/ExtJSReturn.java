@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.jrdevel.aboutus.core.common.to.Message;
-import com.jrdevel.aboutus.core.common.to.ResultObject;
+import net.aboutchurch.common.to.Message;
+import net.aboutchurch.common.to.ResultObject;
 
 /**
  * @author Raphael Domingues

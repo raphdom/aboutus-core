@@ -1,8 +1,9 @@
 package com.jrdevel.aboutus.core.site.video;
 
+import net.aboutchurch.common.to.ListResult;
+
 import com.jrdevel.aboutus.core.common.GenericDAO;
 import com.jrdevel.aboutus.core.common.model.Video;
-import com.jrdevel.aboutus.core.common.to.ListResult;
 
 /**
  * @author Raphael Domingues

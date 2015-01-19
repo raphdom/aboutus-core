@@ -2,6 +2,12 @@ package com.jrdevel.aboutus.core.site.category;
 
 import java.util.List;
 
+import net.aboutchurch.common.dto.CategoryDTO;
+import net.aboutchurch.common.dto.CategoryListDTO;
+import net.aboutchurch.common.to.ListParams;
+import net.aboutchurch.common.to.ListResult;
+import net.aboutchurch.common.to.ResultObject;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,9 +19,6 @@ import com.jrdevel.aboutus.core.common.PlanExceededException;
 import com.jrdevel.aboutus.core.common.helper.MessageHelper;
 import com.jrdevel.aboutus.core.common.helper.MessageKeyEnum;
 import com.jrdevel.aboutus.core.common.model.Category;
-import com.jrdevel.aboutus.core.common.to.ListParams;
-import com.jrdevel.aboutus.core.common.to.ListResult;
-import com.jrdevel.aboutus.core.common.to.ResultObject;
 
 /**
  * @author Raphael Domingues
@@ -41,16 +44,6 @@ public class CategoryServiceImpl implements CategoryService{
 		
 		return dtos;
 		
-	}
-	
-	@Transactional
-	public List<CategoryListDTO> listCategoryByParent(int parent, boolean publishedAlbuns, boolean publishedVideos) {
-		
-		ListResult<CategoryListSiteView> listResult = categoryDAO.getCategoryByParent(parent, publishedAlbuns, publishedVideos);
-		
-		List<CategoryListDTO> dtos = CategoryMappingHelper.listViewSiteTolistDTO(listResult.getData());
-		
-		return dtos;
 	}
 	
 	@Transactional

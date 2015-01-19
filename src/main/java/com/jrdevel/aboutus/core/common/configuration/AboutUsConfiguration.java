@@ -24,6 +24,9 @@ public class AboutUsConfiguration {
 	@Value("#{applicationProperties.clientSecret}")
 	private String clientSecret; 
 	
+	@Value("#{applicationProperties.uniqueCustomer}")
+	private boolean uniqueCustomer;
+	
 	private AboutUsConfiguration() {
 	}
 
@@ -50,6 +53,12 @@ public class AboutUsConfiguration {
 	}
 	public void setSender(String sender) {
 		this.sender = sender;
+	}
+	public boolean isUniqueCustomer() {
+		return uniqueCustomer;
+	}
+	public void setUniqueCustomer(boolean uniqueCustomer) {
+		this.uniqueCustomer = uniqueCustomer;
 	}
 
 }

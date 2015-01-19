@@ -1,5 +1,7 @@
 package com.jrdevel.aboutus.core.user;
 
+import net.aboutchurch.common.to.ListResult;
+
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.criterion.Projections;
@@ -10,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import com.jrdevel.aboutus.core.common.AbstractGenericDAO;
 import com.jrdevel.aboutus.core.common.helper.MessageKeyEnum;
 import com.jrdevel.aboutus.core.common.model.User;
-import com.jrdevel.aboutus.core.common.to.ListResult;
 
 /**
  * @author Raphael Domingues

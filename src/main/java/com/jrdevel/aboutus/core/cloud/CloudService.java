@@ -4,9 +4,10 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
+import net.aboutchurch.common.to.ListParams;
+import net.aboutchurch.common.to.ResultObject;
+
 import com.jrdevel.aboutus.core.common.model.File;
-import com.jrdevel.aboutus.core.common.to.ListParams;
-import com.jrdevel.aboutus.core.common.to.ResultObject;
 
 public interface CloudService{
 	

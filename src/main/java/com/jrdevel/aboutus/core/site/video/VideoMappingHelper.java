@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.aboutchurch.common.dto.VideoDTO;
+import net.aboutchurch.common.dto.VideoListDTO;
+
 import com.jrdevel.aboutus.core.common.model.Category;
 import com.jrdevel.aboutus.core.common.model.Video;
 

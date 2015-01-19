@@ -3,10 +3,10 @@ package com.jrdevel.aboutus.core.common;
 import java.io.Serializable;
 import java.util.List;
 
-import org.hibernate.criterion.Criterion;
+import net.aboutchurch.common.to.ListParams;
+import net.aboutchurch.common.to.ListResult;
 
-import com.jrdevel.aboutus.core.common.to.ListParams;
-import com.jrdevel.aboutus.core.common.to.ListResult;
+import org.hibernate.criterion.Criterion;
 
 /**
  * @author Raphael Domingues

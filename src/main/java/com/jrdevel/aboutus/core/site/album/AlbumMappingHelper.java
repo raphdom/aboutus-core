@@ -6,6 +6,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import net.aboutchurch.common.dto.AlbumDTO;
+import net.aboutchurch.common.dto.AlbumListDTO;
+import net.aboutchurch.common.dto.ItemAlbumDTO;
+
 import org.apache.commons.collections.CollectionUtils;
 
 import com.jrdevel.aboutus.core.common.model.Album;

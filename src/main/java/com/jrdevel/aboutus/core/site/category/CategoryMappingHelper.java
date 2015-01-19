@@ -3,9 +3,12 @@ package com.jrdevel.aboutus.core.site.category;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.aboutchurch.common.dto.CategoryDTO;
+import net.aboutchurch.common.dto.CategoryListDTO;
+import net.aboutchurch.common.dto.NodeDTO;
+
 import com.jrdevel.aboutus.core.common.model.Category;
 import com.jrdevel.aboutus.core.common.model.File;
-import com.jrdevel.aboutus.core.dto.NodeDTO;
 
 /**
  * @author Raphael Domingues
