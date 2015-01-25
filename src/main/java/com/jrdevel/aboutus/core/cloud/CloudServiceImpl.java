@@ -152,7 +152,7 @@ public class CloudServiceImpl implements CloudService{
 					fileData.setFile(fileBean);
 					fileData.setData(resultImages.get(imgSize));
 					try {
-						fileDataDAO.makePersistent(fileData);
+						fileDataDAO.makePersistent(fileData,false,false);
 					} catch (PlanExceededException e) {
 						// TODO
 					}

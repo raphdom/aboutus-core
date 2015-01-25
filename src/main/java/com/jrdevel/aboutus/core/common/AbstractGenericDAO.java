@@ -109,7 +109,7 @@ public abstract class AbstractGenericDAO<T, PK extends Serializable> implements 
 		if (this.getPersistentClass() != Permission.class){
 			criteria.add(Restrictions.eq("customer.id", getCustomer().getId()));
 		}
-		setOrder(criteria,params.getSorters());
+		setOrder(criteria,params.getSort());
 		setFilters(criteria, params.getFilter());
 		setExtraFilters(criteria);
 		long count = setPagingInfo(criteria);
@@ -133,7 +133,7 @@ public abstract class AbstractGenericDAO<T, PK extends Serializable> implements 
 		}
 		
 		if (params!=null){
-			setOrder(criteria,params.getSorters());
+			setOrder(criteria,params.getSort());
 			setFilters(criteria, params.getFilter());
 		}
 		setExtraFilters(criteria);
@@ -198,7 +198,8 @@ public abstract class AbstractGenericDAO<T, PK extends Serializable> implements 
     		return;
     	}
     	for(Filter filter: filters){
-    		if (filter.getType().equals("id") && filter.getOperator().equals("eq")){
+    		if ((filter.getType().equals("id") && filter.getOperator().equals("eq")) || 
+    				filter.getProperty().equals("id")){
     			criteria.add(Restrictions.eq(filter.getProperty(), Integer.parseInt(filter.getValue())));
     		}else if(filter.getType().equals("textfield")){
     			criteria.add(Restrictions.like(filter.getProperty(), "%"+filter.getValue()+"%"));
@@ -209,6 +210,18 @@ public abstract class AbstractGenericDAO<T, PK extends Serializable> implements 
     		    } catch(NumberFormatException e) {
     		    	criteria.add(Restrictions.eq(filter.getProperty(), filter.getValue()));
     		    }
+    		}else if (filter.getType().equals("checkboxfield")){
+    			if (filter.getValue().equals("on")){
+    				criteria.add(Restrictions.eq(filter.getProperty(), true));
+    			}else{
+    				criteria.add(Restrictions.eq(filter.getProperty(), false));
+    			}
+    		}else if(filter.getType().equals("datarangecriteria")){
+    			String[] dates = filter.getValue().split(" - ");
+    			Date dateFrom = AboutChurchDateHelper.getDate(dates[0]);
+    			Date dateTo = AboutChurchDateHelper.getDate(dates[1]);
+    			Date dateToMid = AboutChurchDateHelper.getDateWithTimeToMidnight(dateTo);
+    			criteria.add(Restrictions.between(filter.getProperty(), dateFrom, dateToMid));
     		}
     	}
     }

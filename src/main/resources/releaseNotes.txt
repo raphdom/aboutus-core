@@ -14,3 +14,8 @@ Version 1.0.3 - Minor version
 Version 1.0.4 - Minor version
 -Correção de problemas nas pessoas
 -Na pesquisa enter funcionando
+-Novos criterios de pesquisa, checkbox, daterange, combofield
+-Auditoria não mais escrevendo filedata
+-Sort nas colunas das listas
+-Alteração do tamanho das colunas e algumas imagens
+-As pessoas já filtra por igreja

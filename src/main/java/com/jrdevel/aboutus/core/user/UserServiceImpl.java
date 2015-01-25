@@ -57,8 +57,6 @@ public class UserServiceImpl implements UserService{
 
 		List<UserListDTO> dtos = UserMappingHelper.listViewTolistDTO(listResult.getData());
 		
-		logger.info("Date of user 1 = " + dtos.get(0).getLastvisitDate().toString());
-
 		result.setData(dtos);
 		result.setTotal(listResult.getTotal());
 

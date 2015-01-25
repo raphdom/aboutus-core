@@ -57,6 +57,7 @@ public class CategoryMappingHelper {
 		for(CategoryListView view : views){
 			if (view.getParent()==0){
 				CategoryListDTO node = viewToDTO(view);
+				node.setLeaf(false);
 				createNodes(views,node);
 				dtos.add(node);
 			}
