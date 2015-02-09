@@ -109,7 +109,7 @@ public class FolderServiceImpl implements FolderService{
 		FolderRole roleDefault = new FolderRole();
 		roleDefault.setFolder(bean);
 		try {
-			folderRoleDAO.makePersistent(roleDefault);
+			folderRoleDAO.makePersistent(roleDefault,false,false);
 		} catch (PlanExceededException e) {
 			logger.error("PlanExceededException in insert role folder method");
 		}

@@ -16,6 +16,7 @@ import net.aboutchurch.common.to.ListParams;
 import net.aboutchurch.common.to.ListResult;
 import net.aboutchurch.common.to.Sort;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.hibernate.Criteria;
 import org.hibernate.EntityMode;
 import org.hibernate.LockMode;
@@ -31,6 +32,7 @@ import org.hibernate.persister.entity.AbstractEntityPersister;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -198,14 +200,59 @@ public abstract class AbstractGenericDAO<T, PK extends Serializable> implements 
     		return;
     	}
     	for(Filter filter: filters){
-    		if ((filter.getType().equals("id") && filter.getOperator().equals("eq")) || 
+    		
+    		if (!StringUtils.isEmpty(filter.getProperty())){
+	    		
+    			if (filter.getType().equals(CriteriaType.TEXT_CRITERION_TYPE) &&
+	    				filter.getValue() instanceof String){
+	    			
+	    			String value = (String) filter.getValue();
+	    			criteria.add(Restrictions.like(filter.getProperty(), "%"+value+"%"));
+	    			
+	    		}else if(filter.getType().equals(CriteriaType.NUMERIC_CRITERION_TYPE) &&
+	    				filter.getValue() instanceof Integer){
+	    			
+	    			Integer value = (Integer) filter.getValue();
+	    			criteria.add(Restrictions.eq(filter.getProperty(), value));
+	    			
+	    		}else if(filter.getType().equals(CriteriaType.BOOLEAN_CRITERION_TYPE) &&
+	    				filter.getValue() instanceof Boolean){
+	    			
+	    			Boolean value = (Boolean) filter.getValue();
+	    			criteria.add(Restrictions.eq(filter.getProperty(), value));
+	    			
+	    		}else if(filter.getType().equals(CriteriaType.DATE_CRITERION_TYPE)){
+	    			
+	    		}else if(filter.getType().equals(CriteriaType.DATERANGE_CRITERION_TYPE) &&
+	    				filter.getValue() instanceof String){
+	    			
+	    			String value = (String) filter.getValue();
+	    			String[] dates = value.split(" - ");
+	    			Date dateFrom = AboutChurchDateHelper.getDate(dates[0]);
+	    			Date dateTo = AboutChurchDateHelper.getDate(dates[1]);
+	    			Date dateToMid = AboutChurchDateHelper.getDateWithTimeToMidnight(dateTo);
+	    			criteria.add(Restrictions.between(filter.getProperty(), dateFrom, dateToMid));
+	    			
+	    		}else if(filter.getType().equals(CriteriaType.MULTIVALUE_CRITERION_TYPE)){
+	    			
+	    			List value = (List) filter.getValue();
+	    			if (CollectionUtils.isNotEmpty(value)){
+	    				criteria.add(Restrictions.in(filter.getProperty(), value));
+	    			}
+	    			
+	    		}else{
+	    		}
+    			
+    		}
+    		
+    		/*if ((filter.getType().equals("id") && filter.getOperator().equals("eq")) || 
     				filter.getProperty().equals("id")){
-    			criteria.add(Restrictions.eq(filter.getProperty(), Integer.parseInt(filter.getValue())));
+    			criteria.add(Restrictions.eq(filter.getProperty(), (Integer)(filter.getValue())));
     		}else if(filter.getType().equals("textfield")){
     			criteria.add(Restrictions.like(filter.getProperty(), "%"+filter.getValue()+"%"));
     		}else if(filter.getType().contains("combo")){
     			try {
-    		        int number = Integer.parseInt(filter.getValue());
+    		        int number = (Integer)filter.getValue();
     		        criteria.add(Restrictions.eq(filter.getProperty(), number));
     		    } catch(NumberFormatException e) {
     		    	criteria.add(Restrictions.eq(filter.getProperty(), filter.getValue()));
@@ -217,12 +264,13 @@ public abstract class AbstractGenericDAO<T, PK extends Serializable> implements 
     				criteria.add(Restrictions.eq(filter.getProperty(), false));
     			}
     		}else if(filter.getType().equals("datarangecriteria")){
-    			String[] dates = filter.getValue().split(" - ");
+    			String value = (String) filter.getValue();
+    			String[] dates = value.split(" - ");
     			Date dateFrom = AboutChurchDateHelper.getDate(dates[0]);
     			Date dateTo = AboutChurchDateHelper.getDate(dates[1]);
     			Date dateToMid = AboutChurchDateHelper.getDateWithTimeToMidnight(dateTo);
     			criteria.add(Restrictions.between(filter.getProperty(), dateFrom, dateToMid));
-    		}
+    		}*/
     	}
     }
 	

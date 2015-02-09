@@ -30,6 +30,7 @@ public class PersonDAOImpl extends AbstractGenericDAO<Person, Integer> implement
 		addCivilStatusCriteria(criteria);
 		addCountryCriteria(criteria);
 		addMemberType(criteria);
+		criteria.add(Restrictions.eq("church.id",UserAuthenticatedManager.getCurrentUser().getChurch().getId()));
 	}
 	
 	private void addCivilStatusCriteria(Criteria criteria){

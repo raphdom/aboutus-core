@@ -1,5 +1,6 @@
 package com.jrdevel.aboutus.core.common.helper;
 
+import java.util.HashMap;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -10,10 +11,10 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
+import org.apache.velocity.app.VelocityEngine;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.ui.velocity.VelocityEngineUtils;
 
 import com.jrdevel.aboutus.core.common.configuration.AboutUsConfiguration;
 
@@ -22,13 +23,15 @@ import com.jrdevel.aboutus.core.common.configuration.AboutUsConfiguration;
  *
  */
 @Component
-public class EmailHelper implements ApplicationContextAware{
+public class EmailSender {
+
+	@Autowired
+	private VelocityEngine velocityEngine;
 	
-	private static ApplicationContext applicationContext;
-
-	private static AboutUsConfiguration config;
-
-	public static void sendEmail(String subject, String message, String destinatary){
+	@Autowired
+	private AboutUsConfiguration config;
+	
+	public void sendEmail(String subject, String template, String destinatary, Object... params){
 		
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
@@ -38,39 +41,35 @@ public class EmailHelper implements ApplicationContextAware{
 		Session session = Session.getInstance(props,
 				new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(getConfig().getEmailUser(), getConfig().getEmailPass());
+				return new PasswordAuthentication(config.getEmailUser(), config.getEmailPass());
 			}
 		});
 
 		try {
 
-			Message msg = new MimeMessage(session);
-			msg.setFrom(new InternetAddress(getConfig().getSender()));
+			MimeMessage msg = new MimeMessage(session);
+			msg.setFrom(new InternetAddress(config.getSender()));
 			msg.setRecipients(Message.RecipientType.TO,
 					InternetAddress.parse(destinatary));
 			msg.setSubject(subject);
-			msg.setText(message);
-
+			
+			HashMap<String,Object> model = new HashMap<String,Object>();
+			int i = 1;
+			for(Object param: params){
+				model.put("param"+i, param);
+				i++;
+			}
+            
+            String body = VelocityEngineUtils.mergeTemplateIntoString(
+                    velocityEngine, template, "UTF-8", model);
+            msg.setContent(body, "text/html");
+			
 			Transport.send(msg);
 
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
 		}
 
-	}
-	
-	public static AboutUsConfiguration getConfig(){
-		if (config == null){
-			config = (AboutUsConfiguration) applicationContext.getBean("aboutUsConfiguration");
-		}
-		return config;
-		
-	}
-	
-	@SuppressWarnings("static-access")
-	public void setApplicationContext(ApplicationContext applicationContext)
-			throws BeansException {
-		this.applicationContext=applicationContext;
 	}
 
 }

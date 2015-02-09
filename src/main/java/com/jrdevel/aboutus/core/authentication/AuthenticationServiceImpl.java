@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.jrdevel.aboutus.core.church.ChurchServiceImpl;
 import com.jrdevel.aboutus.core.common.PlanExceededException;
-import com.jrdevel.aboutus.core.common.helper.EmailHelper;
+import com.jrdevel.aboutus.core.common.helper.EmailSender;
 import com.jrdevel.aboutus.core.common.helper.MessageHelper;
 import com.jrdevel.aboutus.core.common.helper.MessageKeyEnum;
 import com.jrdevel.aboutus.core.common.model.Church;
@@ -49,6 +49,8 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 	private CustomerDAO customerDAO;
 	@Autowired
 	private PermissionDAO permissionDAO;
+	@Autowired
+	private	EmailSender emailSender;
 	
 	private static final Logger logger = Logger.getLogger(AuthenticationServiceImpl.class);
 
@@ -271,7 +273,8 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 				result.setSuccess(false);
 			}
 			
-			EmailHelper.sendEmail("Sua Palavra-passe","Sua password foi reiniciada e agora é: " + password, user.getEmail());
+			emailSender.sendEmail("Relembrar Palavra-passe", 
+					"templates/recoveryPassword.vm", user.getEmail(), password);
 			
 			result.addWarningMessage("Foi lhe enviado um email. Verifique sua caixa de entrada.");
 		}else{

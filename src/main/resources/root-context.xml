@@ -22,6 +22,16 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 		<property name="basename" value="classpath:messages/messages" />
 	</bean>
 	
+	<bean id="velocityEngine"
+        class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+        <property name="velocityProperties">
+            <value>
+                resource.loader=class
+                class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+            </value>
+        </property>
+    </bean>
+	
 	<!-- PUBLIC SERVICES -->
 	
 	<bean id="articlePublicService" class="com.jrdevel.aboutus.core.site.article.ArticlePublicServiceImpl" />  

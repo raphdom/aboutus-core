@@ -18,7 +18,7 @@ import org.springframework.util.StringUtils;
 import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
 import com.jrdevel.aboutus.core.cloud.FileDAO;
 import com.jrdevel.aboutus.core.common.PlanExceededException;
-import com.jrdevel.aboutus.core.common.helper.EmailHelper;
+import com.jrdevel.aboutus.core.common.helper.EmailSender;
 import com.jrdevel.aboutus.core.common.helper.MessageHelper;
 import com.jrdevel.aboutus.core.common.helper.MessageKeyEnum;
 import com.jrdevel.aboutus.core.common.model.File;
@@ -45,6 +45,9 @@ public class UserServiceImpl implements UserService{
 
 	@Autowired
 	private PersonService personService;
+	
+	@Autowired
+	private	EmailSender emailSender;
 	
 
 	@Transactional
@@ -122,13 +125,9 @@ public class UserServiceImpl implements UserService{
 		} catch (PlanExceededException e) {
 			result.setSuccess(false);
 		}
-
-		EmailHelper.sendEmail("Bem-vindo ao ::AboutChurch::",
-				"Bem-vindo ao ::AboutChurch:: \n " + 
-				"Sua palavra-passe é: " + password + "\n" +
-				"A Equipe do AboutChurch aradece o seu registo" + "\n" +
-				"Atenciosamente"
-				, entity.getEmail());
+		
+		emailSender.sendEmail("Bem-vindo ao ::AboutChurch::", 
+				"templates/newUser.vm", entity.getEmail(), password);
 
 		return result;
 

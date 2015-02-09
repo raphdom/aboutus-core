@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.aboutchurch.common.dto.GenericIdTextDTO;
-import net.aboutchurch.common.to.Filter;
 import net.aboutchurch.common.to.ListParams;
 import net.aboutchurch.common.to.ListResult;
 import net.aboutchurch.common.to.ResultObject;
@@ -37,12 +36,6 @@ public class PersonServiceImpl implements PersonService{
 	public ResultObject list(ListParams params) {
 		
 		ResultObject result = new ResultObject();
-		
-		Filter churchFilter = new Filter();
-		churchFilter.setType("combo");
-		churchFilter.setProperty("church.id");
-		churchFilter.setValue(Integer.toString(UserAuthenticatedManager.getCurrentUser().getChurch().getId()));
-		params.getFilter().add(churchFilter);
 		
 		ListResult<PersonListView> listResult = personDAO.findAllByView(params, PersonListView.class);
 		
