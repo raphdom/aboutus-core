@@ -1,7 +1,5 @@
 package com.jrdevel.aboutus.core.common.model.lists;
 
-// Generated 11/jun/2014 23:23:42 by Hibernate Tools 3.4.0.CR1
-
 import com.jrdevel.aboutus.core.common.model.Access;
 import com.jrdevel.aboutus.core.common.model.Church;
 import com.jrdevel.aboutus.core.common.model.Person;
