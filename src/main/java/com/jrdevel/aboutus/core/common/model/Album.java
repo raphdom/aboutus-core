@@ -1,7 +1,5 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 11/jun/2014 23:23:42 by Hibernate Tools 3.4.0.CR1
-
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.Date;
@@ -44,11 +42,10 @@ public class Album implements java.io.Serializable {
 	}
 
 	public Album(Customer customer, Category category, String title,
-			String description, int ordering, boolean published) {
+			int ordering, boolean published) {
 		this.customer = customer;
 		this.category = category;
 		this.title = title;
-		this.description = description;
 		this.ordering = ordering;
 		this.published = published;
 	}

@@ -1,7 +1,5 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 11/jun/2014 23:23:42 by Hibernate Tools 3.4.0.CR1
-
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -40,12 +38,11 @@ public class Article implements java.io.Serializable {
 	public Article() {
 	}
 
-	public Article(Customer customer, Category category, String article,
-			String title, Date created, Date publishUp, int ordering, int hits,
+	public Article(Customer customer, Category category, String title,
+			Date created, Date publishUp, int ordering, int hits,
 			boolean homepage) {
 		this.customer = customer;
 		this.category = category;
-		this.article = article;
 		this.title = title;
 		this.created = created;
 		this.publishUp = publishUp;

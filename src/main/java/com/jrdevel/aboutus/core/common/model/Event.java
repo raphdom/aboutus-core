@@ -1,7 +1,5 @@
 package com.jrdevel.aboutus.core.common.model;
 
-// Generated 11/jun/2014 23:23:42 by Hibernate Tools 3.4.0.CR1
-
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.Date;
@@ -51,13 +49,13 @@ public class Event implements java.io.Serializable {
 			0);
 	private Set<EventCancellation> eventCancellations = new HashSet<EventCancellation>(
 			0);
+	private Set<EventPeople> eventPeoples = new HashSet<EventPeople>(0);
 
 	public Event() {
 	}
 
-	public Event(Customer customer, String frequency, int separation,
-			String what, boolean published, int calendarId) {
-		this.customer = customer;
+	public Event(String frequency, int separation, String what,
+			boolean published, int calendarId) {
 		this.frequency = frequency;
 		this.separation = separation;
 		this.what = what;
@@ -71,7 +69,8 @@ public class Event implements java.io.Serializable {
 			String timezoneName, Boolean status, String what,
 			String description, String location, boolean published,
 			int calendarId, Set<EventRecurrence> eventRecurrences,
-			Set<EventCancellation> eventCancellations) {
+			Set<EventCancellation> eventCancellations,
+			Set<EventPeople> eventPeoples) {
 		this.customer = customer;
 		this.file = file;
 		this.category = category;
@@ -92,6 +91,7 @@ public class Event implements java.io.Serializable {
 		this.calendarId = calendarId;
 		this.eventRecurrences = eventRecurrences;
 		this.eventCancellations = eventCancellations;
+		this.eventPeoples = eventPeoples;
 	}
 
 	@Id
@@ -106,7 +106,7 @@ public class Event implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "customerId", nullable = false)
+	@JoinColumn(name = "customerId")
 	public Customer getCustomer() {
 		return this.customer;
 	}
@@ -275,7 +275,7 @@ public class Event implements java.io.Serializable {
 		this.calendarId = calendarId;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval=true)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event", cascade = CascadeType.ALL)
 	public Set<EventRecurrence> getEventRecurrences() {
 		return this.eventRecurrences;
 	}
@@ -291,6 +291,15 @@ public class Event implements java.io.Serializable {
 
 	public void setEventCancellations(Set<EventCancellation> eventCancellations) {
 		this.eventCancellations = eventCancellations;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
+	public Set<EventPeople> getEventPeoples() {
+		return this.eventPeoples;
+	}
+
+	public void setEventPeoples(Set<EventPeople> eventPeoples) {
+		this.eventPeoples = eventPeoples;
 	}
 
 }
