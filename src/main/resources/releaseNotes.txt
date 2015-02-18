@@ -21,3 +21,9 @@ Version 1.0.4 - Minor version
 -As pessoas já filtra por igreja
 
 Version 1.0.5 - Minor version
+
+
+Version 1.0.6 - Minor version
+-Adicionar o campo de pessoas envolvidas em um evento
+	-alterada a tabela de eventos o campo Id para INT(10)
+	-adicionada uma nova tabela: tbl_events_people

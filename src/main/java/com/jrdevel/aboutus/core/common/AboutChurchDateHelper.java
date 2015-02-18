@@ -36,5 +36,17 @@ public class AboutChurchDateHelper {
 		return cal.getTime();
 		
 	}
+	
+	public static String getDateFormatted(Date dateFrom, Date dateTo){
+		String result = null;
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		
+		result = formatter.format(dateFrom);
+		result += " até ";
+		result += formatter.format(dateTo);
+		
+		return result;
+	}
 
 }

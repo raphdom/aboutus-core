@@ -4,18 +4,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import net.aboutchurch.common.dto.EventDTO;
 import net.aboutchurch.common.dto.EventListDTO;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import com.jrdevel.aboutus.core.common.model.Category;
 import com.jrdevel.aboutus.core.common.model.Event;
+import com.jrdevel.aboutus.core.common.model.EventPeople;
 import com.jrdevel.aboutus.core.common.model.EventRecurrence;
 import com.jrdevel.aboutus.core.common.model.File;
+import com.jrdevel.aboutus.core.common.model.Person;
 
 /**
  * @author Raphael Domingues
@@ -101,6 +105,12 @@ public class EventMappingHelper {
 			dto.setWeekDays(weekDays);
 		}
 		
+		List<Integer> people = new ArrayList<Integer>();
+		for (EventPeople evtPerson : bean.getEventPeoples()){
+			people.add(evtPerson.getPerson().getId());
+		}
+		dto.setPeople(people);
+		
 		dto.setNotes(bean.getDescription());
 		return dto;
 	}
@@ -151,6 +161,20 @@ public class EventMappingHelper {
 			}
 		}
 		bean.setEventRecurrences(recurrences);
+		
+		Set<EventPeople> people = bean.getEventPeoples();
+		people.clear();
+		if (CollectionUtils.isNotEmpty(dto.getPeople())){
+			for(Integer personId : dto.getPeople()){
+				Person person = new Person();
+				person.setId(personId);
+				EventPeople evtPerson = new EventPeople();
+				evtPerson.setEvent(bean);
+				evtPerson.setPerson(person);
+				people.add(evtPerson);
+			}
+		}
+		bean.setEventPeoples(people);
 
 		bean.setPublished(dto.isPublished());
 		bean.setDescription(dto.getNotes());

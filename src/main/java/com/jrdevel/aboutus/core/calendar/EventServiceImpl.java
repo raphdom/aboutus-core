@@ -2,11 +2,13 @@ package com.jrdevel.aboutus.core.calendar;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import net.aboutchurch.common.dto.EventDTO;
 import net.aboutchurch.common.dto.EventListDTO;
 import net.aboutchurch.common.to.ResultObject;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,8 +16,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jrdevel.aboutus.core.authentication.UserAuthenticatedManager;
+import com.jrdevel.aboutus.core.common.AboutChurchDateHelper;
 import com.jrdevel.aboutus.core.common.PlanExceededException;
+import com.jrdevel.aboutus.core.common.helper.EmailSender;
 import com.jrdevel.aboutus.core.common.model.Event;
+import com.jrdevel.aboutus.core.common.model.EventPeople;
+import com.jrdevel.aboutus.core.common.model.Person;
+import com.jrdevel.aboutus.core.common.model.PersonContacts;
+import com.jrdevel.aboutus.core.person.PersonDAO;
 
 /**
  * @author Raphael Domingues
@@ -28,6 +36,12 @@ public class EventServiceImpl implements EventService{
 	
 	@Autowired
 	private EventDAO eventDAO;
+	
+	@Autowired
+	private PersonDAO personDAO;
+	
+	@Autowired
+	private	EmailSender emailSender;
 	
 	@Transactional
 	//@PreAuthorize("hasAuthority('ROLE_LIST_CATEGORY')")
@@ -96,7 +110,29 @@ public class EventServiceImpl implements EventService{
 			result.setSuccess(false);
 		}
 		
+		if (CollectionUtils.isNotEmpty(entity.getEventPeoples())){
+			String date = AboutChurchDateHelper.getDateFormatted(entity.getStartsAt(),entity.getEndsAt());
+			for (EventPeople evtPerson : entity.getEventPeoples()){
+				Person person = personDAO.findById(evtPerson.getPerson().getId(),false);
+				
+				sendEmail(person.getPersonContactses(),entity.getWhat(),
+						date,entity.getLocation(),entity.getDescription());
+			}
+		}
+		
 		return result;
+		
+	}
+	
+	private void sendEmail(Set<PersonContacts> contacts, String what, 
+			String when, String where, String description){
+		
+		for (PersonContacts contact : contacts){
+			if (contact.getContactType().getId().equals("email")){
+				emailSender.sendEmail("[AboutChurch] Evento: " + what, 
+						"templates/newEvent.vm", contact.getValue(), what, when, where, description);
+			}
+		}
 		
 	}
 	

@@ -275,7 +275,7 @@ public class Event implements java.io.Serializable {
 		this.calendarId = calendarId;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
 	public Set<EventRecurrence> getEventRecurrences() {
 		return this.eventRecurrences;
 	}
@@ -293,7 +293,7 @@ public class Event implements java.io.Serializable {
 		this.eventCancellations = eventCancellations;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
 	public Set<EventPeople> getEventPeoples() {
 		return this.eventPeoples;
 	}
